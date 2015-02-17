@@ -1,0 +1,1 @@
+Notre application est un jeu de bataille navale en mode graphique et en mode console. Il est possible de lancer une partie en précisant l’emplacement de sa flotte ainsi que la difficulté. Chacun son tour, on renseigne les coordonnées de tir et on obtient les résultats de l'action jusqu’à ce que l’un des deux joueurs n’ai plus de bateaux. 
