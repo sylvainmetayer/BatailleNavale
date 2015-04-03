@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="utf-8">
+	<title>Bataille navale - Contact</title>
+
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<div id='top'>
+	<a href='accueil.html'>
+		<h1 id='titre'> Bataille Navale </h1> 
+		<img id='logo' src='ressources/logo.jpg' alt="Logo du site, avec lien vers l'accueil"/> 
+	</a> 
+</div>
+<hr/>
+<div id='menu'>
+	<a href='presentation.html' title='Presentation des d&eacute;veloppeurs du site'>Pr&eacute;sentation</a>
+	<a href='maquettes.html' title='Apercu des maquettes graphiques du jeu'>Maquettes</a>
+	<a href='tutoriel.html' title='R&egrave;gles du jeu'>Tutoriel</a>
+	<a href='contact.html' title='Formulaire de contact'>Contact</a>
+</div>
+<hr/>
+
+<form> 
+
+<fieldset>
+<p>Informations personnelles :</p>
+<label for='nom'>Nom : </label>
+<input type='text' placeholder="Ex : Dupond" name='nom' required/>
+<br/>
+<label for='prenom'>Prenom : </label>
+<input type='text' name='prenom' placeholder="Ex : Laura" required/>
+</fieldset>
+
+<fieldset>
+<p>Informations de contact :</p>
+<label for='mail'>Mail : </label>
+<input type='text' placeholder="Ex : laura.dupond@example.com" name='mail' required/>
+<br/>
+<label for='prenom'>T&eacute;l&eacute;phone : </label>
+<input type='text' placeholder="Ex : (+33)0xxxxxxxxx" name="prenom" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
+</fieldset>
+
+<fieldset>
+<p>Votre commentaire :</p>
+<textarea placeholder="Tapez votre commentaire ici..."></textarea>
+</fieldset>
+<input type="submit">
+</form>
+
+</body>
+</html>
