@@ -1,0 +1,6 @@
+humanPlayerNav1=1 2 2-0;2-1 false 200
+humanPlayerNav2=2 3 3-0;3-1;3-2 false 400
+humanPlayerNav3=3 1 6-4 false 50
+
+
+
