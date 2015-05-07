@@ -33,13 +33,14 @@ public class Jeu  {
 	
 	
 	/**
-	 * Constructeur permettant de créer un plateau de jeu et de donner un nom de joueur au joueur humain.
-	 * on peut noter que par défaut dans ce constructeur, on crée un plateau pour l'ordinateur
+	 * Constructeur permettant de crï¿½er un plateau de jeu et de donner un nom de joueur au joueur humain.
+	 * on peut noter que par dï¿½faut dans ce constructeur, on crï¿½e un plateau pour l'ordinateur
 	 * @param hauteur
 	 * @param largeur
 	 * @param nomJoueur
+	 * @throws CoupException 
 	 */
-	public Jeu(int hauteur, int largeur, String nomJoueur){
+	public Jeu(int hauteur, int largeur, String nomJoueur) throws CoupException{
 		this.plateauJoueurUn = new Plateau(hauteur, largeur, nomJoueur);
 		this.plateauJoueurDeux = new Plateau(hauteur, largeur, "Ordinateur");	
 		
@@ -48,11 +49,11 @@ public class Jeu  {
 	
 
 	/**
-	 * Permet de jouer un coup sur un plateau donné. Le joueur A fait un coup x,y....
+	 * Permet de jouer un coup sur un plateau donnï¿½. Le joueur A fait un coup x,y....
 	 * @param x
 	 * @param y
 	 * @param plateau
-	 * @return Navire : le navire touché ou coulé, ou alors null si rien ne s'est passé
+	 * @return Navire : le navire touchï¿½ ou coulï¿½, ou alors null si rien ne s'est passï¿½
 	 * @throws CoupException
 	 */
 	public Navire jouer(int x, int y, Plateau plateau) throws CoupException {
@@ -60,12 +61,12 @@ public class Jeu  {
 		isCoupAutorise(x, y, plateau);
 		Navire n = this.goodPlateau(plateau).jouerCoup(x,y);
 		
-		// actualiser les coupes joués et les cases touchées
+		// actualiser les coupes jouï¿½s et les cases touchï¿½es
 		return n;
 	}
 	
 	/**
-	 * Permet de vérifier que les coordonnées du coup joué sont bien dans la taille de l'aire de jeu
+	 * Permet de vï¿½rifier que les coordonnï¿½es du coup jouï¿½ sont bien dans la taille de l'aire de jeu
 	 * @param x
 	 * @param y
 	 * @param plateau
@@ -75,12 +76,12 @@ public class Jeu  {
 		int cx = this.goodPlateau(plateau).getLongueur();
 		int cy = this.goodPlateau(plateau).getLargeur();
 		if (x > cx || y > cy) {
-			throw new CoupException("coup non autorisé ");
+			throw new CoupException("coup non autorisï¿½ ");
 		}
 	}
 	
 	/**
-	 * récupère la liste des bateaux coulés d'un Plateau/Joueur
+	 * rï¿½cupï¿½re la liste des bateaux coulï¿½s d'un Plateau/Joueur
 	 * @param plateau
 	 * @return
 	 */
@@ -91,7 +92,7 @@ public class Jeu  {
 	}
 	
 	/**
-	 * récupère la liste des navires d'un plateau/joueur
+	 * rï¿½cupï¿½re la liste des navires d'un plateau/joueur
 	 * @param plateau
 	 * @return
 	 */
@@ -151,7 +152,7 @@ public class Jeu  {
 			
 		
 		
-		//définir nombre navires, type navire, taille navire
+		//dï¿½finir nombre navires, type navire, taille navire
 	}
 	
 	

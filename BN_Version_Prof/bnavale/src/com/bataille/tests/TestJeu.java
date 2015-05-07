@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 import com.bataille.application.BatailleNavaleException;
 import com.bataille.application.Jeu;
 import com.bataille.metier.Case;
+import com.bataille.metier.CoupException;
 import com.bataille.metier.Navire;
 import com.bataille.metier.Plateau;
 import com.bataille.util.FileUtil;
@@ -23,12 +24,17 @@ public class TestJeu {
 	Plateau pOrdinateur;
 	
 	/**
-	 * Le constructeur crée un jeu et récupère les 2 plateaux pour jouer dessus
+	 * Le constructeur crï¿½e un jeu et rï¿½cupï¿½re les 2 plateaux pour jouer dessus
 	 * @param x
 	 * @param y
 	 */
 	public TestJeu(int x, int y) {		
-		j = new Jeu(x,y,"Jimmy");
+		try {
+			j = new Jeu(x,y,"Jimmy");
+		} catch (CoupException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		pJoueur = j.getPlateauJoueurUn();
 		pOrdinateur = j.getPlateauJoueurDeux();
 		//		
@@ -36,8 +42,8 @@ public class TestJeu {
 	}
 
 	/**
-	 * On passe une chaine formattée ex : String  nav1 = "1 2 2-0;2-1 false 200";
-	 * cette chaine est décortiquée pour créer une instance de navire
+	 * On passe une chaine formattï¿½e ex : String  nav1 = "1 2 2-0;2-1 false 200";
+	 * cette chaine est dï¿½cortiquï¿½e pour crï¿½er une instance de navire
 	 * @param infos
 	 * @return
 	 */
@@ -51,7 +57,7 @@ public class TestJeu {
 		String ch = null;
 		String idNav="", tailleNav="", caseNav="", couleNav="", scoreNav="";
 		
-		//séparation des éléments pour le navire
+		//sï¿½paration des ï¿½lï¿½ments pour le navire
 		while (st.hasMoreElements()){
 			ch = (String) st.nextElement();
 			i++;			
@@ -61,12 +67,12 @@ public class TestJeu {
 			case 1:
 				idNav =ch;
 				break;
-			//taille de navire = un int. attention à ce que la taille corresponde bien au nombre de cases dans ce navire
+			//taille de navire = un int. attention ï¿½ ce que la taille corresponde bien au nombre de cases dans ce navire
 			case 2:
 				tailleNav =ch;
 				lstCase = new Case[Integer.valueOf(tailleNav)];
 				break;	
-			//liste des cases du navire 1 ou plus selon le type de navire. dans cet l'exemple on ne va que jusqu'à 5
+			//liste des cases du navire 1 ou plus selon le type de navire. dans cet l'exemple on ne va que jusqu'ï¿½ 5
 			case 3:
 				caseNav =ch;
 				int j = 0;
@@ -79,11 +85,11 @@ public class TestJeu {
 					j++;
 				}				
 				break;	
-			//boolean indiquant si le navire est coulé = false par défaut
+			//boolean indiquant si le navire est coulï¿½ = false par dï¿½faut
 			case 4:
 				couleNav =ch;
 				break;
-			//nombre de points que vaut le navire si coulé par exemple
+			//nombre de points que vaut le navire si coulï¿½ par exemple
 			case 5:
 				scoreNav =ch;
 				break;
@@ -95,7 +101,7 @@ public class TestJeu {
 	}
 	
 	/**
-	 * Permet de déterminer la lettre associée à la case selon la taille de navire
+	 * Permet de dï¿½terminer la lettre associï¿½e ï¿½ la case selon la taille de navire
 	 * On peut imaginer par exemple un nom d'image dans la version swing
 	 * @param longueur
 	 * @return
@@ -125,15 +131,15 @@ public class TestJeu {
 	
 	
 	/**
-	 * Méthode main
-	 * Déroulement :
-	 * 1. on crée dans le fichier batailleUn.txt une série de navires pour l'ordinateur par ex
+	 * Mï¿½thode main
+	 * Dï¿½roulement :
+	 * 1. on crï¿½e dans le fichier batailleUn.txt une sï¿½rie de navires pour l'ordinateur par ex
 	 * 2. on lit le fichier
 	 * 3. on charge tout le fichier dans une Collection
-	 * 4. pour chaque chaine de cette collection, on a un navire que l'on crée avec la méthode convertStringToNavire
-	 * 5. on ajoute le navire dans le plateau désiré
+	 * 4. pour chaque chaine de cette collection, on a un navire que l'on crï¿½e avec la mï¿½thode convertStringToNavire
+	 * 5. on ajoute le navire dans le plateau dï¿½sirï¿½
 	 * 6. on joue des coups sur le plateau
-	 * 7. on affiche le résultat des coups
+	 * 7. on affiche le rï¿½sultat des coups
 	 * 
 	 * 
 	 * @param args
@@ -156,17 +162,17 @@ public class TestJeu {
 		
 		System.out.println(tj.pOrdinateur.getListeNav());
 		Navire n = tj.pOrdinateur.jouerCoup(2, 0);
-		System.out.println("Le navire est coulé : "+(n!= null? n.isEstCoule() +"  " : " pas touché"));
+		System.out.println("Le navire est coulï¿½ : "+(n!= null? n.isEstCoule() +"  " : " pas touchï¿½"));
 		n = tj.pOrdinateur.jouerCoup(2, 4);
-		 System.out.println("Le navire est coulé : "+(n!= null? n.isEstCoule() +"  " : " pas touché"));
+		 System.out.println("Le navire est coulï¿½ : "+(n!= null? n.isEstCoule() +"  " : " pas touchï¿½"));
 		n = tj.pOrdinateur.jouerCoup(2, 1);
-		System.out.println("Le navire est coulé : "+(n!= null? n.isEstCoule() +"  " : " pas touché"));
+		System.out.println("Le navire est coulï¿½ : "+(n!= null? n.isEstCoule() +"  " : " pas touchï¿½"));
 		
 		for (int i=0; i < 8;i++){
 			for (int j=0; j < 8; j++){
 				boolean b = Boolean.valueOf(tj.pOrdinateur.getCasesTouchees()[i][j]);
 				if (b) {
-					System.out.println("Navire est touché en "+i+"_"+j);
+					System.out.println("Navire est touchï¿½ en "+i+"_"+j);
 				}
 			}
 			
@@ -175,7 +181,7 @@ public class TestJeu {
 			for (int j=0; j < 8; j++){
 				boolean b = Boolean.valueOf(tj.pOrdinateur.getCoupsJoues()[i][j]);
 				if (b) {
-					System.out.println("Coup est joué en "+i+"_"+j);
+					System.out.println("Coup est jouï¿½ en "+i+"_"+j);
 				}
 			}
 			
