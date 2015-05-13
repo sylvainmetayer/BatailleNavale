@@ -9,9 +9,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+/**
+ * NON FONCTIONNEL
+ * 
+ * @author Sylvain
+ *
+ */
 public class MonPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 4591486156480744390L;
@@ -24,11 +31,13 @@ public class MonPanel extends JPanel implements ActionListener {
 	private JPanel jp_centre;
 	private JMenu jm_menu;
 	private JMenuItem bonjour, aurevoir;
+	private JMenuBar jmb;
 
 	private JButton jb_test;
 
 	public MonPanel() {
 
+		jmb = new JMenuBar();
 		bonjour = new JMenuItem("Bonjour");
 		aurevoir = new JMenuItem("Au revoir");
 
@@ -36,9 +45,10 @@ public class MonPanel extends JPanel implements ActionListener {
 		jm_menu.add(aurevoir);
 		jm_menu.add(bonjour);
 
+		jmb.add(jm_menu);
 		// ajout des composant dans le layout principal
 		this.setLayout(new BorderLayout());
-		this.add(jm_menu, BorderLayout.NORTH);
+		this.add(jmb, BorderLayout.CENTER);
 	}
 
 	@Override

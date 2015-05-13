@@ -12,7 +12,7 @@ public class MaFenetre extends JFrame {
 		this.setTitle("POC Placement layout");
 		this.setSize(HAUTEUR, LARGEUR);
 		this.getContentPane().add(new MonPanel());
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setVisible(true);
