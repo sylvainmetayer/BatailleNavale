@@ -33,8 +33,8 @@ public class Jeu  {
 	
 	
 	/**
-	 * Constructeur permettant de créer un plateau de jeu et de donner un nom de joueur au joueur humain.
-	 * on peut noter que par d�faut dans ce constructeur, on crée un plateau pour l'ordinateur
+	 * Constructeur permettant de creer un plateau de jeu et de donner un nom de joueur au joueur humain.
+	 * on peut noter que par defaut dans ce constructeur, on cree un plateau pour l'ordinateur
 	 * @param hauteur
 	 * @param largeur
 	 * @param nomJoueur
@@ -49,11 +49,11 @@ public class Jeu  {
 	
 
 	/**
-	 * Permet de jouer un coup sur un plateau donn�. Le joueur A fait un coup x,y....
+	 * Permet de jouer un coup sur un plateau donne. Le joueur A fait un coup x,y....
 	 * @param x
 	 * @param y
 	 * @param plateau
-	 * @return Navire : le navire touch� ou coul�, ou alors null si rien ne s'est pass�
+	 * @return Navire : le navire touche ou coule, ou alors null si rien ne s'est passe
 	 * @throws CoupException
 	 */
 	public Navire jouer(int x, int y, Plateau plateau) throws CoupException {
@@ -66,7 +66,7 @@ public class Jeu  {
 	}
 	
 	/**
-	 * Permet de v�rifier que les coordonn�es du coup jou� sont bien dans la taille de l'aire de jeu
+	 * Permet de verifier que les coordonnees du coup joue sont bien dans la taille de l'aire de jeu
 	 * @param x
 	 * @param y
 	 * @param plateau
@@ -81,7 +81,7 @@ public class Jeu  {
 	}
 	
 	/**
-	 * r�cup�re la liste des bateaux coul�s d'un Plateau/Joueur
+	 * recupere la liste des bateaux coules d'un Plateau/Joueur
 	 * @param plateau
 	 * @return
 	 */
@@ -92,7 +92,7 @@ public class Jeu  {
 	}
 	
 	/**
-	 * r�cup�re la liste des navires d'un plateau/joueur
+	 * recupere la liste des navires d'un plateau/joueur
 	 * @param plateau
 	 * @return
 	 */
@@ -152,7 +152,7 @@ public class Jeu  {
 			
 		
 		
-		//d�finir nombre navires, type navire, taille navire
+		//definir nombre navires, type navire, taille navire
 	}
 	
 	

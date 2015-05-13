@@ -24,7 +24,7 @@ public class TestJeu {
 	Plateau pOrdinateur;
 	
 	/**
-	 * Le constructeur cr�e un jeu et r�cup�re les 2 plateaux pour jouer dessus
+	 * Le constructeur cree un jeu et recupere les 2 plateaux pour jouer dessus
 	 * @param x
 	 * @param y
 	 */
@@ -42,8 +42,8 @@ public class TestJeu {
 	}
 
 	/**
-	 * On passe une chaine formatt�e ex : String  nav1 = "1 2 2-0;2-1 false 200";
-	 * cette chaine est d�cortiqu�e pour cr�er une instance de navire
+	 * On passe une chaine formattee ex : String  nav1 = "1 2 2-0;2-1 false 200";
+	 * cette chaine est decortiquee pour creer une instance de navire
 	 * @param infos
 	 * @return
 	 */
@@ -57,7 +57,7 @@ public class TestJeu {
 		String ch = null;
 		String idNav="", tailleNav="", caseNav="", couleNav="", scoreNav="";
 		
-		//s�paration des �l�ments pour le navire
+		//separation des elements pour le navire
 		while (st.hasMoreElements()){
 			ch = (String) st.nextElement();
 			i++;			
@@ -67,12 +67,12 @@ public class TestJeu {
 			case 1:
 				idNav =ch;
 				break;
-			//taille de navire = un int. attention � ce que la taille corresponde bien au nombre de cases dans ce navire
+			//taille de navire = un int. attention a ce que la taille corresponde bien au nombre de cases dans ce navire
 			case 2:
 				tailleNav =ch;
 				lstCase = new Case[Integer.valueOf(tailleNav)];
 				break;	
-			//liste des cases du navire 1 ou plus selon le type de navire. dans cet l'exemple on ne va que jusqu'� 5
+			//liste des cases du navire 1 ou plus selon le type de navire. dans cet l'exemple on ne va que jusqu'a 5
 			case 3:
 				caseNav =ch;
 				int j = 0;
@@ -85,11 +85,11 @@ public class TestJeu {
 					j++;
 				}				
 				break;	
-			//boolean indiquant si le navire est coul� = false par d�faut
+			//boolean indiquant si le navire est coule = false par defaut
 			case 4:
 				couleNav =ch;
 				break;
-			//nombre de points que vaut le navire si coul� par exemple
+			//nombre de points que vaut le navire si coule par exemple
 			case 5:
 				scoreNav =ch;
 				break;
@@ -101,7 +101,7 @@ public class TestJeu {
 	}
 	
 	/**
-	 * Permet de d�terminer la lettre associ�e � la case selon la taille de navire
+	 * Permet de determiner la lettre associee a la case selon la taille de navire
 	 * On peut imaginer par exemple un nom d'image dans la version swing
 	 * @param longueur
 	 * @return
@@ -131,15 +131,15 @@ public class TestJeu {
 	
 	
 	/**
-	 * M�thode main
-	 * D�roulement :
-	 * 1. on cr�e dans le fichier batailleUn.txt une s�rie de navires pour l'ordinateur par ex
+	 * Methode main
+	 * Deroulement :
+	 * 1. on cree dans le fichier batailleUn.txt une serie de navires pour l'ordinateur par ex
 	 * 2. on lit le fichier
 	 * 3. on charge tout le fichier dans une Collection
-	 * 4. pour chaque chaine de cette collection, on a un navire que l'on cr�e avec la m�thode convertStringToNavire
-	 * 5. on ajoute le navire dans le plateau d�sir�
+	 * 4. pour chaque chaine de cette collection, on a un navire que l'on cree avec la methode convertStringToNavire
+	 * 5. on ajoute le navire dans le plateau desire
 	 * 6. on joue des coups sur le plateau
-	 * 7. on affiche le r�sultat des coups
+	 * 7. on affiche le resultat des coups
 	 * 
 	 * 
 	 * @param args
@@ -162,17 +162,17 @@ public class TestJeu {
 		
 		System.out.println(tj.pOrdinateur.getListeNav());
 		Navire n = tj.pOrdinateur.jouerCoup(2, 0);
-		System.out.println("Le navire est coul� : "+(n!= null? n.isEstCoule() +"  " : " pas touch�"));
+		System.out.println("Le navire est coule : "+(n!= null? n.isEstCoule() +"  " : " pas touche"));
 		n = tj.pOrdinateur.jouerCoup(2, 4);
-		 System.out.println("Le navire est coul� : "+(n!= null? n.isEstCoule() +"  " : " pas touch�"));
+		 System.out.println("Le navire est coule : "+(n!= null? n.isEstCoule() +"  " : " pas touche"));
 		n = tj.pOrdinateur.jouerCoup(2, 1);
-		System.out.println("Le navire est coul� : "+(n!= null? n.isEstCoule() +"  " : " pas touch�"));
+		System.out.println("Le navire est coule : "+(n!= null? n.isEstCoule() +"  " : " pas touche"));
 		
 		for (int i=0; i < 8;i++){
 			for (int j=0; j < 8; j++){
 				boolean b = Boolean.valueOf(tj.pOrdinateur.getCasesTouchees()[i][j]);
 				if (b) {
-					System.out.println("Navire est touch� en "+i+"_"+j);
+					System.out.println("Navire est touche en "+i+"_"+j);
 				}
 			}
 			
@@ -181,12 +181,11 @@ public class TestJeu {
 			for (int j=0; j < 8; j++){
 				boolean b = Boolean.valueOf(tj.pOrdinateur.getCoupsJoues()[i][j]);
 				if (b) {
-					System.out.println("Coup est jou� en "+i+"_"+j);
+					System.out.println("Coup est joue en "+i+"_"+j);
 				}
 			}
 			
 		}
-		
 		
 	}
 

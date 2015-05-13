@@ -46,7 +46,7 @@ public class FileUtil {
 	private FileUtil() throws BatailleNavaleException {
 		try {
 			// Ouverture du fichier cabMed.properties et
-			// Chargement des propriétés dans la table des propriétés
+			// Chargement des proprietes dans la table des proprietes
 			loadProp();
 			
 		}
@@ -61,7 +61,7 @@ public class FileUtil {
 		
 		
 		String prop = null;
-		// récupération des propriétés dans la table
+		// recuperation des proprietes dans la table
 		prop = tableProprietes.getProperty(p);
 		
 		if (prop==null) {
@@ -77,7 +77,7 @@ public class FileUtil {
 	
 	public static synchronized FileUtil getInstance() throws BatailleNavaleException {
 				
-		// test si les propriétés sont déjà chargées ou non
+		// test si les proprietes sont deja chargees ou non
 		if (cp==null) {
 			cp = new FileUtil();
 		}		

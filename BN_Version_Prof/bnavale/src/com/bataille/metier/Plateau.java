@@ -50,8 +50,8 @@ public class Plateau {
 	}
 
 	/**
-	 * Génère le plateau pour un joueur : taille, initialisation des tableaux de
-	 * coups jou�s et cases touch�es
+	 * Genere le plateau pour un joueur : taille, initialisation des tableaux de
+	 * coups joues et cases touchees
 	 * 
 	 * @param longueur
 	 * @param largeur
@@ -91,7 +91,7 @@ public class Plateau {
 	}
 
 	/**
-	 * Vérifie qu'un plateau est correct <br>
+	 * Verifie qu'un plateau est correct <br>
 	 * longeur = largeur (pas de plateau de 4*2, ...) <br>
 	 * Nom non vide
 	 * 
@@ -226,10 +226,11 @@ public class Plateau {
 	}
 
 	/**
-	 * Permet de jouer effectivement le coup aux coordonn�es choisies 1. le coup
-	 * a-t-il �t� jou� avant ? 2. parcours de tous les navires du joueur pour
-	 * trouver si la case correspond � une case occup�e 3. modification des
-	 * �tats et tableaux : touch�, coul�, case jou�e
+	 * Permet de jouer effectivement le coup aux coordonnees choisies 
+	 * 1. le coup a-t-il ete joue avant ? 
+	 * 2. parcours de tous les navires du joueur pour trouver si la case 
+	 * correspond a une case occupee 
+	 * 3. modification des etats et tableaux : touche, coule, case jouee
 	 * 
 	 * @param x
 	 * @param y
@@ -317,7 +318,7 @@ public class Plateau {
 	}
 
 	/**
-	 * Retourne un tableau de Cases repr�sentant l'ensemble des cases de ce
+	 * Retourne un tableau de Cases representant l'ensemble des cases de ce
 	 * plateau.
 	 * 
 	 * @return lstCases

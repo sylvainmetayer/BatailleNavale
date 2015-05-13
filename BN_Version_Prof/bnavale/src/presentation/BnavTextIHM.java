@@ -88,15 +88,15 @@ public class BnavTextIHM {
 		String[] coords = key.split(",");
 		int coordX = Integer.parseInt(coords[0]);
 		int coordY = Integer.parseInt(coords[1]);
-		System.out.println("coup joué : " + coordX + " - " + coordY);
-		// TODO gérer
+		System.out.println("coup joue : " + coordX + " - " + coordY);
+		// TODO gerer
 		j.jouer(coordX, coordX, j.getPlateauJoueurUn());
 	}
 
 	private void entete() {
 		System.out
 				.println("*****************************************************************");
-		System.out.println("Bataille navale pour l'armée de terre....");
+		System.out.println("Bataille navale pour l'armee de terre....");
 		System.out.println("Votre score : " + j.getScore());
 		System.out
 				.println("*****************************************************************\n");
@@ -109,11 +109,10 @@ public class BnavTextIHM {
 		System.out.println("S = Sauvegarder la partie");
 		System.out.println("T = Afficher score");
 		System.out.println("Q = Quitter le jeu");
-		System.out
-				.println("Saisissez les coordonnées de tir séparés par une virgule > ");
+		System.out.println("Saisissez les coordonnees de tir separes par une virgule > ");
 	}
 
-	// construire affichage � partir du plateau qui est sur le jeu....
+	// construire affichage a partir du plateau qui est sur le jeu....
 
 	// afficher menus
 
@@ -136,8 +135,7 @@ public class BnavTextIHM {
 		}
 
 		menus();
-		System.out
-				.println("*****************************************************************");
+		System.out.println("*****************************************************************");
 	}
 
 	public static void main(String[] args) {
