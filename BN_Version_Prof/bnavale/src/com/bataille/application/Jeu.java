@@ -33,8 +33,8 @@ public class Jeu  {
 	
 	
 	/**
-	 * Constructeur permettant de cr�er un plateau de jeu et de donner un nom de joueur au joueur humain.
-	 * on peut noter que par d�faut dans ce constructeur, on cr�e un plateau pour l'ordinateur
+	 * Constructeur permettant de créer un plateau de jeu et de donner un nom de joueur au joueur humain.
+	 * on peut noter que par d�faut dans ce constructeur, on crée un plateau pour l'ordinateur
 	 * @param hauteur
 	 * @param largeur
 	 * @param nomJoueur
@@ -76,7 +76,7 @@ public class Jeu  {
 		int cx = this.goodPlateau(plateau).getLongueur();
 		int cy = this.goodPlateau(plateau).getLargeur();
 		if (x > cx || y > cy) {
-			throw new CoupException("coup non autoris� ");
+			throw new CoupException("coup non autorisé ");
 		}
 	}
 	

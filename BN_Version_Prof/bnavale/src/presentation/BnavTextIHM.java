@@ -36,12 +36,17 @@ public class BnavTextIHM {
 					placerNavires();
 				if (key.equalsIgnoreCase("T"))
 					afficherScores();
-				try {
-					jouer();
-				} catch (CoupException e) {
-					System.out
-							.println("Votre coup est interdit, recommencez !!");
+				if (!key.equalsIgnoreCase("T") && !key.equalsIgnoreCase("D")
+						&& !key.equalsIgnoreCase("S")
+						&& !key.equalsIgnoreCase("A")) {
+					try {
+						jouer();
+					} catch (CoupException e) {
+						System.out
+								.println("Votre coup est interdit, recommencez !!");
+					}
 				}
+
 			}
 		}
 
@@ -84,7 +89,8 @@ public class BnavTextIHM {
 		int coordX = Integer.parseInt(coords[0]);
 		int coordY = Integer.parseInt(coords[1]);
 		System.out.println("coup joué : " + coordX + " - " + coordY);
-		j.jouer(coordX, coordX, null);
+		// TODO gérer
+		j.jouer(coordX, coordX, j.getPlateauJoueurUn());
 	}
 
 	private void entete() {

@@ -1,6 +1,6 @@
 package com.bataille.metier;
 
-public class Case implements Comparable<Case>{
+public class Case implements Comparable<Case> {
 
 	@Override
 	public int hashCode() {
@@ -11,6 +11,7 @@ public class Case implements Comparable<Case>{
 		result = prime * result + posy;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -28,28 +29,12 @@ public class Case implements Comparable<Case>{
 			return false;
 		return true;
 	}
-	
-	
+
 	private int posx;
 	private int posy;
 	private boolean estTouche;
 	private String motif;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -64,6 +49,7 @@ public class Case implements Comparable<Case>{
 		builder.append("]");
 		return builder.toString();
 	}
+
 	public Case(int posx, int posy, boolean estTouche, String motif) {
 		super();
 		this.posx = posx;
@@ -71,44 +57,52 @@ public class Case implements Comparable<Case>{
 		this.estTouche = estTouche;
 		this.motif = motif;
 	}
-	
-	public Case(String position, boolean estTouche, String motif){
+
+	public Case(String position, boolean estTouche, String motif) {
 		String monX = position.substring(0, position.indexOf("-"));
-		String monY = position.substring(position.indexOf("-")+1, position.length());
+		String monY = position.substring(position.indexOf("-") + 1,
+				position.length());
 		this.posx = Integer.valueOf(monX);
 		this.posy = Integer.valueOf(monY);
 		this.estTouche = estTouche;
 		this.motif = motif;
 	}
-	
+
 	public int getPosx() {
 		return posx;
 	}
+
 	public void setPosx(int posx) {
 		this.posx = posx;
 	}
+
 	public int getPosy() {
 		return posy;
 	}
+
 	public void setPosy(int posy) {
 		this.posy = posy;
 	}
+
 	public boolean isEstTouche() {
 		return estTouche;
 	}
+
 	public void setEstTouche(boolean estTouche) {
 		this.estTouche = estTouche;
 	}
+
 	public String getMotif() {
 		return motif;
 	}
+
 	public void setMotif(String motif) {
 		this.motif = motif;
 	}
-	@Override
-	public int compareTo(Case uneCase) {		
-		return (this.getPosx()-uneCase.getPosx());
-	}
 
+	@Override
+	public int compareTo(Case uneCase) {
+		return (this.getPosx() - uneCase.getPosx());
+	}
 
 }

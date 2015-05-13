@@ -50,7 +50,7 @@ public class Plateau {
 	}
 
 	/**
-	 * G�n�re le plateau pour un joueur : taille, initialisation des tableaux de
+	 * Génère le plateau pour un joueur : taille, initialisation des tableaux de
 	 * coups jou�s et cases touch�es
 	 * 
 	 * @param longueur
@@ -200,7 +200,6 @@ public class Plateau {
 		return c;
 	}
 
-	@Deprecated
 	private boolean isCollisionPlacement(int x, int y) {
 		boolean isCollision = false;
 		for (Case c : casesOccupees) {
