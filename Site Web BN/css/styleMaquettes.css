@@ -1,0 +1,13 @@
+#maquettes {
+	color : #593000;
+}
+p, #imagemaquettes {
+	text-align : center;
+}
+#text_console , #maquette_console{
+	float : left;
+}
+#maquette_console, #maquette_graphique {
+	width : 500px;
+	height : 500px;
+}

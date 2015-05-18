@@ -1,0 +1,56 @@
+body {
+	background-color : #0062FF;
+}
+/*Gestions des inputs*/
+input {
+    /*déjà en inline-block*/
+    width: 200px;
+    padding: 0.5px;
+    vertical-align: top;
+}
+textarea {
+    /*déjà en inline-block*/
+    width: 500px;
+    padding: 120px;
+	vertical-align: top;
+}
+label {
+    display: inline-block;
+    width: 100px;
+    margin-right: 20px;
+    vertical-align: top;
+    text-align: right;
+}
+	/*Gestion des liens*/
+/*les liens en général*/
+a {
+	text-decoration : none;
+	color : blue;
+	font-size : 25px;
+}
+/*quand on passe la souris ou l'on clique sur un lien*/
+a:hover, a:active{
+	color:red
+}
+/*quand le lien a déja été visité*/
+a:visited{
+	color:orange
+}
+#logo {
+	position : absolute;
+	left : 72.5px;
+	top : 10px;
+	width : 125px;
+	float : none;
+}
+#titre {
+	font-size : 100px;
+	margin-top : 10px;
+	margin-bottom : 10px;
+	margin-left : 250px;
+	color : #593000;
+	text-align : center;
+}
+#menu a {
+	margin-right : 30px;
+}

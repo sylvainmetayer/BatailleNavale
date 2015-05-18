@@ -1,0 +1,33 @@
+fieldset {
+ padding:0 20px 20px 20px;
+ margin-bottom:10px;
+ border:1px solid #593000;
+ }
+legend {
+ color:#593000;
+ font-weight:bold
+ }
+label, input, textarea {
+ margin-top:10px;
+ }
+input, textarea{
+ background-color:#FFF3F3;
+ padding:3px;
+ border:1px solid #593000;
+ border-radius:5px;
+ width:200px;
+ box-shadow:1px 1px 2px #593000 inset;
+ }
+ textarea {
+	width : 300px;
+	height : 100px;
+ }
+ input[type=submit] {
+ width:100px;
+ margin-left:5px;
+ box-shadow:1px 1px 1px #593000;
+ cursor:pointer;
+ }
+#contact {
+	color : #593000;
+}
