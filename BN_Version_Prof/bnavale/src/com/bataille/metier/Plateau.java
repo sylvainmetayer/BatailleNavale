@@ -9,15 +9,6 @@ import com.bataille.util.FileUtil;
 import com.bataille.util.Motif;
 
 public class Plateau {
-	private String joueur;
-	private int longueur;
-	private int largeur;
-
-	private List<Navire> listeNav;
-	private List<Case> casesOccupees;
-	private boolean[][] coupsJoues;
-	private boolean[][] casesTouchees;
-	private Case[][] lstCases;
 
 	@Override
 	public int hashCode() {
@@ -43,6 +34,16 @@ public class Plateau {
 			return false;
 		return true;
 	}
+
+	private String joueur;
+	private int longueur;
+	private int largeur;
+
+	private List<Navire> listeNav;
+	private List<Case> casesOccupees;
+	private boolean[][] coupsJoues;
+	private boolean[][] casesTouchees;
+	private Case[][] lstCases;
 
 	public Plateau(int longueur, int largeur) throws CoupException {
 		this(longueur, largeur, "Joueur");
@@ -77,8 +78,7 @@ public class Plateau {
 		// on instancie le plateau vide
 		for (int y = 0; y < longueur; y++) {
 			for (int x = 0; x < largeur; x++) {
-				lstCases[x][y] = new Case(x, y, false,
-						Motif.NONTOUCHE.toString());
+				lstCases[x][y] = new Case(x, y, false, Motif.EAU.toString());
 				getCoupsJoues()[x][y] = false;
 				getCasesTouchees()[x][y] = false;
 			}
@@ -112,13 +112,12 @@ public class Plateau {
 			return false;
 		if (joueur.isEmpty())
 			return false;
-		// TODO Ctrl Pattern si temps
 
 		return true;
 	}
 
 	/**
-	 * Permet d'ajouter un navire (en principe au d�but du jeu) sur le plateau
+	 * Permet d'ajouter un navire (en principe au début du jeu) sur le plateau
 	 * du joueur
 	 * 
 	 * @param n
@@ -131,18 +130,51 @@ public class Plateau {
 
 	}
 
-	@Deprecated
+	/**
+	 * Permet de placer des navires de façon aléatoire à partir d'une liste et
+	 * met à jour la liste des cases occupées et le motif de ces cases. <br>
+	 * 
+	 * @param lstn
+	 *            {@link List}
+	 */
 	private void randomiserPlacement(List<Navire> lstn) {
+		//
+		// for (Navire n : lstn) {
+		// List<Case> c = placerNavire(n);
+		// n.setCases(c);
+		// casesOccupees.addAll(c);
+		// }
 
 		for (Navire n : lstn) {
 			List<Case> c = placerNavire(n);
 			n.setCases(c);
+
+			for (Case a : c) {
+				if (n.getTaille() == 1) {
+					getLstCases()[a.getPosx()][a.getPosy()]
+							.setMotif(Motif.NAVIRESIZE1.toString());
+				}
+				if (n.getTaille() == 2) {
+					getLstCases()[a.getPosx()][a.getPosy()]
+							.setMotif(Motif.NAVIRESIZE2.toString());
+				}
+				if (n.getTaille() == 3) {
+					getLstCases()[a.getPosx()][a.getPosy()]
+							.setMotif(Motif.NAVIRESIZE3.toString());
+				}
+				if (n.getTaille() == 4) {
+					getLstCases()[a.getPosx()][a.getPosy()]
+							.setMotif(Motif.NAVIRESIZE4.toString());
+				}
+				if (n.getTaille() == 5) {
+					getLstCases()[a.getPosx()][a.getPosy()]
+							.setMotif(Motif.NAVIRESIZE5.toString());
+				}
+			}
 			casesOccupees.addAll(c);
 		}
-
 	}
 
-	@Deprecated
 	public List<Case> placerNavire(Navire n) {
 		List<Case> lc = null;
 		Case c = null;
@@ -159,7 +191,6 @@ public class Plateau {
 		return lc;
 	}
 
-	@Deprecated
 	private Case getNextCase(Case c, boolean isH, int i) {
 		Case cn = null;
 		if (i == 0) {
@@ -169,17 +200,15 @@ public class Plateau {
 		return cn;
 	}
 
-	@Deprecated
 	private boolean isPlacementHorizontal() {
 		Random r = new Random();
 		String placement = "" + 0 + r.nextInt(1 - 0);
 		return Boolean.valueOf(placement);
 	}
 
-	@Deprecated
 	private Case getRandomCase() {
 		Case c = null;
-		// c= new Case();
+		c = new Case();
 		Random r = new Random();
 
 		int xRandom = 1 + r.nextInt(this.largeur - 1);
@@ -200,6 +229,14 @@ public class Plateau {
 		return c;
 	}
 
+	/**
+	 * Permet de dire si les entiers passés en paramètres appartiennent déjà à
+	 * la liste des case occupées.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return <code>true</code> || <code>false</code>
+	 */
 	private boolean isCollisionPlacement(int x, int y) {
 		boolean isCollision = false;
 		for (Case c : casesOccupees) {
@@ -211,7 +248,7 @@ public class Plateau {
 	}
 
 	/**
-	 * Renvoie la liste des navires coul�s
+	 * Renvoie la liste des navires coulés
 	 * 
 	 * @return la liste
 	 */
@@ -226,24 +263,33 @@ public class Plateau {
 	}
 
 	/**
-	 * Permet de jouer effectivement le coup aux coordonnees choisies 
-	 * 1. le coup a-t-il ete joue avant ? 
-	 * 2. parcours de tous les navires du joueur pour trouver si la case 
-	 * correspond a une case occupee 
+	 * Permet de jouer effectivement le coup aux coordonnees choisies <br>
+	 * 1. le coup a-t-il ete joue avant ? <br>
+	 * 2. parcours de tous les navires du joueur pour trouver si la case
+	 * correspond a une case occupee <br>
 	 * 3. modification des etats et tableaux : touche, coule, case jouee
 	 * 
 	 * @param x
+	 *            {@link Integer}
 	 * @param y
-	 * @return le navire touch� ou null si coup dans l'eau
+	 *            {@link Integer}
+	 * @return le navire touché ou null si coup dans l'eau
 	 */
 	public Navire jouerCoup(int x, int y) {
-		// 1 a t on d�j� jou� le coup
 		int nbreTouche = 0;
 		Navire navireTouche = null;
+
+		// 1 - a t on déja joué le coup ?
 		if (!coupsJoues[x][y]) {
 
-			// 2 on demande � la liste des navires qui est touche ? si oui maj
-			// de l'�tat + coups jou�s
+			getLstCases()[x][y].setMotif(Motif.COUPJOUE.toString());
+			getLstCases()[x][y].setEstTouche(true);
+			casesTouchees[x][y] = true;
+
+			/*
+			 * 2 - On demande la liste des navires. Qui est touche ? Si oui maj
+			 * de l'état des coups joués
+			 */
 			for (Navire n : this.getListeNav()) {
 				nbreTouche = 0;
 				List<Case> cases = n.getCases();
@@ -255,6 +301,7 @@ public class Plateau {
 						nbreTouche++;
 						navireTouche = n;
 						casesTouchees[x][y] = true;
+						getLstCases()[x][y].setMotif(Motif.TOUCHE.toString());
 					}
 				}
 				if (nbreTouche == cases.size()) {
@@ -268,57 +315,121 @@ public class Plateau {
 		return navireTouche;
 	}
 
+	/**
+	 * Retourne la liste des navires du plateau.
+	 * 
+	 * @return listeNav
+	 */
 	public List<Navire> getListeNav() {
 		return listeNav;
 	}
 
+	/**
+	 * Setter de la liste des navires du plateau.
+	 * 
+	 * @param listeNav
+	 */
 	public void setListeNav(List<Navire> listeNav) {
 		this.listeNav = listeNav;
-		// this.randomiserPlacement(listeNav);
+		this.randomiserPlacement(listeNav);
 	}
 
+	/**
+	 * Retourne la liste des cases occupées par des navires.
+	 * 
+	 * @return casesOccupees
+	 */
 	public List<Case> getCasesOccupees() {
 		return casesOccupees;
 	}
 
+	/**
+	 * Setter de la liste des cases occupées par des navires.
+	 * 
+	 * @param casesOccupees
+	 */
 	public void setCasesOccupees(List<Case> casesOccupees) {
 		this.casesOccupees = casesOccupees;
 	}
 
+	/**
+	 * Retourne la longueur de ce plateau.
+	 * 
+	 * @return longueur
+	 */
 	public int getLongueur() {
 		return longueur;
 	}
 
+	/**
+	 * Retourne la largeur de ce plateau.
+	 * 
+	 * @return largeur
+	 */
 	public int getLargeur() {
 		return largeur;
 	}
 
+	/**
+	 * Retourne le nom du joueur de ce plateau.
+	 * 
+	 * @return joueur
+	 */
 	public String getJoueur() {
 		return joueur;
 	}
 
+	/**
+	 * Setter du nom du joueur de ce plateau.
+	 * 
+	 * @param joueur
+	 */
 	public void setJoueur(String joueur) {
 		this.joueur = joueur;
 	}
 
+	/**
+	 * Retourne un tableau de bool�ens représentant les coups joués sur ce
+	 * plateau.
+	 * 
+	 * @return coupsJoues
+	 */
 	public boolean[][] getCoupsJoues() {
 		return coupsJoues;
 	}
 
+	/**
+	 * Setter du tableau de booléens représentant les coups joués sur ce
+	 * plateau.
+	 * 
+	 * @param coupsJoues
+	 */
 	public void setCoupsJoues(boolean[][] coupsJoues) {
 		this.coupsJoues = coupsJoues;
 	}
 
+	/**
+	 * Retourne un tableau de booléens représentant les cases touchées sur ce
+	 * plateau.
+	 * 
+	 * @return casesTouchees
+	 */
 	public void setCasesTouchees(boolean[][] casesTouchees) {
 		this.casesTouchees = casesTouchees;
 	}
 
+	/**
+	 * Setter du tableau de bool�ens représentant les cases touchées sur ce
+	 * plateau.
+	 * 
+	 * @param casesTouchees
+	 */
 	public boolean[][] getCasesTouchees() {
 		return casesTouchees;
 	}
 
 	/**
-	 * Retourne un tableau de Cases representant l'ensemble des cases de ce
+	 * Retourne un tableau de Cases représentant l'ensemble des cases de ce
 	 * plateau.
 	 * 
 	 * @return lstCases

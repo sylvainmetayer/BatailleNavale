@@ -10,3 +10,4 @@ symboleNavireSize3=D
 symboleNavireSize4=C
 symboleNavireSize5=P
 symboleCaseVide=~
+

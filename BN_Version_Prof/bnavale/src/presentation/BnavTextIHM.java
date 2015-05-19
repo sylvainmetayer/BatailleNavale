@@ -16,12 +16,18 @@ public class BnavTextIHM {
 	public BnavTextIHM() {
 
 		try {
-			j = new Jeu(0, 0, "Jimmy");
+			j = new Jeu(8, 8, "Joueur 1");
 		} catch (CoupException c) {
 			c.printStackTrace();
 		}
 
-		// j.initialiserJeu();
+		// TODO changer la génération automatique en placement par l'user
+		placerNavires();
+
+		// on génère le plateau
+		// TODO à fixer
+		j.genererJeu();
+
 		while (!key.equals("Q")) {
 
 			refreshAffichage();
@@ -29,7 +35,7 @@ public class BnavTextIHM {
 			if (!(key.length() == 0)) {
 
 				if (key.equalsIgnoreCase("A"))
-					afficherPlateau();
+					afficherLesPlateaux();
 				if (key.equalsIgnoreCase("S"))
 					sauvegarder();
 				if (key.equalsIgnoreCase("D"))
@@ -54,34 +60,17 @@ public class BnavTextIHM {
 
 	}
 
-	private void afficherPlateau() {
-		Plateau j1 = j.getPlateauJoueurUn();
-		Plateau j2 = j.getPlateauJoueurDeux();
-		String ligne;
-
-		System.out.println("Joueur 1 :");
-
-		for (int i = 0; i < j1.getLargeur(); i++) {
-			ligne = "" + i + "  ";
-			for (int j = 0; j < j1.getLongueur(); j++) {
-				ligne = ligne + j1.getCasesOccupees().get(i + j).getMotif();
-			}
-			System.out.println(ligne);
-
-		}
-
-	}
-
 	private void afficherScores() {
-
+		System.out.println("Votre score : " + j.getScore());
 	}
 
 	private void placerNavires() {
-
+		// TODO !!!!!!!!
+		// Aucune idée de comment faire
 	}
 
 	private void sauvegarder() {
-
+		// TODO en graphique.
 	}
 
 	private void jouer() throws CoupException {
@@ -96,8 +85,9 @@ public class BnavTextIHM {
 	private void entete() {
 		System.out
 				.println("*****************************************************************");
-		System.out.println("Bataille navale pour l'armee de terre....");
-		System.out.println("Votre score : " + j.getScore());
+		System.out.println("Bataille navale pour l'armee de "
+				+ j.getPlateauJoueurUn().getJoueur());
+		afficherScores();
 		System.out
 				.println("*****************************************************************\n");
 	}
@@ -109,7 +99,8 @@ public class BnavTextIHM {
 		System.out.println("S = Sauvegarder la partie");
 		System.out.println("T = Afficher score");
 		System.out.println("Q = Quitter le jeu");
-		System.out.println("Saisissez les coordonnees de tir separes par une virgule > ");
+		System.out
+				.println("Saisissez les coordonnees de tir separes par une virgule > ");
 	}
 
 	// construire affichage a partir du plateau qui est sur le jeu....
@@ -122,20 +113,48 @@ public class BnavTextIHM {
 
 	public void refreshAffichage() {
 		entete();
-		int[][] tab = new int[8][8];
+		/*
+		 * int[][] tab = new int[8][8]; String ligne = "";
+		 * System.out.println("   0  1  2  3  4  5  6  7"); for (int i = 0; i <
+		 * tab.length; i++) { ligne = "" + i + "  "; for (int j = 0; j <
+		 * tab[i].length; j++) { ligne = ligne + "0  "; }
+		 * System.out.println(ligne);
+		 * 
+		 * }
+		 */
+		afficherLesPlateaux();
+		menus();
+		System.out
+				.println("*****************************************************************");
+	}
+
+	/**
+	 * Affiche le plateau passé en paramètre.
+	 * 
+	 */
+	private void afficherPlateau(Plateau p) {
 		String ligne = "";
 		System.out.println("   0  1  2  3  4  5  6  7");
-		for (int i = 0; i < tab.length; i++) {
+		for (int i = 0; i < j.goodPlateau(p).getLargeur(); i++) {
 			ligne = "" + i + "  ";
-			for (int j = 0; j < tab[i].length; j++) {
-				ligne = ligne + "0  ";
+			for (int t = 0; t < j.goodPlateau(p).getLongueur(); t++) {
+				ligne = ligne + j.goodPlateau(p).getLstCases()[i][t].getMotif()
+						+ "  ";
 			}
 			System.out.println(ligne);
-
 		}
+	}
 
-		menus();
-		System.out.println("*****************************************************************");
+	/**
+	 * Affiche les plateaux de la partie.
+	 * 
+	 */
+	private void afficherLesPlateaux() {
+		System.out.println("Votre plateau :");
+		afficherPlateau(j.getPlateauJoueurUn());
+		System.out.println("");
+		System.out.println("Plateau adverse :");
+		afficherPlateau(j.getPlateauJoueurDeux());
 	}
 
 	public static void main(String[] args) {
