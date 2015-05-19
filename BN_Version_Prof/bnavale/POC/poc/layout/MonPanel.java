@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 public class MonPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 4591486156480744390L;
-	private static final int LINE = 5;
-	private static final int COLS = 5;
+	private static final int LINE = 8;
+	private static final int COLS = 8;
 
 	private JPanel jp_plateau1;
 	private JPanel jp_plateau2;

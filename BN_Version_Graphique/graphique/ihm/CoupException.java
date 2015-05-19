@@ -1,4 +1,7 @@
-package graphique.com.bataille.metier;
+/**
+ * 
+ */
+package ihm;
 
 /**
  * Classe représentant une exception levée lors de la réalisation d'un coup non

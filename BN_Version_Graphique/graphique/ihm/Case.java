@@ -1,11 +1,10 @@
-package graphique.com.bataille.metier;
-
-import com.bataille.util.Motif;
+/**
+ * 
+ */
+package ihm;
 
 /**
- * Classe représentant une classe
- * 
- * @author Sylvain METAYER - Kevin DESSIMOULIE
+ * @author Sylvain - Kevin
  *
  */
 public class Case implements Comparable<Case> {

@@ -1,13 +1,7 @@
-package graphique.com.bataille.application;
+package ihm;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.bataille.metier.Case;
-import com.bataille.metier.CoupException;
-import com.bataille.metier.Navire;
-import com.bataille.metier.Plateau;
-import com.bataille.util.FileUtil;
 
 public class Jeu {
 
@@ -137,7 +131,7 @@ public class Jeu {
 	 * 
 	 */
 	public void genererJeu() throws NumberFormatException,
-			com.bataille.application.BatailleNavaleException {
+			BatailleNavaleException {
 		int nbreNavires = Integer.parseInt(FileUtil.getInstance().getPropriete(
 				"nbreNavires"));
 		int nbreNavires1CASE = Integer.parseInt(FileUtil.getInstance()

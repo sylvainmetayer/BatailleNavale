@@ -1,4 +1,7 @@
-package graphique.com.bataille.util;
+/**
+ * 
+ */
+package ihm;
 
 import java.awt.Image;
 

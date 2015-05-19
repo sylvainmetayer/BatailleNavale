@@ -1,4 +1,4 @@
-package graphique.com.bataille.metier;
+package ihm;
 
 import java.util.ArrayList;
 import java.util.List;

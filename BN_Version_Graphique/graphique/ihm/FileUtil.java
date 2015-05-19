@@ -1,11 +1,11 @@
-package graphique.com.bataille.util;
+/**
+ * 
+ */
+package ihm;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-
-import com.bataille.application.BatailleNavaleException;
 
 /**
  * Classe permettant la gestion de fichiers

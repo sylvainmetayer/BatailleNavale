@@ -1,12 +1,16 @@
-package graphique.com.bataille.metier;
+/**
+ * 
+ */
+package ihm;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.bataille.application.BatailleNavaleException;
-import com.bataille.util.FileUtil;
-import com.bataille.util.Motif;
+/**
+ * @author Sylvain - Kevin
+ *
+ */
 
 public class Plateau {
 
