@@ -22,6 +22,7 @@ public class BnavTextIHM {
 		// TODO changer la génération automatique en placement par l'user
 		placerNavires();
 
+		System.out.println(j.getPlateauJoueurUn().getListeNav());
 		// on génère le plateau
 		// TODO à fixer
 		// j.genererJeu();
@@ -40,14 +41,14 @@ public class BnavTextIHM {
 					placerNavires();
 				if (key.equalsIgnoreCase("T"))
 					afficherScores();
-				if (!key.equalsIgnoreCase("T") && !key.equalsIgnoreCase("D")
-						&& !key.equalsIgnoreCase("S")
-						&& !key.equalsIgnoreCase("A")) {
+				if (!key.equalsIgnoreCase("T") 
+					&& !key.equalsIgnoreCase("D")
+					&& !key.equalsIgnoreCase("S")
+					&& !key.equalsIgnoreCase("A")) {
 					try {
 						jouer();
 					} catch (CoupException e) {
-						System.out
-								.println("Votre coup est interdit, recommencez !!");
+						System.out.println("Votre coup est interdit, recommencez !!");
 					}
 				}
 
@@ -69,19 +70,16 @@ public class BnavTextIHM {
 		Case debut;
 		boolean horizontalement, erreur;
 		erreur = false;
-		System.out.println(j.getPlateauJoueurUn().getJoueur()
-				+ ", vous allez placer vos navires");
+		System.out.println(j.getPlateauJoueurUn().getJoueur() + ", vous allez placer vos navires");
 
 		// navire 2 case
-		System.out
-				.println("Saisir coordonnées case départ pour navire à 1 cases");
+		System.out.println("Saisir coordonnées case départ pour navire à 1 cases");
 		saisie = sc.next();
 		coords = saisie.split(",");
 		x = Integer.parseInt(coords[0]);
 		y = Integer.parseInt(coords[1]);
 		// horizon vertical puis creer case
-		System.out
-				.println("Placer horizontalement vers la droite ? (true/false)\n"
+		System.out.println("Placer horizontalement vers la droite ? (true/false)\n"
 						+ "Sinon, le placement sera placé verticalement vers le bas");
 		horizontalement = sc.nextBoolean();
 		List<Case> lsC = new ArrayList<Case>();
@@ -91,16 +89,14 @@ public class BnavTextIHM {
 			if (horizontalement) {
 				int tmp = y + 1;
 				if (j.getPlateauJoueurUn().isCollisionPlacement(x, tmp)) {
-					System.out
-							.println("Collision, le bateau n'a pas pu être ajouté.");
+					System.out.println("Collision, le bateau n'a pas pu être ajouté.");
 					erreur = true;
 				}
 				lsC.add(new Case(x, tmp, false, Motif.NAVIRESIZE2.toString()));
 			} else {
 				int tmp = x + 1;
 				if (j.getPlateauJoueurUn().isCollisionPlacement(tmp, y)) {
-					System.out
-							.println("Collision, le bateau n'a pas pu être ajouté.");
+					System.out.println("Collision, le bateau n'a pas pu être ajouté.");
 					erreur = true;
 				}
 				lsC.add(new Case(tmp, y, false, Motif.NAVIRESIZE2.toString()));
@@ -113,11 +109,10 @@ public class BnavTextIHM {
 
 	}
 
-	//
 	// private void ajouterBateau(Motif m)
 
 	private void sauvegarder() {
-		// TODO en graphique.
+		// TODO en graphique
 	}
 
 	private void jouer() throws CoupException {
@@ -126,17 +121,14 @@ public class BnavTextIHM {
 		int coordY = Integer.parseInt(coords[1]);
 		System.out.println("coup joue : " + coordX + " - " + coordY);
 		// TODO gerer
-		j.jouer(coordX, coordX, j.getPlateauJoueurUn());
+		j.jouer(coordX, coordX, j.getPlateauJoueurDeux());
 	}
 
 	private void entete() {
-		System.out
-				.println("*****************************************************************");
-		System.out.println("Bataille navale pour l'armee de "
-				+ j.getPlateauJoueurUn().getJoueur());
+		System.out.println("*****************************************************************");
+		System.out.println("Bataille navale pour l'armee de " + j.getPlateauJoueurUn().getJoueur());
 		afficherScores();
-		System.out
-				.println("*****************************************************************\n");
+		System.out.println("*****************************************************************\n");
 	}
 
 	private void menus() {
@@ -146,8 +138,7 @@ public class BnavTextIHM {
 		System.out.println("S = Sauvegarder la partie");
 		System.out.println("T = Afficher score");
 		System.out.println("Q = Quitter le jeu");
-		System.out
-				.println("Saisissez les coordonnees de tir separes par une virgule > ");
+		System.out.println("Saisissez les coordonnees de tir separes par une virgule > ");
 	}
 
 	// construire affichage a partir du plateau qui est sur le jeu....
@@ -171,8 +162,7 @@ public class BnavTextIHM {
 		 */
 		afficherLesPlateaux();
 		menus();
-		System.out
-				.println("*****************************************************************");
+		System.out.println("*****************************************************************");
 	}
 
 	/**
