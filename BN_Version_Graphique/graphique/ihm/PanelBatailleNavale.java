@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -81,6 +82,7 @@ public class PanelBatailleNavale extends JPanel {
 		try {
 			jeu = new Jeu(PanelBatailleNavale.TAILLEGRILLE,
 					PanelBatailleNavale.TAILLEGRILLE, nomJoueur);
+			jeu.initialiserLeJeu();
 		} catch (CoupException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,12 +102,12 @@ public class PanelBatailleNavale extends JPanel {
 	private void initPlateau() {
 		JPanel jp_plateau1;
 		JPanel jp_plateau2;
-		JLabel jl_log;
+		JLabel jl_infos;
 		JPanel jp_centre;
 		JButton jb_test;
 
 		// TODO gérer placement
-		jl_log = new JLabel("Bonjour " + jeu.getPlateauJoueurUn().getJoueur()
+		jl_infos = new JLabel("Bonjour " + jeu.getPlateauJoueurUn().getJoueur()
 				+ " votre score");
 		jp_centre = new JPanel();
 		jp_centre.setLayout(new BorderLayout());
@@ -117,17 +119,21 @@ public class PanelBatailleNavale extends JPanel {
 
 		// plateau1
 		int k = 0;
+		int somme;
 		for (int i = 0; i < TAILLEGRILLE; i++) {
+			somme = k + i;
 			for (int j = 0; j < TAILLEGRILLE; j++) {
-				k = i;
+				k = somme;
 				jb_test = new JButton(
 						jeu.getPlateauJoueurUn().getLstCases()[k][j].getMotif()
 				// Integer.toString(k + j)
 				);
+				// Utilité ?
+				jb_test.setName(Integer.toString(somme));
+
 				jb_test.addActionListener(new BoutonClique());
 				jp_plateau1.add(jb_test, k + j);
 			}
-			int somme = k + i;
 		}
 
 		// plateau2
@@ -146,7 +152,7 @@ public class PanelBatailleNavale extends JPanel {
 
 		jp_centre.add(jp_plateau1, BorderLayout.EAST);
 		jp_centre.add(jp_plateau2, BorderLayout.WEST);
-		jp_centre.add(jl_log, BorderLayout.CENTER);
+		jp_centre.add(jl_infos, BorderLayout.CENTER);
 
 		PanelPrincipal.setLayout(new BorderLayout());
 		PanelPrincipal.add(jp_centre, BorderLayout.CENTER);

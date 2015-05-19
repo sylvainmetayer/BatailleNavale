@@ -16,7 +16,7 @@ public class FrameBatailleNavale extends JFrame {
 		this.setTitle("Bataille Navale");
 		// this.setAlwaysOnTop(isAlwaysOnTopSupported());
 		this.setSize(LONGUEUR, LARGEUR);
-		this.setResizable(false);
+		//this.setResizable(false);
 		this.setLocationRelativeTo(null);
 
 		// ajout du panel
