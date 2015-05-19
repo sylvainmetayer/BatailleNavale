@@ -1,4 +1,4 @@
-package com.bataille.application;
+package graphique.com.bataille.application;
 
 public class BatailleNavaleException extends Exception {
 

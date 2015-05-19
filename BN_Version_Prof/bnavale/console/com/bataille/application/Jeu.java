@@ -9,6 +9,12 @@ import com.bataille.metier.Navire;
 import com.bataille.metier.Plateau;
 import com.bataille.util.FileUtil;
 
+/**
+ * Classe représentant une partie entre deux joueurs.
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
+ *
+ */
 public class Jeu {
 
 	private Plateau plateauJoueurUn;
@@ -189,7 +195,7 @@ public class Jeu {
 			bne.printStackTrace();
 		}
 
-		// TODO definir nombre navires, type navire, taille navire
+		// TODO definir nombre navires, type navire, taille navire ?
 	}
 
 	/**

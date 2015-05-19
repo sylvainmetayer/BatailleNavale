@@ -3,7 +3,7 @@ package com.bataille.metier;
 import com.bataille.util.Motif;
 
 /**
- * Classe représentant une classe
+ * Classe représentant une case
  * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *

@@ -3,9 +3,17 @@ package com.bataille.application;
 import com.bataille.metier.CoupException;
 import com.bataille.metier.Plateau;
 
+/**
+ * Interface du jeu
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
+ *
+ */
 public interface IJeu {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.bataille.IJeu#jouer(int, int)
 	 */
 	public abstract void jouer(int x, int y, Plateau plateau)

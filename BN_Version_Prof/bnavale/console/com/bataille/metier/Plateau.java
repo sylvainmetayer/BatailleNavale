@@ -8,6 +8,12 @@ import com.bataille.application.BatailleNavaleException;
 import com.bataille.util.FileUtil;
 import com.bataille.util.Motif;
 
+/**
+ * Classe représentant le plateau d'un joueur
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
+ *
+ */
 public class Plateau {
 
 	@Override
@@ -91,6 +97,8 @@ public class Plateau {
 	}
 
 	/**
+	 * 
+	 * TODO check <br>
 	 * Verifie qu'un plateau est correct <br>
 	 * longeur = largeur (pas de plateau de 4*2, ...) <br>
 	 * Nom non vide
