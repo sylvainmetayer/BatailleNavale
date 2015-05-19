@@ -1,18 +1,10 @@
-package com.bataille.tests;
+package console;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import com.bataille.application.BatailleNavaleException;
-import com.bataille.application.Jeu;
-import com.bataille.metier.Case;
-import com.bataille.metier.CoupException;
-import com.bataille.metier.Navire;
-import com.bataille.metier.Plateau;
-import com.bataille.util.FileUtil;
 
 /**
  * @author V902458

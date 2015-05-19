@@ -1,12 +1,8 @@
-package com.bataille.metier;
+package console;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.bataille.application.BatailleNavaleException;
-import com.bataille.util.FileUtil;
-import com.bataille.util.Motif;
 
 /**
  * Classe représentant le plateau d'un joueur
@@ -158,10 +154,6 @@ public class Plateau {
 			n.setCases(c);
 
 			for (Case a : c) {
-				if (n.getTaille() == 1) {
-					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(Motif.NAVIRESIZE1.toString());
-				}
 				if (n.getTaille() == 2) {
 					getLstCases()[a.getPosx()][a.getPosy()]
 							.setMotif(Motif.NAVIRESIZE2.toString());

@@ -1,4 +1,4 @@
-package com.bataille.tests;
+package console;
 
 public class TestPlacement {
 	String[][] lstCases = new String[8][8];

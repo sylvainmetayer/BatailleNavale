@@ -1,15 +1,8 @@
-package presentation;
+package console;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import com.bataille.application.Jeu;
-import com.bataille.metier.Case;
-import com.bataille.metier.CoupException;
-import com.bataille.metier.Navire;
-import com.bataille.metier.Plateau;
-import com.bataille.util.Motif;
 
 public class BnavTextIHM {
 
@@ -76,9 +69,10 @@ public class BnavTextIHM {
 		Case debut;
 		boolean horizontalement, erreur;
 		erreur = false;
-		System.out.println("Vous allez placer vos navires");
+		System.out.println(j.getPlateauJoueurUn().getJoueur()
+				+ ", vous allez placer vos navires");
 
-		// navire une case
+		// navire 2 case
 		System.out
 				.println("Saisir coordonnées case départ pour navire à 1 cases");
 		saisie = sc.next();
@@ -91,7 +85,7 @@ public class BnavTextIHM {
 						+ "Sinon, le placement sera placé verticalement vers le bas");
 		horizontalement = sc.nextBoolean();
 		List<Case> lsC = new ArrayList<Case>();
-		debut = new Case(x, y, false, Motif.NAVIRESIZE1.toString());
+		debut = new Case(x, y, false, Motif.NAVIRESIZE2.toString());
 		lsC.add(debut);
 		for (int i = 0; i < 1; i++) {
 			if (horizontalement) {
@@ -101,7 +95,7 @@ public class BnavTextIHM {
 							.println("Collision, le bateau n'a pas pu être ajouté.");
 					erreur = true;
 				}
-				lsC.add(new Case(x, tmp, false, Motif.NAVIRESIZE1.toString()));
+				lsC.add(new Case(x, tmp, false, Motif.NAVIRESIZE2.toString()));
 			} else {
 				int tmp = x + 1;
 				if (j.getPlateauJoueurUn().isCollisionPlacement(tmp, y)) {
@@ -109,7 +103,7 @@ public class BnavTextIHM {
 							.println("Collision, le bateau n'a pas pu être ajouté.");
 					erreur = true;
 				}
-				lsC.add(new Case(tmp, y, false, Motif.NAVIRESIZE1.toString()));
+				lsC.add(new Case(tmp, y, false, Motif.NAVIRESIZE2.toString()));
 			}
 		}
 		if (!erreur) {
