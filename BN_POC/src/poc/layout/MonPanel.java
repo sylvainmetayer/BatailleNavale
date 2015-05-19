@@ -47,7 +47,7 @@ public class MonPanel extends JPanel implements ActionListener {
 				int k = i;
 				jb_test = new JButton(Integer.toString(k + j));
 				jb_test.addActionListener(this);
-				jp_plateau2.add(jb_test, k + j);
+				jp_plateau2.add(jb_test);
 			}
 		}
 

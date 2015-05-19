@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,7 +24,7 @@ public class PanelBatailleNavale extends JPanel {
 	Jeu jeu;
 	String nomJoueur;
 
-	// = this pour plus de facilité d'accès
+	// = this pour plus de facilité d'accès vis a vis des classe interne membres
 	private final JPanel PanelPrincipal = this;
 
 	// Paramètres statiques
@@ -82,90 +81,76 @@ public class PanelBatailleNavale extends JPanel {
 		try {
 			jeu = new Jeu(PanelBatailleNavale.TAILLEGRILLE,
 					PanelBatailleNavale.TAILLEGRILLE, nomJoueur);
-			jeu.initialiserLeJeu();
 		} catch (CoupException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		initPlateau();
+		JOptionPane.showMessageDialog(this, "La partie commence !");
 
-		// placementBateauxJoueur();
-
-		// afficherPlateaux();
-
+		super.revalidate();
+		super.repaint();
 	}
 
 	/**
-	 * Cette méthode permet d'initialiser
+	 * Cette méthode permet d'initialiser le plateau en assignant a chaque
+	 * bouton une case
 	 */
 	private void initPlateau() {
 		JPanel jp_plateau1;
 		JPanel jp_plateau2;
 		JLabel jl_infos;
-		JPanel jp_centre;
-		JButton jb_test;
+		JLabel jl_plateauMoi;
+		JLabel jl_plateauAdverse;
 
-		// TODO gérer placement
-		jl_infos = new JLabel("Bonjour " + jeu.getPlateauJoueurUn().getJoueur()
-				+ " votre score");
-		jp_centre = new JPanel();
-		jp_centre.setLayout(new BorderLayout());
+		JPanel jp_plateauxEtScore;
+		JPanel jp_haut;
+
+		jl_infos = new JLabel(jeu.getPlateauJoueurUn().getJoueur()
+				+ " votre score est : " + jeu.getScore());
+
+		jl_plateauAdverse = new JLabel("Plateau ennemi");
+		jl_plateauMoi = new JLabel("Plateau de "
+				+ jeu.getPlateauJoueurUn().getJoueur(), JLabel.LEFT);
+
+		jp_plateauxEtScore = new JPanel();
+		jp_haut = new JPanel();
+		jp_plateauxEtScore.setLayout(new BorderLayout());
 
 		jp_plateau1 = new JPanel();
 		jp_plateau2 = new JPanel();
 		jp_plateau1.setLayout(new GridLayout(TAILLEGRILLE, TAILLEGRILLE));
 		jp_plateau2.setLayout(new GridLayout(TAILLEGRILLE, TAILLEGRILLE));
 
-		// plateau1
-		int k = 0;
-		int somme;
-		for (int i = 0; i < TAILLEGRILLE; i++) {
-			somme = k + i;
-			for (int j = 0; j < TAILLEGRILLE; j++) {
-				k = somme;
-				jb_test = new JButton(
-						jeu.getPlateauJoueurUn().getLstCases()[k][j].getMotif()
-				// Integer.toString(k + j)
-				);
-				// Utilité ?
-				jb_test.setName(Integer.toString(somme));
+		genererPlateau(jp_plateau1);
 
-				jb_test.addActionListener(new BoutonClique());
-				jp_plateau1.add(jb_test, k + j);
-			}
-		}
+		genererPlateau(jp_plateau2);
 
-		// plateau2
-		for (int i = 0; i < TAILLEGRILLE; i++) {
-			for (int j = 0; j < TAILLEGRILLE; j++) {
-				k = i;
-				jb_test = new JButton(
-						jeu.getPlateauJoueurDeux().getLstCases()[k][j]
-								.getMotif()
-				// Integer.toString(k + j)
-				);
-				jb_test.addActionListener(new BoutonClique());
-				jp_plateau2.add(jb_test, k + j);
-			}
-		}
-
-		jp_centre.add(jp_plateau1, BorderLayout.EAST);
-		jp_centre.add(jp_plateau2, BorderLayout.WEST);
-		jp_centre.add(jl_infos, BorderLayout.CENTER);
+		jp_haut.add(jl_plateauMoi);
+		jp_haut.add(jl_plateauAdverse);
+		jp_plateauxEtScore.add(jp_plateau1, BorderLayout.EAST);
+		jp_plateauxEtScore.add(jp_plateau2, BorderLayout.WEST);
+		jp_plateauxEtScore.add(jl_infos, BorderLayout.CENTER);
 
 		PanelPrincipal.setLayout(new BorderLayout());
-		PanelPrincipal.add(jp_centre, BorderLayout.CENTER);
-		repaint();
+
+		PanelPrincipal.add(jp_haut, BorderLayout.NORTH);
+		PanelPrincipal.add(jp_plateauxEtScore, BorderLayout.CENTER);
 
 	}
 
-	/**
-	 * Cette méthode permet l'affichage des plateaux, et de placer ses bateaux
-	 */
-	private void placementBateauxJoueur() {
-		// TODO afficherPlateaux();
-
+	private void genererPlateau(JPanel jp) {
+		JButton jb_test;
+		for (int i = 0; i < TAILLEGRILLE; i++) {
+			for (int j = 0; j < TAILLEGRILLE; j++) {
+				jb_test = new BoutonBN(
+						jeu.getPlateauJoueurUn().getLstCases()[i][j],
+						jeu.getPlateauJoueurUn().getLstCases()[i][j].getMotif());
+				jb_test.addActionListener(new BoutonClique());
+				jp.add(jb_test);
+			}
+		}
 	}
 
 	/* CLASSE INTERNE */
@@ -209,7 +194,6 @@ public class PanelBatailleNavale extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			// on efface tout ce qu'il y avait avant.
 			PanelPrincipal.removeAll();
-			repaint();
 
 			/* Demmande prenom */
 			Object[] message = new Object[2];
@@ -224,12 +208,18 @@ public class PanelBatailleNavale extends JPanel {
 			if (result == JOptionPane.OK_OPTION) {
 				nomJoueur = ((JTextField) message[1]).getText();
 			} else {
+				nomJoueur = "joueur";
+			}
+
+			if (result == JOptionPane.CLOSED_OPTION) {
 				// le nom du joueur n'a pas été renseigné, nom par defaut
-				nomJoueur = DEFAULTNAME;
+				nomJoueur = "Joueur";
 			}
 			/* Fin demande prenom */
+
 			StartGame();
 			// on démarre la partie.
+			repaint();
 		}
 	}
 }
