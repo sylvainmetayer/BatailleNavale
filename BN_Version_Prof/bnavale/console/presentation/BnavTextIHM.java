@@ -26,7 +26,7 @@ public class BnavTextIHM {
 
 		// on génère le plateau
 		// TODO à fixer
-		j.genererJeu();
+		// j.genererJeu();
 
 		while (!key.equals("Q")) {
 
