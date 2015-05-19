@@ -31,25 +31,25 @@
 <fieldset>
 <legend>Informations personnelles</legend>
 <label for='nom'>Nom : </label>
-<input type='text' placeholder="Ex : Dupond" name='nom' required/>
+<input id='nom' type='text' placeholder="Ex : Dupond" name='nom' required/>
 <br/>
 <label for='prenom'>Prénom : </label>
-<input type='text' name='prenom' placeholder="Ex : Laura" required/>
+<input id='prenom' type='text' name='prenom' placeholder="Ex : Laura" required/>
 </fieldset>
 
 <fieldset>
 <legend>Informations de contact</legend>
 <label for='mail'>Mail : </label>
-<input type='text' placeholder="Ex : laura.dupond@example.com" name='mail' required/>
+<input id='mail' type='text' placeholder="Ex : laura.dupond@example.com" name='mail' required/>
 <br/>
 <label for='telephone'>Téléphone : </label>
-<input type='text' placeholder="Ex : (+33)0xxxxxxxxx" name="telephone" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
+<input id='telephone' type='text' placeholder="Ex : (+33)0xxxxxxxxx" name="telephone" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
 </fieldset>
 
 <fieldset>
 <legend>Commentaire</legend>
 <p>Votre commentaire :</p>
-<textarea placeholder="Tapez votre commentaire ici..."></textarea>
+<textarea id='commentaire' placeholder="Tapez votre commentaire ici..."></textarea>
 </fieldset>
 <input type="submit">
 </form>
