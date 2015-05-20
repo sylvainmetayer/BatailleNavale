@@ -14,7 +14,7 @@ public class BoutonBN extends JButton {
 	private static final long serialVersionUID = 1L;
 	private Case c;
 
-	public Case getC() {
+	public Case getCase() {
 		return c;
 	}
 
@@ -27,4 +27,8 @@ public class BoutonBN extends JButton {
 		this.c = c;
 	}
 
+	@Override
+	public String toString() {
+		return "BOUTON" + getCase();
+	}
 }

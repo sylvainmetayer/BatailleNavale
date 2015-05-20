@@ -50,15 +50,15 @@ public class Case implements Comparable<Case> {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Case [posx=");
+		builder.append("(");
 		builder.append(posx);
-		builder.append(", posy=");
+		builder.append(", ");
 		builder.append(posy);
 		builder.append(", estTouche=");
 		builder.append(estTouche);
 		builder.append(", motif=");
 		builder.append(motif);
-		builder.append("]");
+		builder.append(")");
 		return builder.toString();
 	}
 

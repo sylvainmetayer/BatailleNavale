@@ -12,7 +12,7 @@ import java.awt.Image;
  *
  */
 public enum Motif {
-	NAVIRESIZE1, NAVIRESIZE2, NAVIRESIZE3, NAVIRESIZE4, NAVIRESIZE5, TOUCHE, EAU, COUPJOUE;
+	TOUCHE, EAU, COUPJOUE;
 
 	@Override
 	public String toString() {
@@ -23,16 +23,7 @@ public enum Motif {
 			return "X";
 		case COUPJOUE:
 			return "@";
-		case NAVIRESIZE1:
-			return "V";
-		case NAVIRESIZE2:
-			return "T";
-		case NAVIRESIZE3:
-			return "D";
-		case NAVIRESIZE4:
-			return "C";
-		case NAVIRESIZE5:
-			return "P";
+
 		default:
 			return null;
 		}

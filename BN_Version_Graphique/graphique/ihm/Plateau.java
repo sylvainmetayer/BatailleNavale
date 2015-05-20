@@ -154,25 +154,21 @@ public class Plateau {
 			n.setCases(c);
 
 			for (Case a : c) {
-				if (n.getTaille() == 1) {
-					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(Motif.NAVIRESIZE1.toString());
-				}
 				if (n.getTaille() == 2) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(Motif.NAVIRESIZE2.toString());
+							.setMotif(NavireCaracteristique.NAVIRESIZE2.getMotif());
 				}
 				if (n.getTaille() == 3) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(Motif.NAVIRESIZE3.toString());
+							.setMotif(NavireCaracteristique.NAVIRESIZE3.getMotif());
 				}
 				if (n.getTaille() == 4) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(Motif.NAVIRESIZE4.toString());
+							.setMotif(NavireCaracteristique.NAVIRESIZE4.getMotif());
 				}
 				if (n.getTaille() == 5) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(Motif.NAVIRESIZE5.toString());
+							.setMotif(NavireCaracteristique.NAVIRESIZE5.getMotif());
 				}
 			}
 			casesOccupees.addAll(c);
@@ -241,7 +237,7 @@ public class Plateau {
 	 * @param y
 	 * @return <code>true</code> || <code>false</code>
 	 */
-	private boolean isCollisionPlacement(int x, int y) {
+	public boolean isCollisionPlacement(int x, int y) {
 		boolean isCollision = false;
 		for (Case c : casesOccupees) {
 			if (c.getPosx() == x && c.getPosy() == y) {
