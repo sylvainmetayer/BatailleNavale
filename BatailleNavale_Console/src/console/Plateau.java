@@ -47,7 +47,7 @@ public class Plateau {
 	private boolean[][] casesTouchees;
 	private Case[][] lstCases;
 
-	public Plateau(int longueur, int largeur) throws CoupException {
+	public Plateau(int longueur, int largeur) throws CoordonneeException {
 		this(longueur, largeur, "Joueur");
 
 	}
@@ -59,15 +59,14 @@ public class Plateau {
 	 * @param longueur
 	 * @param largeur
 	 * @param joueur
-	 * @throws CoupException
+	 * @throws CoordonneeException
 	 *             lorsque le plateau n'est pas correct
 	 */
 	public Plateau(int longueur, int largeur, String joueur)
-			throws CoupException {
+			throws CoordonneeException {
 
 		if (!CtrlGoodPlateau(largeur, longueur, joueur))
-			throw new CoupException(
-					"Le plateau n'est pas initialisé correctement");
+			throw new CoordonneeException("Le plateau n'est pas initialisé correctement");
 
 		this.longueur = longueur;
 		this.largeur = largeur;

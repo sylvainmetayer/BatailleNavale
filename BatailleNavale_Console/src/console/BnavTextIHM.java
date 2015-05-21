@@ -11,11 +11,11 @@ public class BnavTextIHM {
 	Scanner sc = new Scanner(System.in);
 	String key = "";
 
-	public BnavTextIHM() {
+	public BnavTextIHM() throws CoordonneeException {
 
 		try {
 			j = new Jeu(8, 8, "Joueur 1");
-		} catch (CoupException c) {
+		} catch (CoordonneeException c) {
 			c.printStackTrace();
 		}
 
@@ -44,10 +44,11 @@ public class BnavTextIHM {
 				if (!key.equalsIgnoreCase("T") 
 					&& !key.equalsIgnoreCase("D")
 					&& !key.equalsIgnoreCase("S")
-					&& !key.equalsIgnoreCase("A")) {
+					&& !key.equalsIgnoreCase("A")
+					&& !key.equalsIgnoreCase("Q")) {
 					try {
 						jouer();
-					} catch (CoupException e) {
+					} catch (CoordonneeException e) {
 						System.out.println("Votre coup est interdit, recommencez !!");
 					}
 				}
@@ -63,50 +64,57 @@ public class BnavTextIHM {
 		System.out.println("Votre score : " + j.getScore());
 	}
 
-	private void placerNavires() {
+	private void placerNavires() throws CoordonneeException {
 		int x, y;
 		String saisie;
 		String[] coords;
 		Case debut;
-		boolean horizontalement, erreur;
+		boolean horizontalement, erreur, caseDepartAutorise, caseArriveeAutorise;
 		erreur = false;
 		System.out.println(j.getPlateauJoueurUn().getJoueur() + ", vous allez placer vos navires");
 
 		// navire 2 case
-		System.out.println("Saisir coordonnées case départ pour navire à 1 cases");
+		System.out.println("Saisir coordonnées case départ pour navire à 2 cases");
 		saisie = sc.next();
 		coords = saisie.split(",");
 		x = Integer.parseInt(coords[0]);
 		y = Integer.parseInt(coords[1]);
-		// horizon vertical puis creer case
-		System.out.println("Placer horizontalement vers la droite ? (true/false)\n"
-						+ "Sinon, le placement sera placé verticalement vers le bas");
-		horizontalement = sc.nextBoolean();
-		List<Case> lsC = new ArrayList<Case>();
-		debut = new Case(x, y, false, Motif.NAVIRESIZE2.toString());
-		lsC.add(debut);
-		for (int i = 0; i < 1; i++) {
-			if (horizontalement) {
-				int tmp = y + 1;
-				if (j.getPlateauJoueurUn().isCollisionPlacement(x, tmp)) {
-					System.out.println("Collision, le bateau n'a pas pu être ajouté.");
-					erreur = true;
+		try {
+			caseDepartAutorise = j.isCoordonneeAutorise(x, y, j.getPlateauJoueurUn());
+		} catch (CoordonneeException e) {
+			throw new CoordonneeException("Coordonnées Incorrects !");
+		}
+		if(caseDepartAutorise) {
+			// horizontal ou vertical puis creer case
+			System.out.println("Placer horizontalement vers la droite ? (true/false)\n"
+							+ "Sinon, le placement sera placé verticalement vers le bas");
+			horizontalement = sc.nextBoolean();
+			List<Case> lsC = new ArrayList<Case>();
+			debut = new Case(x, y, false, Motif.NAVIRESIZE2.toString());
+			lsC.add(debut);
+			for (int i = 0; i < 1; i++) {
+				if (horizontalement) {
+					int tmp = y + 1;
+					caseArriveeAutorise = j.isCoordonneeAutorise(x, tmp, j.getPlateauJoueurUn());
+					if (j.getPlateauJoueurUn().isCollisionPlacement(x, tmp) || !caseArriveeAutorise) {
+						System.out.println("Collision, le bateau n'a pas pu être ajouté.");
+						erreur = true;
+					}
+					lsC.add(new Case(x, tmp, false, Motif.NAVIRESIZE2.toString()));
+				} else {
+					int tmp = x + 1;
+					caseArriveeAutorise = j.isCoordonneeAutorise(tmp, y, j.getPlateauJoueurUn());
+					if (j.getPlateauJoueurUn().isCollisionPlacement(tmp, y) || !caseArriveeAutorise) {
+						System.out.println("Collision, le bateau n'a pas pu être ajouté.");
+						erreur = true;
+					}
+					lsC.add(new Case(tmp, y, false, Motif.NAVIRESIZE2.toString()));
 				}
-				lsC.add(new Case(x, tmp, false, Motif.NAVIRESIZE2.toString()));
-			} else {
-				int tmp = x + 1;
-				if (j.getPlateauJoueurUn().isCollisionPlacement(tmp, y)) {
-					System.out.println("Collision, le bateau n'a pas pu être ajouté.");
-					erreur = true;
-				}
-				lsC.add(new Case(tmp, y, false, Motif.NAVIRESIZE2.toString()));
+			}
+			if (!erreur) {
+				j.getPlateauJoueurUn().ajouterNavire(new Navire(1, 1, lsC, false, 1 * 10));
 			}
 		}
-		if (!erreur) {
-			j.getPlateauJoueurUn().ajouterNavire(
-					new Navire(1, 1, lsC, false, 1 * 10));
-		}
-
 	}
 
 	// private void ajouterBateau(Motif m)
@@ -115,7 +123,7 @@ public class BnavTextIHM {
 		// TODO en graphique
 	}
 
-	private void jouer() throws CoupException {
+	private void jouer() throws CoordonneeException {
 		String[] coords = key.split(",");
 		int coordX = Integer.parseInt(coords[0]);
 		int coordY = Integer.parseInt(coords[1]);
@@ -134,7 +142,7 @@ public class BnavTextIHM {
 	private void menus() {
 		System.out.println("");
 		System.out.println("A = Afficher le plateau");
-		System.out.println("D = Demarrer la partie");
+		System.out.println("D = Demarrer une nouvelle partie");
 		System.out.println("S = Sauvegarder la partie");
 		System.out.println("T = Afficher score");
 		System.out.println("Q = Quitter le jeu");
@@ -175,8 +183,7 @@ public class BnavTextIHM {
 		for (int i = 0; i < j.goodPlateau(p).getLargeur(); i++) {
 			ligne = "" + i + "  ";
 			for (int t = 0; t < j.goodPlateau(p).getLongueur(); t++) {
-				ligne = ligne + j.goodPlateau(p).getLstCases()[i][t].getMotif()
-						+ "  ";
+				ligne = ligne + j.goodPlateau(p).getLstCases()[i][t].getMotif() + "  ";
 			}
 			System.out.println(ligne);
 		}
@@ -194,7 +201,7 @@ public class BnavTextIHM {
 		afficherPlateau(j.getPlateauJoueurDeux());
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CoordonneeException {
 		new BnavTextIHM();
 	}
 }

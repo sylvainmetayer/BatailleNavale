@@ -14,7 +14,7 @@ public interface IJeu {
 	 * @see com.bataille.IJeu#jouer(int, int)
 	 */
 	public abstract void jouer(int x, int y, Plateau plateau)
-			throws CoupException;
+			throws CoordonneeException;
 
 	public abstract Plateau getPlateauJoueurUn();
 

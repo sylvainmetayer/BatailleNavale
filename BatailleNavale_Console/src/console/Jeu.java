@@ -36,10 +36,10 @@ public class Jeu {
 	 * @param hauteur
 	 * @param largeur
 	 * @param nomJoueur
-	 * @throws CoupException
+	 * @throws CoordonneeException
 	 *             quand TODO
 	 */
-	public Jeu(int hauteur, int largeur, String nomJoueur) throws CoupException {
+	public Jeu(int hauteur, int largeur, String nomJoueur) throws CoordonneeException {
 		this.plateauJoueurUn = new Plateau(hauteur, largeur, nomJoueur);
 		this.plateauJoueurDeux = new Plateau(hauteur, largeur, "Ordinateur");
 		this.score = 0;
@@ -56,11 +56,11 @@ public class Jeu {
 	 * @param plateau
 	 * @return Navire : le navire touche ou coule, ou alors null si rien ne
 	 *         s'est passe
-	 * @throws CoupException
+	 * @throws CoordonneeException
 	 */
-	public Navire jouer(int x, int y, Plateau plateau) throws CoupException {
+	public Navire jouer(int x, int y, Plateau plateau) throws CoordonneeException {
 
-		isCoupAutorise(x, y, plateau);
+		isCoordonneeAutorise(x, y, plateau);
 		Navire n = this.goodPlateau(plateau).jouerCoup(x, y);
 		/*
 		 * if (n == null) { System.out.println("Coup dans l'eau !"); if
@@ -82,6 +82,7 @@ public class Jeu {
 
 	}
 
+	
 	/**
 	 * Permet de verifier que les coordonnees du coup joue sont bien dans la
 	 * taille de l'aire de jeu
@@ -89,19 +90,22 @@ public class Jeu {
 	 * @param x
 	 * @param y
 	 * @param plateau
-	 * @throws CoupException
+	 * @throws CoordonneeException
 	 */
-	private void isCoupAutorise(int x, int y, Plateau plateau)
-			throws CoupException {
+	protected boolean isCoordonneeAutorise(int x, int y, Plateau plateau) throws CoordonneeException {
 
+		boolean isAutorise = true;
 		int cx = this.goodPlateau(plateau).getLongueur();
 		int cy = this.goodPlateau(plateau).getLargeur();
 		if (x > cx || y > cy || x < 0 || y < 0) {
-			throw new CoupException("coup non autorisé ");
+			isAutorise = false;
+			throw new CoordonneeException("coordonnées non autorisé ");
 		} else if (goodPlateau(plateau).getCoupsJoues()[x][y] == true) {
-			throw new CoupException("coup non autorisé ");
+			isAutorise = false;
+			throw new CoordonneeException("coordonnées non autorisé ");
 		}
-
+		return isAutorise;
+		
 	}
 
 	/**

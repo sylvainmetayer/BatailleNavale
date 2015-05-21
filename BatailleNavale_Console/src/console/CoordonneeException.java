@@ -7,11 +7,11 @@ package console;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class CoupException extends Exception {
+public class CoordonneeException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public CoupException(String message) {
+	public CoordonneeException(String message) {
 		super(message);
 	}
 

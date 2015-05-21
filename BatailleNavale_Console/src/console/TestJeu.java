@@ -24,7 +24,7 @@ public class TestJeu {
 	public TestJeu(int x, int y) {
 		try {
 			j = new Jeu(x, y, "Jimmy");
-		} catch (CoupException e) {
+		} catch (CoordonneeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
