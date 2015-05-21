@@ -129,6 +129,7 @@ public class Plateau {
 		this.listeNav.add(n);
 		for (Case c : n.getCases()) {
 			this.casesOccupees.add(c);
+			this.lstCases[c.getPosx()][c.getPosy()]=c;
 		}
 
 	}

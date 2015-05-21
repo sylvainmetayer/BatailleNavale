@@ -23,6 +23,7 @@ public class BnavTextIHM {
 		placerNavires();
 
 		System.out.println(j.getPlateauJoueurUn().getListeNav());
+		System.out.println(j.getPlateauJoueurUn().getCasesOccupees());
 		// on génère le plateau
 		// TODO à fixer
 		// j.genererJeu();
