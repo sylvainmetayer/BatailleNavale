@@ -130,6 +130,7 @@ public class Plateau {
 		this.listeNav.add(n);
 		for (Case c : n.getCases()) {
 			this.casesOccupees.add(c);
+			this.lstCases[c.getPosx()][c.getPosy()]=c;
 		}
 
 	}
@@ -283,8 +284,8 @@ public class Plateau {
 		if (!coupsJoues[x][y]) {
 
 			getLstCases()[x][y].setMotif(Motif.COUPJOUE.toString());
-			getLstCases()[x][y].setEstTouche(true);
-			casesTouchees[x][y] = true;
+			getLstCases()[x][y].setEstTouche(false);
+			casesTouchees[x][y] = false;
 
 			/*
 			 * 2 - On demande la liste des navires. Qui est touche ? Si oui maj
@@ -301,6 +302,7 @@ public class Plateau {
 						nbreTouche++;
 						navireTouche = n;
 						casesTouchees[x][y] = true;
+						getLstCases()[x][y].setEstTouche(true);
 						getLstCases()[x][y].setMotif(Motif.TOUCHE.toString());
 					}
 				}
