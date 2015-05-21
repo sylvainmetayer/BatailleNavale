@@ -276,15 +276,15 @@ public class Plateau {
 	 * @return le navire touché ou null si coup dans l'eau
 	 */
 	public Navire jouerCoup(int x, int y) {
-		int nbreTouche = 0;
+		int nbreTouche;
 		Navire navireTouche = null;
 
 		// 1 - a t on déja joué le coup ?
 		if (!coupsJoues[x][y]) {
 
 			getLstCases()[x][y].setMotif(Motif.COUPJOUE.toString());
-			getLstCases()[x][y].setEstTouche(true);
-			casesTouchees[x][y] = true;
+			getLstCases()[x][y].setEstTouche(false);
+			casesTouchees[x][y] = false;
 
 			/*
 			 * 2 - On demande la liste des navires. Qui est touche ? Si oui maj

@@ -62,18 +62,22 @@ public class Jeu {
 
 		isCoordonneeAutorise(x, y, plateau);
 		Navire n = this.goodPlateau(plateau).jouerCoup(x, y);
-		/*
-		 * if (n == null) { System.out.println("Coup dans l'eau !"); if
-		 * (plateau.equals(getPlateauJoueurUn())) { score += 0; score ordi à
-		 * gérer ? } } else { if (n.isEstCoule() == true) {
-		 * System.out.println("Touché Coulé !"); if
-		 * (plateau.equals(getPlateauJoueurUn())) { // score += 2; // score ordi
-		 * à gérer ? } if (plateau.equals(getPlateauJoueurDeux())) { int score =
-		 * getScore() + n.getValeurScore(); setScore(score); } } else if
-		 * (n.isEstCoule() == false) { System.out.println("Touché !"); if
-		 * (plateau.equals(getPlateauJoueurUn())) { // score += 1; // score ordi
-		 * à gérer ? } } }
-		 */
+
+		if (n == null) { System.out.println("Coup dans l'eau !"); 
+		if (plateau.equals(getPlateauJoueurUn())) { score += 0; } } //score ordi à gérer ?
+		else { 
+			if (n.isEstCoule() == true) {
+				System.out.println("Touché Coulé !"); 
+				if (plateau.equals(getPlateauJoueurUn())) { score += 2; } // score ordi à gérer ?
+				if (plateau.equals(getPlateauJoueurDeux())) { 
+					int score = getScore() + n.getValeurScore(); 
+					setScore(score);
+				} 
+			} else if (n.isEstCoule() == false) { 
+				System.out.println("Touché !"); 
+				if (plateau.equals(getPlateauJoueurUn())) {  score += 1; }// score ordi à gérer ?
+			} 
+		}
 
 		// la gestion des cases étant déjà faite avant (cf plateau#jouerCoup, on
 		// peut juste retourner
@@ -111,8 +115,7 @@ public class Jeu {
 	/**
 	 * recupere la liste des bateaux coules d'un Plateau/Joueur
 	 * 
-	 * @param plateau
-	 *            {@link Plateau}
+	 * @param {@link Plateau}
 	 * @return {@link List}
 	 */
 	List<Navire> sontCoules(Plateau plateau) {
@@ -124,8 +127,7 @@ public class Jeu {
 	/**
 	 * recupere la liste des navires d'un plateau/joueur
 	 * 
-	 * @param plateau
-	 *            {@link Plateau}
+	 * @param {@link Plateau}
 	 * @return {@link List}
 	 */
 	List<Navire> tousNavires(Plateau plateau) {
