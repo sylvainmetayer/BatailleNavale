@@ -265,7 +265,6 @@ public class PanelBatailleNavale extends JPanel {
 	}
 
 	private void initPlateau() {
-
 		jta_message = new JTextArea();
 		jta_message.setForeground(Color.RED);
 		// jta_message.setFont(new Font("ARIAL", 10, 10));
