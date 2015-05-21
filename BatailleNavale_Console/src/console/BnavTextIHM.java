@@ -136,9 +136,11 @@ public class BnavTextIHM {
 
 	// private void ajouterBateau(Motif m)
 
-	private void sauvegarder() {
-		// TODO en graphique
-	}
+	/*
+	 * private void sauvegarder() {
+	 * TODO en graphique
+	 * }
+	 */
 
 	private void jouer() throws CoordonneeException {
 		String[] coords = key.split(",");

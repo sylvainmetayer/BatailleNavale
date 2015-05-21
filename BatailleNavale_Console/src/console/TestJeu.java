@@ -45,7 +45,6 @@ public class TestJeu {
 		// String nav1 = "1 2 2-0;2-1 false 200";
 		Case[] lstCase = null;
 		Navire n = null;
-		int x = 0;
 		StringTokenizer st = new StringTokenizer(infos);
 		int i = 0;
 		String ch = null;
@@ -141,8 +140,8 @@ public class TestJeu {
 	 * @throws BatailleNavaleException
 	 * @throws NumberFormatException
 	 */
-	public static void main(String[] args) throws NumberFormatException,
-			BatailleNavaleException {
+	@SuppressWarnings({ "static-access", "unused" })
+	public static void main(String[] args) throws NumberFormatException,BatailleNavaleException {
 
 		TestJeu tj = new TestJeu(8, 8);
 		FileUtil f = FileUtil.getInstance();
