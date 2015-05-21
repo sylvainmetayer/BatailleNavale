@@ -18,12 +18,12 @@ public class BnavTextIHM {
 		} catch (CoordonneeException c) {
 			c.printStackTrace();
 		}
+		entete();
 
 		// TODO changer la génération automatique en placement par l'user
+		placerNaviresIA();
 		placerNavires();
-
-		System.out.println(j.getPlateauJoueurUn().getListeNav());
-		System.out.println(j.getPlateauJoueurUn().getCasesOccupees());
+		
 		// on génère le plateau
 		// TODO à fixer
 		// j.genererJeu();
@@ -34,17 +34,11 @@ public class BnavTextIHM {
 			key = sc.next();
 			if (!(key.length() == 0)) {
 
-				if (key.equalsIgnoreCase("A"))
-					afficherLesPlateaux();
-				if (key.equalsIgnoreCase("S"))
-					sauvegarder();
 				if (key.equalsIgnoreCase("D"))
 					placerNavires();
-				if (key.equalsIgnoreCase("T"))
-					afficherScores();
-				if (!key.equalsIgnoreCase("T") 
-					&& !key.equalsIgnoreCase("D")
-					&& !key.equalsIgnoreCase("S")
+				if (key.equalsIgnoreCase("A"))
+					afficherAide();
+				if (!key.equalsIgnoreCase("D")
 					&& !key.equalsIgnoreCase("A")
 					&& !key.equalsIgnoreCase("Q")) {
 					try {
@@ -61,10 +55,32 @@ public class BnavTextIHM {
 
 	}
 
+	private void afficherAide() {
+		
+		System.out.println("Aide : \n" +
+				"~ = case d'eau \n" +
+				"X = navire touché \n" +
+				"@ = tir joué dans de l'eau \n" +
+				"T = navire de taille 2 \n" +
+				"D = navire de taille 3 \n" +
+				"C = navire de taille 4 \n" +
+				"P = navire de taille 5 \n" );
+	}
+
 	private void afficherScores() {
 		System.out.println("Votre score : " + j.getScore());
 	}
 
+	private void placerNaviresIA() {
+		List<Case> lsC = new ArrayList<Case>();
+		Case debut = new Case(2,4, false, Motif.NAVIRESIZE2.toString());
+		Case fin = new Case(2,5, false, Motif.NAVIRESIZE2.toString());
+		lsC.add(debut);
+		lsC.add(fin);
+
+		j.getPlateauJoueurDeux().ajouterNavire(new Navire(1, 2, lsC, false, 1 * 10));
+	}
+	
 	private void placerNavires() throws CoordonneeException {
 		int x, y;
 		String saisie;
@@ -113,7 +129,7 @@ public class BnavTextIHM {
 				}
 			}
 			if (!erreur) {
-				j.getPlateauJoueurUn().ajouterNavire(new Navire(1, 1, lsC, false, 1 * 10));
+				j.getPlateauJoueurUn().ajouterNavire(new Navire(1, 2, lsC, false, 1 * 10));
 			}
 		}
 	}
@@ -130,7 +146,7 @@ public class BnavTextIHM {
 		int coordY = Integer.parseInt(coords[1]);
 		System.out.println("coup joue : " + coordX + " - " + coordY);
 		// TODO gerer
-		j.jouer(coordX, coordX, j.getPlateauJoueurDeux());
+		j.jouer(coordX, coordY, j.getPlateauJoueurDeux());
 	}
 
 	private void entete() {
@@ -142,12 +158,10 @@ public class BnavTextIHM {
 
 	private void menus() {
 		System.out.println("");
-		System.out.println("A = Afficher le plateau");
 		System.out.println("D = Demarrer une nouvelle partie");
-		System.out.println("S = Sauvegarder la partie");
-		System.out.println("T = Afficher score");
+		System.out.println("A = Afficher l'aide");
 		System.out.println("Q = Quitter le jeu");
-		System.out.println("Saisissez les coordonnees de tir separes par une virgule > ");
+		System.out.println("Pour saisir les coordonnees de tir separes les par une virgule > ");
 	}
 
 	// construire affichage a partir du plateau qui est sur le jeu....
