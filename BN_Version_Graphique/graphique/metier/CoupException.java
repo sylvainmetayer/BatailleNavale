@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ihm;
+package metier;
 
 /**
  * Classe représentant une exception levée lors de la réalisation d'un coup non

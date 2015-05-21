@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ihm;
+package enums;
 
 /**
  * @author Sylvain - Kevin

@@ -1,11 +1,14 @@
 /**
  * 
  */
-package ihm;
+package metier;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import enums.Motif;
+import enums.NavireCaracteristique;
 
 /**
  * @author Sylvain - Kevin

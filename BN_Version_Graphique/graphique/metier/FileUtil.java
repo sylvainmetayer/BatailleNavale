@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ihm;
+package metier;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,9 +1,11 @@
 /**
  * 
  */
-package ihm;
+package ihm.composants;
 
 import javax.swing.JButton;
+
+import metier.Case;
 
 /**
  * @author Sylvain - Kevin

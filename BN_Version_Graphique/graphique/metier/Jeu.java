@@ -1,4 +1,4 @@
-package ihm;
+package metier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +126,7 @@ public class Jeu {
 	 * Permet de générer une partie en récupérant la liste des navires à partir
 	 * d'un fichier.
 	 * 
-	 * @throws com.bataille.application.BatailleNavaleException
+	 * @throws metier.bataille.application.BatailleNavaleException
 	 * @throws NumberFormatException
 	 * 
 	 */

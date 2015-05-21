@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ihm;
+package enums;
 
 import java.awt.Image;
 

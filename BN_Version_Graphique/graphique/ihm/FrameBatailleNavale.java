@@ -1,5 +1,7 @@
 package ihm;
 
+import ihm.panels.PanelPrincipal;
+
 import javax.swing.JFrame;
 
 /**

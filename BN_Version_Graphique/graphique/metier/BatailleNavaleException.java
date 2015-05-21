@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ihm;
+package metier;
 
 public class BatailleNavaleException extends Exception {
 

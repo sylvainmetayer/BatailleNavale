@@ -1,7 +1,9 @@
 /**
  * 
  */
-package ihm;
+package ihm.panels;
+
+import ihm.composants.BoutonBN;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,6 +21,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import enums.NavireCaracteristique;
+import metier.Case;
+import metier.CoupException;
+import metier.Jeu;
+import metier.Navire;
+import metier.Plateau;
 
 /**
  * @author Sylvain METAYER - Kevin DESSIMOULIE

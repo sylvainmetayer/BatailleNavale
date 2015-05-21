@@ -1,7 +1,11 @@
 /**
  * 
  */
-package ihm;
+package ihm.panels.listeners;
+
+import ihm.composants.BoutonBN;
+import ihm.panels.PanelPlateau;
+import ihm.panels.PanelPrincipal;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -11,7 +15,9 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.CaseInsensitiveMap;
+import enums.NavireCaracteristique;
+import metier.Case;
+import metier.Navire;
 
 /**
  * @author Sylvain METAYER - Kevin DESSIMOULIE

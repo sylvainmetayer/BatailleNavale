@@ -1,12 +1,17 @@
 /**
  * 
  */
-package ihm;
+package ihm.panels;
+
+import ihm.panels.listeners.ListenerPlacementBateaux;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import metier.Jeu;
+import metier.Plateau;
 
 /**
  * @author Sylvain - Kevin

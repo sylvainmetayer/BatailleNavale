@@ -1,7 +1,10 @@
 /**
  * 
  */
-package ihm;
+package metier;
+
+import enums.Motif;
+
 
 /**
  * @author Sylvain - Kevin

@@ -1,7 +1,10 @@
 /**
  * 
  */
-package ihm;
+package ihm.panels;
+
+import ihm.composants.JtextAreaBN;
+import ihm.panels.listeners.ListenerPlacementBateaux;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -17,7 +20,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import metier.CoupException;
+import metier.Jeu;
+
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Scope;
+
+import enums.NavireCaracteristique;
 
 /**
  * @author Sylvain - Kevin
@@ -45,7 +53,7 @@ public class PanelPrincipal extends JPanel {
 	private JLabel jl_menuPrincipal;
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
-	protected static JtextAreaBN jta_message;
+	public static JtextAreaBN jta_message;
 	private JScrollPane scroller;
 
 	// Déclarations Panels
