@@ -13,8 +13,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Scope;
 
 /**
  * @author Sylvain - Kevin
@@ -23,45 +26,38 @@ import javax.swing.JTextField;
 public class PanelPrincipal extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	PanelJoueur joueur1;
-	PanelJoueur joueur2;
 
-	/*
-	 * Ci dessous, des paramètres globaux, de taille de layout, de taille de
-	 * grille, ...
-	 */
 	private final String NAMEORDI = "Ordinateur";
 	private final String DEFAULTNAME = "Joueur";
 	private final int TAILLEGRILLE = 8;
 
 	// Paramètres du jeu
-	Jeu jeu;
-	String nomJoueur = DEFAULTNAME;
+	private Jeu jeu;
+	private String nomJoueur = DEFAULTNAME;
 
 	// = this pour plus de facilité d'accès vis a vis des classe interne membres
 	private final JPanel panelPrincipal = this;
 
 	// Déclarations composants
-	JButton jb_commencerPartie;
-	JButton jb_quitterPartie;
-	JButton jb_chargerPartie;
-	JLabel jl_menuPrincipal;
+	private JButton jb_commencerPartie;
+	private JButton jb_quitterPartie;
+	private JButton jb_chargerPartie;
+	private JLabel jl_menuPrincipal;
 
-	JTextArea jta_message;
-	//
-	// JPanel jp_messageHautDivers;
-	// JPanel jp_plateauxEtScore;
-	// JPanel jp_haut;
+	// pour pouvoir éditer le contenu à partir de tous les panels
+	protected static JtextAreaBN jta_message;
+	private JScrollPane scroller;
 
 	// Déclarations Panels
 	private JPanel jp_panelCentre;
+	private PanelJoueur joueur1;
+	private PanelJoueur joueur2;
 
 	/**
 	 * Constructeur, qui va afficher le menu et permettre de charger,sauvegarder
 	 * ou lancer une partie.
 	 */
 	public PanelPrincipal() {
-
 		// instanciations composants
 		jl_menuPrincipal = new JLabel("Bataille Navale - Le jeu !");
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
@@ -86,7 +82,7 @@ public class PanelPrincipal extends JPanel {
 		// ajouts des ecouteurs.
 		jb_quitterPartie.addActionListener(new QuitterListener());
 		jb_commencerPartie.addActionListener(new LancerPartieListener());
-		// TODO ajout charger
+		// TODO ajout charger/sauvegarder
 	}
 
 	/**
@@ -106,10 +102,16 @@ public class PanelPrincipal extends JPanel {
 			e.printStackTrace();
 		}
 
-		jta_message = new JTextArea();
-		jta_message.setEditable(false);
-		jta_message.setText("Historique :\n");
-		jta_message.setText("Début du jeu..\n");
+		PanelPrincipal.jta_message = new JtextAreaBN();
+		PanelPrincipal.jta_message.setEditable(false);
+		// retour à la ligne
+		PanelPrincipal.jta_message.setLineWrap(true);
+		PanelPrincipal.jta_message.setWrapStyleWord(true);
+		PanelPrincipal.jta_message.setText("Historique :");
+		PanelPrincipal.jta_message.setText("Début du jeu..");
+
+		// scrollbar pour le jtextarea
+		scroller = new JScrollPane(jta_message);
 
 		placementBateaux(joueur1);
 
@@ -117,7 +119,9 @@ public class PanelPrincipal extends JPanel {
 
 		panelPrincipal.add(joueur1, BorderLayout.WEST);
 		panelPrincipal.add(joueur2, BorderLayout.EAST);
-		panelPrincipal.add(jta_message, BorderLayout.CENTER);
+
+		panelPrincipal.add(scroller, BorderLayout.CENTER);
+		// panelPrincipal.add(PanelPrincipal.jta_message, BorderLayout.CENTER);
 		super.revalidate();
 		super.repaint();
 
@@ -126,16 +130,25 @@ public class PanelPrincipal extends JPanel {
 	/**
 	 * Méthode pour placer les bateaux d'un joueur
 	 * 
-	 * @param jp_joueur
+	 * @param jpj_joueur
 	 */
-	private void placementBateaux(PanelJoueur jp_joueur) {
-		jta_message.append("Placement des bateaux de "
-				+ jp_joueur.getNomJoueur() + "\n");
+	private void placementBateaux(PanelJoueur jpj_joueur) {
+		PanelPrincipal.jta_message.append("Placement des bateaux de "
+				+ jpj_joueur.getNomJoueur());
+		PanelPrincipal.jta_message.append("Le placement des bateaux se fait"
+				+ " horizontalement vers la droite"
+				+ " et verticalement vers le bas.");
 
 		// blocage grille adverse
-		getMonPanelJoueur(jp_joueur, false).setEtatGrille(false);
-		getMonPanelJoueur(jp_joueur, false).setMessage("Inactif..");
+		getMonPanelJoueur(jpj_joueur, false).setEtatGrille(false);
+		getMonPanelJoueur(jpj_joueur, false).setMessage("Inactif..");
 
+		// TODO idée de généralisation à faire pour placer plusieurs bateaux
+		// test pour afficher 1 bateau de 2 cases
+		jpj_joueur
+				.setPlateauListener(new ListenerPlacementBateaux(
+						NavireCaracteristique.NAVIRESIZE2, jpj_joueur
+								.getPanelPlateau()));
 	}
 
 	/**

@@ -12,23 +12,35 @@ import javax.swing.JButton;
 public class BoutonBN extends JButton {
 
 	private static final long serialVersionUID = 1L;
-	private Case c;
+	private Case caseBouton;
 
 	public Case getCase() {
-		return c;
+		return caseBouton;
 	}
 
-	public void setC(Case c) {
-		this.c = c;
+	public void setCase(Case c) {
+		this.caseBouton = c;
 	}
 
-	public BoutonBN(Case c, String s) {
-		super(s);
-		this.c = c;
+	/**
+	 * 
+	 * @param c
+	 *            {@link Case}
+	 * @param motif
+	 *            {@link String}
+	 */
+	public BoutonBN(Case c, String motif) {
+		super(motif);
+		this.caseBouton = c;
 	}
 
 	@Override
 	public String toString() {
-		return "BOUTON" + getCase();
+		return "BOUTONBN " + getCase();
+	}
+
+	public void setMotifCase(String motif) {
+		caseBouton.setMotif(motif);
+		this.setText(motif);
 	}
 }

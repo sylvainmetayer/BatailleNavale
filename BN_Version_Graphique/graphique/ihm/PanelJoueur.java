@@ -14,12 +14,9 @@ import javax.swing.JPanel;
  */
 public class PanelJoueur extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	private PanelPlateau jp_panelPlateau;
+	private PanelPlateau jpp_panelPlateau;
 
 	// nom + score
 	private JLabel jl_detailsJoueur;
@@ -38,7 +35,7 @@ public class PanelJoueur extends JPanel {
 		this.score = 0;
 
 		// création du panel plateau
-		jp_panelPlateau = new PanelPlateau(plateau, plateau.getLongueur(), jeu);
+		jpp_panelPlateau = new PanelPlateau(plateau, plateau.getLongueur(), jeu);
 
 		jl_detailsJoueur = new JLabel(this.nomJoueur + ", votre score : "
 				+ this.score, JLabel.CENTER);
@@ -48,20 +45,44 @@ public class PanelJoueur extends JPanel {
 
 		this.add(jl_detailsJoueur, BorderLayout.NORTH);
 		this.add(jl_messageDivers, BorderLayout.SOUTH);
-		this.add(jp_panelPlateau, BorderLayout.CENTER);
+		this.add(jpp_panelPlateau, BorderLayout.CENTER);
 		repaint();
 	}
 
+	/**
+	 * Retourne le nom du joueur
+	 * 
+	 * @return
+	 */
 	public String getNomJoueur() {
 		return nomJoueur;
 	}
 
+	/**
+	 * Permet de définir l'état des boutons de la grille
+	 * 
+	 * @param enabled
+	 */
 	public void setEtatGrille(boolean enabled) {
-		jp_panelPlateau.setEtatGrille(false);
+		jpp_panelPlateau.setEtatGrille(false);
 	}
 
+	/**
+	 * Permet de modifier le message présent en bas de la grille du joueur.
+	 * 
+	 * @param message
+	 */
 	public void setMessage(String message) {
 		jl_messageDivers.setText(message);
 		repaint();
 	}
+
+	public void setPlateauListener(ListenerPlacementBateaux l) {
+		jpp_panelPlateau.setPlateauListener(l);
+	}
+
+	public PanelPlateau getPanelPlateau() {
+		return jpp_panelPlateau;
+	}
+
 }

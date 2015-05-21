@@ -4,6 +4,8 @@
 package ihm;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
@@ -18,45 +20,92 @@ public class PanelPlateau extends JPanel {
 	private Jeu jeu;
 	private Plateau plateau;
 
-	private BoutonBN[][] tableau;
+	private BoutonBN[][] tableauBoutonsBN;
 
 	public PanelPlateau(Plateau plateau, int size, Jeu jeu) {
 		this.plateau = plateau;
 		this.jeu = jeu;
-		tableau = new BoutonBN[size][size];
+		tableauBoutonsBN = new BoutonBN[size][size];
 
 		this.setLayout(new GridLayout(plateau.getLongueur(), plateau
 				.getLongueur()));
 		initPlateau();
+		tableauBoutonsBN[5][3].getCase().setMotif("e");
+		actualisation();
 		repaint();
 
 	}
 
+	/**
+	 * Méthode pour initialiser le plateau de boutons
+	 */
 	private void initPlateau() {
-		for (int i = 0; i < tableau.length; i++) {
-			for (int j = 0; j < tableau.length; j++) {
-				tableau[i][j] = new BoutonBN(plateau.getLstCases()[i][j],
+		for (int i = 0; i < tableauBoutonsBN.length; i++) {
+			for (int j = 0; j < tableauBoutonsBN.length; j++) {
+				tableauBoutonsBN[i][j] = new BoutonBN(
+						plateau.getLstCases()[i][j],
 						plateau.getLstCases()[i][j].getMotif());
-				this.add(tableau[i][j]);
+				this.add(tableauBoutonsBN[i][j]);
 			}
 		}
+		repaint();
 	}
 
-	private void actualisation() {
-		// TODO
-
+	public void actualisation() {
+		String motif;
+		for (int i = 0; i < tableauBoutonsBN.length; i++) {
+			for (int j = 0; j < tableauBoutonsBN.length; j++) {
+				motif = plateau.getLstCases()[i][j].getMotif();
+				tableauBoutonsBN[i][j].setMotifCase(motif);
+			}
+		}
+		repaint();
 	}
 
 	public void setEtatGrille(boolean enabled) {
-		for (int i = 0; i < tableau.length; i++) {
-			for (int j = 0; j < tableau.length; j++) {
+		for (int i = 0; i < tableauBoutonsBN.length; i++) {
+			for (int j = 0; j < tableauBoutonsBN.length; j++) {
 				if (enabled)
-					tableau[i][j].setEnabled(true);
+					tableauBoutonsBN[i][j].setEnabled(true);
 				else
-					tableau[i][j].setEnabled(false);
+					tableauBoutonsBN[i][j].setEnabled(false);
 			}
 		}
 
+	}
+
+	/**
+	 * Permet d'ajouter un listener sur tous les boutons du plateau. <br>
+	 * Cette méthode retire tous les listener précemment ajouté
+	 * 
+	 * @param l
+	 *            {@link ListenerPlacementBateaux}
+	 */
+	public void setPlateauListener(ListenerPlacementBateaux l) {
+		for (int i = 0; i < tableauBoutonsBN.length; i++) {
+			for (int j = 0; j < tableauBoutonsBN.length; j++) {
+
+				// on retire les anciens listeners
+				for (ActionListener tmp : tableauBoutonsBN[i][j]
+						.getActionListeners()) {
+					tableauBoutonsBN[i][j].removeActionListener(tmp);
+				}
+
+				tableauBoutonsBN[i][j].addActionListener(l);
+			}
+		}
+	}
+
+	public Plateau getPlateau() {
+		return plateau;
+	}
+
+	public BoutonBN[][] getTableauBoutonsBN() {
+		return tableauBoutonsBN;
+	}
+
+	public void setTableauBoutonsBN(int x, int y, BoutonBN bouton) {
+		this.tableauBoutonsBN[x][y] = bouton;
 	}
 
 }
