@@ -22,7 +22,8 @@ public class FrameBatailleNavale extends JFrame {
 		this.setLocationRelativeTo(null);
 
 		// ajout du panel
-		this.setContentPane(new PanelBatailleNavale());
+		this.setContentPane(new PanelPrincipal());
+		//this.setContentPane(new PanelBatailleNavale());
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
