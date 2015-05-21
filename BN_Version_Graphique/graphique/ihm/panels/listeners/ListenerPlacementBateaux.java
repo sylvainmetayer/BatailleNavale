@@ -53,10 +53,19 @@ public class ListenerPlacementBateaux implements ActionListener {
 		orientation = popupChoixOrientation();
 
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
-		int tmp, y, x;
+		int tmp = 0, y, x;
 		x = caseDebut.getCase().getPosx();
 		y = caseDebut.getCase().getPosy() - 1;
-		tmp = y;
+
+		if (orientation == 0) {
+			// HORIZONTAL
+			tmp = y;
+		}
+
+		if (orientation == 1) {
+			// VERTICAL
+			tmp = x;
+		}
 		PanelPrincipal.jta_message.append(caseDebut.toString());
 		PanelPrincipal.jta_message.append(Integer.toString(tmp) + ", +1 :"
 				+ Integer.toString(tmp + 1));
@@ -68,7 +77,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 				if (jpp_plateau.getPlateau().isCollisionPlacement(x, tmp)) {
 					PanelPrincipal.jta_message
 							.append("Erreur, collision.\nRecommencer svp.");
-					PanelPrincipal.jta_message.setForeground(Color.RED);
 					// erreur = true;
 					// TODO gestion erreur
 				} else {
@@ -88,9 +96,43 @@ public class ListenerPlacementBateaux implements ActionListener {
 
 				}
 
-				// lstCase.add(new Case(x, tmp, false,
-				// NavireCaracteristique.NAVIRESIZE2.getMotif()));
 				tmp = y + 1;
+			}
+			jpp_plateau.getPlateau().ajouterNavire(
+					new Navire(ListenerPlacementBateaux.idNavire, navireDetails
+							.getTaille(), caseOccupeParBateau, false,
+							navireDetails.getValeurScore()));
+			ListenerPlacementBateaux.incrementerIdNavire();
+
+		}
+
+		if (orientation == 1) {
+			// VERTICAL
+			for (int i = 0; i < navireDetails.getTaille(); i++) {
+
+				if (jpp_plateau.getPlateau().isCollisionPlacement(tmp, y)) {
+					PanelPrincipal.jta_message
+							.append("Erreur, collision.\nRecommencer svp.");
+				} else {
+
+					// on recupère le bouton correspondant
+					// y+1 règle le problème de décalage de colonne, mais cela
+					// n'est pas normal. A fixer TODO
+					temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
+
+					// on ajoute la case de ce bouton a la liste de case occupee
+					caseOccupeParBateau.add(temporaire.getCase());
+
+					PanelPrincipal.jta_message.append(temporaire.toString());
+
+					// on modifie son texte et le motif de sa case
+					temporaire.setText(navireDetails.getMotif());
+					// on remplace le bouton modifié par ce dernier
+					jpp_plateau.setTableauBoutonsBN(tmp, y, temporaire);
+
+				}
+
+				tmp = x + 1;
 			}
 			jpp_plateau.getPlateau().ajouterNavire(
 					new Navire(ListenerPlacementBateaux.idNavire, navireDetails
