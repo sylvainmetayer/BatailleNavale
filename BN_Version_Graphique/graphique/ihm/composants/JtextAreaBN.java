@@ -3,8 +3,6 @@
  */
 package ihm.composants;
 
-import java.awt.Color;
-
 import javax.swing.JTextArea;
 
 /**

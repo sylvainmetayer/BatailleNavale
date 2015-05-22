@@ -4,8 +4,6 @@
 package ihm.panels;
 
 import ihm.composants.BoutonBN;
-import ihm.panels.listeners.ListenerPlacementBateaux;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 

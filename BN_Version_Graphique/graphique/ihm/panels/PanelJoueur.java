@@ -3,8 +3,6 @@
  */
 package ihm.panels;
 
-import ihm.panels.listeners.ListenerPlacementBateaux;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
