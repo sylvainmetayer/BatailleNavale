@@ -48,8 +48,11 @@ public class ListenerPlacementBateaux implements ActionListener {
 	private PanelPrincipal jpp_principal;
 	private PanelJoueur jpj_joueur;
 
-	// 0 = horizontal vers la droite
-	// 1 = vertical vers le bas
+	/**
+	 * Valeur possibles :<br>
+	 * 1 : placement vertical (vers le bas)<br>
+	 * 0 : placement horizontal (vers la droite)
+	 */
 	private int orientation;
 
 	private int navireNumero;
@@ -60,8 +63,8 @@ public class ListenerPlacementBateaux implements ActionListener {
 		this.navireDetails = navireDetails;
 		this.jpp_principal = jpp_principal;
 
-		// par défaut, on considère que l'utilisateur ne se trompe pas.
-		navireValide = true;
+		navireValide = true; // on considère que l'utilisateur ne se trompe pas.
+		finAjout = false; // on considère que c'est ne pas la fin de l'ajout
 
 		this.jpj_joueur = jpj_joueur;
 
@@ -71,225 +74,127 @@ public class ListenerPlacementBateaux implements ActionListener {
 		// on récupère le numéro du bateau
 		navireNumero = navireDetails.getNumeroBateau();
 
-		finAjout = false;
 	}
 
-	// TODO gestion erreur x et y.
-	// Gestion bateau ajouté à la gauche au lieu de vers la droite.
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		caseDebut = ((BoutonBN) e.getSource());
 		orientation = popupChoixOrientation();
 
-		// initialisation des variables.
+		if (orientation == 0) {
+			placementBateaux(true, e);
+		}
+
+		if (orientation == 1) {
+			placementBateaux(false, e);
+		}
+	}
+
+	private void placementBateaux(boolean isPlacementHorizontal, ActionEvent e) {
+
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
 		int tmp = 0, y, x;
+		boolean collision;
+
+		caseDebut = ((BoutonBN) e.getSource());
 		x = caseDebut.getCase().getPosx();
 		y = caseDebut.getCase().getPosy() - 1;
 
-		if (orientation == 0) {
-			// HORIZONTAL
+		if (isPlacementHorizontal)
 			tmp = y;
-		}
-
-		if (orientation == 1) {
-			// VERTICAL
+		else
 			tmp = x;
-		}
 
-		if (orientation == 0) {
-			// HORIZONTAL
-			for (int i = 0; i < navireDetails.getTaille(); i++) {
-
-				if (navireValide == true) {
-
-					if (jpp_plateau.getPlateau().isCollisionPlacement(x, tmp)) {
-						PanelPrincipal.jta_message
-								.append("Erreur, collision.\nRecommencer svp.");
-						navireValide = false;
-					} else {
-
-						// on recupère le bouton correspondant
-						temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
-
-						// on modifie le motif de la case associée
-						temporaire.setMotifCaseUniquement(navireDetails
-								.getMotif());
-
-						// Ajout de la case a la liste de case occupee
-						caseOccupeParBateau.add(temporaire.getCase());
-
-						// on remplace le bouton modifié par ce dernier
-						jpp_plateau.setTableauBoutonsBN(x, tmp, temporaire);
-
-					}
-
-					tmp = y + 1;
-
-				}
-			}
-
+		System.out.println(navireDetails.getTaille()); // TODO erase
+		for (int i = 0; i < navireDetails.getTaille(); i++) {
+			System.out.println(navireValide); // TODO erase
 			if (navireValide == true) {
 
-				// le navire est valide et n'a pas de collision, on l'ajoute
-				jpp_plateau.getPlateau().ajouterNavire(
-						new Navire(ListenerPlacementBateaux.idNavire,
-								navireDetails.getTaille(), caseOccupeParBateau,
-								false, navireDetails.getValeurScore()));
-				// on incrémente l'id pour le navire suivant
-				ListenerPlacementBateaux.incrementerIdNavire();
-			}
+				if (isPlacementHorizontal)
+					collision = jpp_plateau.getPlateau().isCollisionPlacement(
+							x, tmp);
+				else
+					collision = jpp_plateau.getPlateau().isCollisionPlacement(
+							tmp, x);
 
-			if (navireValide == true) {
-
-				ListenerPlacementBateaux.incrementerAjoutNavire();
-				navireNumero++;
-
-				if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
-					// on a fini de placer les bateaux pour les deux joueurs
-					jpp_principal.debutPartie();
+				if (collision) {
+					PanelPrincipal.jta_message
+							.append("Erreur, collision.\nRecommencer svp.");
+					navireValide = false;
 				} else {
-					// on ajoute le navire suivant.
-					if (navireNumero >= NavireCaracteristique.values().length) {
-						// on vient d'ajouter le dernier navire
-						finAjout = true;
-						navireNumero--;
-						// pour éviter collision avec navireCaractéristiques
-					}
 
-					jpp_principal.placementBateaux(jpj_joueur,
-							NavireCaracteristique.values()[navireNumero],
-							finAjout);
-
-				}
-
-			} else {
-				// on remet le listener pour ajouter le même bateau avec un
-				// message d'erreurs
-				PanelPrincipal.jta_message
-						.append("Merci de rajouter à nouveau le "
-								+ navireDetails.getNom());
-				jpp_principal.placementBateaux(jpj_joueur, navireDetails,
-						finAjout);
-			}
-
-			// on actualise le plateau.
-			jpp_plateau.actualisation();
-
-		}
-
-		if (orientation == 1) {
-			// VERTICAL
-			for (int i = 0; i < navireDetails.getTaille(); i++) {
-
-				if (navireValide == true) {
-
-					if (jpp_plateau.getPlateau().isCollisionPlacement(tmp, x)) {
-						PanelPrincipal.jta_message
-								.append("Erreur, collision.\nRecommencer svp.");
-						navireValide = false;
-					} else {
-
-						// on recupère le bouton correspondant
+					// on recupère le bouton correspondant
+					if (isPlacementHorizontal)
+						temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
+					else
 						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][x];
 
-						// on modifie le motif de la case associée
-						temporaire.setMotifCaseUniquement(navireDetails
-								.getMotif());
+					System.out.println(temporaire); // TODO erase
 
-						// Ajout de la case a la liste de case occupee
-						caseOccupeParBateau.add(temporaire.getCase());
+					// on modifie le motif de la case associée
+					temporaire.setMotifCaseUniquement(navireDetails.getMotif());
 
-						// on remplace le bouton modifié par ce dernier
+					// Ajout de la case a la liste de case occupee
+					caseOccupeParBateau.add(temporaire.getCase());
+
+					// on remplace le bouton modifié par ce dernier
+					if (isPlacementHorizontal)
 						jpp_plateau.setTableauBoutonsBN(x, tmp, temporaire);
+					else
+						jpp_plateau.setTableauBoutonsBN(tmp, x, temporaire);
 
-					}
+				}
 
+				if (isPlacementHorizontal)
+					tmp = y + 1;
+				else
 					tmp = x + 1;
 
-				}
 			}
-
-			if (navireValide == true) {
-
-				// le navire est valide et n'a pas de collision, on l'ajoute
-				jpp_plateau.getPlateau().ajouterNavire(
-						new Navire(ListenerPlacementBateaux.idNavire,
-								navireDetails.getTaille(), caseOccupeParBateau,
-								false, navireDetails.getValeurScore()));
-				// on incrémente l'id pour le navire suivant
-				ListenerPlacementBateaux.incrementerIdNavire();
-			}
-
-			if (navireValide == true) {
-
-				ListenerPlacementBateaux.incrementerAjoutNavire();
-				navireNumero++;
-
-				if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
-					// on a fini de placer les bateaux pour les deux joueurs
-					jpp_principal.debutPartie();
-				} else {
-					// on ajoute le navire suivant.
-					if (navireNumero >= NavireCaracteristique.values().length) {
-						// on vient d'ajouter le dernier navire
-						finAjout = true;
-						navireNumero--;
-						// pour éviter collision avec navireCaractéristiques
-					}
-
-					jpp_principal.placementBateaux(jpj_joueur,
-							NavireCaracteristique.values()[navireNumero],
-							finAjout);
-
-				}
-
-			} else {
-				// on remet le listener pour ajouter le même bateau avec un
-				// message d'erreurs
-				PanelPrincipal.jta_message
-						.append("Merci de rajouter à nouveau le "
-								+ navireDetails.getNom());
-				jpp_principal.placementBateaux(jpj_joueur, navireDetails,
-						finAjout);
-			}
-
-			// on actualise le plateau.
-			jpp_plateau.actualisation();
-
 		}
 
-		/*
-		 * if (orientation == 1) { // VERTICAL for (int i = 0; i <
-		 * navireDetails.getTaille(); i++) {
-		 * 
-		 * if (jpp_plateau.getPlateau().isCollisionPlacement(tmp, y)) {
-		 * PanelPrincipal.jta_message
-		 * .append("Erreur, collision.\nRecommencer svp."); } else {
-		 * 
-		 * // on recupère le bouton correspondant // y+1 règle le problème de
-		 * décalage de colonne, mais cela // n'est pas normal. A fixer TODO
-		 * temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
-		 * 
-		 * // on ajoute la case de ce bouton a la liste de case occupee
-		 * caseOccupeParBateau.add(temporaire.getCase());
-		 * 
-		 * // on modifie son texte et le motif de sa case
-		 * temporaire.setText(navireDetails.getMotif()); // on remplace le
-		 * bouton modifié par ce dernier jpp_plateau.setTableauBoutonsBN(tmp, y,
-		 * temporaire);
-		 * 
-		 * }
-		 * 
-		 * tmp = x + 1; } jpp_plateau.getPlateau().ajouterNavire( new
-		 * Navire(ListenerPlacementBateaux.idNavire, navireDetails .getTaille(),
-		 * caseOccupeParBateau, false, navireDetails.getValeurScore()));
-		 * ListenerPlacementBateaux.incrementerIdNavire();
-		 * 
-		 * }
-		 */
+		if (navireValide == true) {
 
+			// le navire est valide et n'a pas de collision, on l'ajoute
+			jpp_plateau.getPlateau().ajouterNavire(
+					new Navire(ListenerPlacementBateaux.idNavire, navireDetails
+							.getTaille(), caseOccupeParBateau, false,
+							navireDetails.getValeurScore()));
+			// on incrémente l'id pour le navire suivant
+			ListenerPlacementBateaux.incrementerIdNavire();
+		}
+
+		if (navireValide == true) {
+
+			ListenerPlacementBateaux.incrementerAjoutNavire();
+			navireNumero++;
+
+			if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
+				// on a fini de placer les bateaux pour les deux joueurs
+				jpp_principal.debutPartie();
+			} else {
+				// on ajoute le navire suivant.
+				if (navireNumero >= NavireCaracteristique.values().length) {
+					// on vient d'ajouter le dernier navire
+					finAjout = true;
+					navireNumero--;
+					// pour éviter collision avec navireCaractéristiques
+				}
+
+				jpp_principal.placementBateaux(jpj_joueur,
+						NavireCaracteristique.values()[navireNumero], finAjout);
+
+			}
+
+		} else {
+			// on remet le listener pour ajouter le même bateau avec un
+			// message d'erreurs
+			PanelPrincipal.jta_message.append("Merci de rajouter à nouveau le "
+					+ navireDetails.getNom());
+			jpp_principal.placementBateaux(jpj_joueur, navireDetails, finAjout);
+		}
+
+		// on actualise le plateau.
+		jpp_plateau.actualisation();
 	}
 
 	private int popupChoixOrientation() {
