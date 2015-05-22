@@ -8,7 +8,6 @@ import ihm.panels.listeners.ListenerPlacementBateaux;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,13 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import metier.CoupException;
 import metier.Jeu;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Scope;
 
 import enums.NavireCaracteristique;
 
@@ -99,7 +95,7 @@ public class PanelPrincipal extends JPanel {
 	 * les deux joueurs. <br>
 	 * Ensuite, on effectue le placement des bateaux.
 	 */
-	private void StartGame() {
+	private void initGame() {
 		try {
 			jeu = new Jeu(TAILLEGRILLE, TAILLEGRILLE, nomJoueur);
 			// On crée les deux panels de jeu.
@@ -121,8 +117,6 @@ public class PanelPrincipal extends JPanel {
 		// scrollbar pour le jtextarea
 		scroller = new JScrollPane(jta_message);
 
-		placementBateaux(joueur1);
-
 		panelPrincipal.setLayout(new BorderLayout());
 
 		panelPrincipal.add(joueur1, BorderLayout.WEST);
@@ -130,9 +124,10 @@ public class PanelPrincipal extends JPanel {
 
 		panelPrincipal.add(scroller, BorderLayout.CENTER);
 		// panelPrincipal.add(PanelPrincipal.jta_message, BorderLayout.CENTER);
+
 		super.revalidate();
 		super.repaint();
-
+		placementBateaux(joueur1, NavireCaracteristique.NAVIRESIZE2, false);
 	}
 
 	/**
@@ -140,24 +135,55 @@ public class PanelPrincipal extends JPanel {
 	 * 
 	 * @param jpj_joueur
 	 */
-	private void placementBateaux(PanelJoueur jpj_joueur) {
-		PanelPrincipal.jta_message.append("Placement des bateaux de "
-				+ jpj_joueur.getNomJoueur());
-		PanelPrincipal.jta_message.append("Le placement des bateaux se fait"
-				+ " horizontalement vers la droite"
-				+ " et verticalement vers le bas.");
+	public void placementBateaux(PanelJoueur jpj_joueur,
+			NavireCaracteristique navireDetails, boolean finPlacement) {
+		String message;
 
-		// blocage grille adverse
-		getMonPanelJoueur(jpj_joueur, false).setEtatGrille(false);
-		getMonPanelJoueur(jpj_joueur, false).setMessage("Inactif..");
+		repaint();
+		if (!finPlacement) {
+			//
+			// message = "Placement des bateaux de " +
+			// jpj_joueur.getNomJoueur();
+			// PanelPrincipal.jta_message.append(message.toUpperCase());
 
-		// TODO idée de généralisation à faire pour placer plusieurs bateaux
-		// test pour afficher 1 bateau de 2 cases
-		jpj_joueur
-				.setPlateauListener(new ListenerPlacementBateaux(
-						NavireCaracteristique.NAVIRESIZE2, jpj_joueur
-								.getPanelPlateau()));
+			// blocage grille adverse
+			getMonPanelJoueur(jpj_joueur, false).setEtatGrille(false);
+			getMonPanelJoueur(jpj_joueur, false).setMessage(
+					"Inactif..".toUpperCase());
+
+			// déblocage ma grille
+			getMonPanelJoueur(jpj_joueur, true).setEtatGrille(true);
+			getMonPanelJoueur(jpj_joueur, true).setMessage(
+					"Placement des bateaux en cours..".toUpperCase());
+
+			PanelPrincipal.jta_message.append("Placement du "
+					+ navireDetails.getNom());
+
+			jpj_joueur.setPlateauListener(new ListenerPlacementBateaux(
+					navireDetails, this, jpj_joueur));
+
+			repaint();
+
+		} else {
+			// Fin de l'ajout des boutons pour un joueur, on place donc les
+			// bateaux de l'autre
+			message = jpj_joueur.getNomJoueur()
+					+ " a fini de placer ses bateaux.";
+			jta_message.append(message.toUpperCase());
+
+			message = getMonPanelJoueur(jpj_joueur, false).getNomJoueur()
+					+ ", c'est à toi !";
+			jta_message.append(message.toUpperCase());
+			placementBateaux(getMonPanelJoueur(jpj_joueur, false),
+					NavireCaracteristique.NAVIRESIZE2, false);
+		}
 	}
+
+	// Placement simple
+	// jpj_joueur
+	// .setPlateauListener(new ListenerPlacementBateaux(
+	// NavireCaracteristique.NAVIRESIZE2, jpj_joueur
+	// .getPanelPlateau()));
 
 	/**
 	 * Permet de recupérer n'importe quel panel de joueur. <br>
@@ -183,6 +209,14 @@ public class PanelPrincipal extends JPanel {
 			else
 				return joueur1;
 		return null;
+	}
+
+	public PanelJoueur getPanelJoueurUn() {
+		return joueur1;
+	}
+
+	public PanelJoueur getPanelJoueurDeux() {
+		return joueur2;
 	}
 
 	/**
@@ -220,7 +254,7 @@ public class PanelPrincipal extends JPanel {
 			}
 
 			// on démarre la partie.
-			StartGame();
+			initGame();
 		}
 	}
 
@@ -246,4 +280,14 @@ public class PanelPrincipal extends JPanel {
 		}
 
 	}
+
+	public void debutPartie() {
+		jta_message.clearJTextArea();
+		jta_message.append("Fin de placement des bateaux...\n "
+				+ "Début de la guerre !".toUpperCase());
+		joueur1.setEtatGrille(false);
+		joueur2.setEtatGrille(false);
+
+	}
+
 }

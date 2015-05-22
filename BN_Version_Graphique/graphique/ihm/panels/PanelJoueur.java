@@ -69,7 +69,7 @@ public class PanelJoueur extends JPanel {
 	 * @param enabled
 	 */
 	public void setEtatGrille(boolean enabled) {
-		jpp_panelPlateau.setEtatGrille(false);
+		jpp_panelPlateau.setEtatGrille(enabled);
 	}
 
 	/**

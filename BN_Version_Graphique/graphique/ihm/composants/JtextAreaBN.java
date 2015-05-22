@@ -13,15 +13,10 @@ import javax.swing.JTextArea;
  */
 public class JtextAreaBN extends JTextArea {
 
-	// private final int LIMITE = 15;
-
-	// private int compteur;
-
 	private static final long serialVersionUID = 1L;
 
 	public JtextAreaBN() {
 		super();
-		// compteur = 0;
 	}
 
 	@Override
@@ -33,15 +28,14 @@ public class JtextAreaBN extends JTextArea {
 
 	@Override
 	public void append(String message) {
-		// if (compteur > LIMITE) {
-		// super.setText("");
-		// compteur = 0;
-		// }
-		// compteur++;
 
 		super.append(message + "\n\n");
 		this.setCaretPosition(this.getDocument().getLength());
 
+	}
+
+	public void clearJTextArea() {
+		super.setText("");
 	}
 
 }

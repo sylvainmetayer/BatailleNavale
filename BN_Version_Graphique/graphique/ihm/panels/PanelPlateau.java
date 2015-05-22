@@ -62,7 +62,7 @@ public class PanelPlateau extends JPanel {
 		for (int i = 0; i < tableauBoutonsBN.length; i++) {
 			for (int j = 0; j < tableauBoutonsBN.length; j++) {
 				motif = plateau.getLstCases()[i][j].getMotif();
-				tableauBoutonsBN[i][j].setMotifCase(motif);
+				tableauBoutonsBN[i][j].setMotifCaseEtPlateau(motif);
 			}
 		}
 		repaint();
