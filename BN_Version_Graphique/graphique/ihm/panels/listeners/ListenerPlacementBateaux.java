@@ -113,15 +113,12 @@ public class ListenerPlacementBateaux implements ActionListener {
 			if (navireValide == true) {
 
 				if (isPlacementHorizontal)
-					collision = jpp_plateau.getPlateau().isCollisionPlacement(
-							x, tmp);
+					collision = jpp_plateau.getPlateau().isCollisionPlacement(x, tmp);
 				else
-					collision = jpp_plateau.getPlateau().isCollisionPlacement(
-							tmp, x);
+					collision = jpp_plateau.getPlateau().isCollisionPlacement(tmp, y);
 
 				if (collision) {
-					PanelPrincipal.jta_message
-							.append("Erreur, collision.\nRecommencer svp.");
+					PanelPrincipal.jta_message.append("Erreur, collision.\nRecommencer svp.");
 					navireValide = false;
 				} else {
 
@@ -129,7 +126,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 					if (isPlacementHorizontal)
 						temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
 					else
-						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][x];
+						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
 					// on modifie le motif de la case associée
 					temporaire.setMotifCaseUniquement(navireDetails.getMotif());
@@ -137,12 +134,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 					caseBoutons.add(temporaire);
 
 				}
-
-				if (isPlacementHorizontal)
-					tmp = y + 1;
-				else
-					tmp = x + 1;
-
+				tmp++;
 			}
 		}
 
@@ -188,8 +180,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 		} else {
 			// on remet le listener pour ajouter le même bateau avec un
 			// message d'erreurs
-			PanelPrincipal.jta_message.append("Merci de rajouter à nouveau le "
-					+ navireDetails.getNom());
+			PanelPrincipal.jta_message.append("Merci de rajouter à nouveau le " + navireDetails.getNom());
 			jpp_principal.placementBateaux(jpj_joueur, navireDetails, finAjout);
 		}
 
