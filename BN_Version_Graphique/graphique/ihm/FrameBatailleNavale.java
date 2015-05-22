@@ -5,6 +5,8 @@ import ihm.panels.PanelPrincipal;
 import javax.swing.JFrame;
 
 /**
+ * Cette classe est la fenetre de l'application
+ * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
@@ -14,24 +16,21 @@ public class FrameBatailleNavale extends JFrame {
 	private static final int LARGEUR = 600;
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructeur qui instancie une nouvelle fenetre et ajoute le panel
+	 * {@link PanelPrincipal}
+	 */
 	public FrameBatailleNavale() {
-		this.setTitle("Bataille Navale");
-		// this.setAlwaysOnTop(isAlwaysOnTopSupported());
-		// ne pas mettre pour le moment, car gène les popups
+		this.setTitle("Jeu de la bataille navale");
 		this.setSize(LONGUEUR, LARGEUR);
+		this.setLocationRelativeTo(null);
+		this.setContentPane(new PanelPrincipal());
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		// this.setResizable(false);
 		// tant qu'il y a des problèmes de repaint, ne pas mettre
-		this.setLocationRelativeTo(null);
 
-		// ajout du panel
-		this.setContentPane(new PanelPrincipal());
-		//this.setContentPane(new PanelBatailleNavale());
-
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		// TODO demander confirmation
+		// TODO demander confirmation avant sortie
 		this.setVisible(true);
-		this.getContentPane().validate();
-		this.getContentPane().repaint();
 	}
 }

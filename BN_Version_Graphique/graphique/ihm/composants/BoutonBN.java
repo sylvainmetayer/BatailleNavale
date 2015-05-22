@@ -10,23 +10,44 @@ import javax.swing.JButton;
 import metier.Case;
 
 /**
- * @author Sylvain - Kevin
+ * Classe qui etend le comportement d'un bouton. <br>
+ * Cette classe contient une case afin de faciliter la gestion evenementielle.
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
 public class BoutonBN extends JButton {
 
+	@Override
+	public String toString() {
+		return "BOUTONBN " + getCase();
+	}
+
 	private static final long serialVersionUID = 1L;
 	private Case caseBouton;
 
+	/**
+	 * Retourne la case contenue dans le bouton
+	 * 
+	 * @return {@link Case}
+	 */
 	public Case getCase() {
 		return caseBouton;
 	}
 
+	/**
+	 * Permet d'affecter une nouvelle case au bouton. <br>
+	 * Ne devrait pas être utilisé après l'initialisation du jeu...
+	 * 
+	 * @param c
+	 *            {@link Case}
+	 */
 	public void setCase(Case c) {
 		this.caseBouton = c;
 	}
 
 	/**
+	 * Constructeur permetttant d'instancier un nouveau {@link BoutonBN}
 	 * 
 	 * @param c
 	 *            {@link Case}
@@ -38,17 +59,15 @@ public class BoutonBN extends JButton {
 		this.caseBouton = c;
 	}
 
-	@Override
-	public String toString() {
-		return "BOUTONBN " + getCase();
-	}
-
 	/**
-	 * Met à jour le motif de la case et le texte du motif. <br>
-	 * Non recommandé, car n'a aucune interaction avec le plateau. <br>
+	 * <b>Cette méthode ne devrait etre utilisee que par
+	 * {@link PanelPlateau#actualisation()}<b> Met à jour le motif de la case et
+	 * le texte du motif. <br>
+	 * Elle n'est pas recommandé pour d'autres méthodes, car elle n'a aucune
+	 * interaction avec le plateau métier. <br>
 	 * Il vaut mieux utiliser {@link BoutonBN#setMotifCaseUniquement(String)} et
 	 * {@link PanelPlateau#actualisation()} afin de garantir une interaction
-	 * avec le plateau.
+	 * avec le plateau. <br>
 	 * 
 	 * @param motif
 	 * @see PanelPlateau#actualisation()

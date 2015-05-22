@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ihm.panels;
+package todelete;
 
 import ihm.composants.BoutonBN;
 

@@ -29,7 +29,7 @@ public enum Motif {
 		}
 	}
 
-	// Pour le graphique ?
+	// TODO gérer le renvoi d'une image pour l'interface graphique
 	public Image toImage() {
 		return null;
 

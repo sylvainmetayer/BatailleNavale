@@ -7,7 +7,6 @@ import ihm.composants.BoutonBN;
 import ihm.panels.listeners.ListenerPlacementBateaux;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
@@ -16,6 +15,11 @@ import metier.Jeu;
 import metier.Plateau;
 
 /**
+ * Cette classe étend le comportement d'un {@link JPanel} pour permettre de
+ * représenter un {@link Plateau} graphiquement <br>
+ * Un tableau de {@link BoutonBN} est associé au plateau afin de pouvoir les
+ * manipuler plus facilement
+ * 
  * @author Sylvain - Kevin
  *
  */
@@ -23,11 +27,22 @@ public class PanelPlateau extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
 	private Jeu jeu;
 	private Plateau plateau;
 
 	private BoutonBN[][] tableauBoutonsBN;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param plateau
+	 *            {@link Plateau}
+	 * @param size
+	 *            {@link Integer}
+	 * @param jeu
+	 *            {@link Jeu}
+	 */
 	public PanelPlateau(Plateau plateau, int size, Jeu jeu) {
 		this.plateau = plateau;
 		this.jeu = jeu;
@@ -36,7 +51,8 @@ public class PanelPlateau extends JPanel {
 		this.setLayout(new GridLayout(plateau.getLongueur(), plateau
 				.getLongueur()));
 		initPlateau();
-		tableauBoutonsBN[5][3].getCase().setMotif("e");
+
+		// tableauBoutonsBN[5][3].getCase().setMotif("e");
 		actualisation();
 		repaint();
 
@@ -57,6 +73,11 @@ public class PanelPlateau extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Permet d'acualiser le plateau de bouton en récupérant les motifs des
+	 * cases du plateaux.
+	 */
+	@SuppressWarnings("deprecation")
 	public void actualisation() {
 		String motif;
 		for (int i = 0; i < tableauBoutonsBN.length; i++) {
@@ -68,6 +89,12 @@ public class PanelPlateau extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Permet d'activer ou de désactiver la grille de bouton
+	 * 
+	 * @param enabled
+	 *            {@link Boolean}
+	 */
 	public void setEtatGrille(boolean enabled) {
 		for (int i = 0; i < tableauBoutonsBN.length; i++) {
 			for (int j = 0; j < tableauBoutonsBN.length; j++) {
@@ -85,9 +112,9 @@ public class PanelPlateau extends JPanel {
 	 * Cette méthode retire tous les listener précemment ajouté
 	 * 
 	 * @param l
-	 *            {@link ListenerPlacementBateaux}
+	 *            {@link ActionListener}
 	 */
-	public void setPlateauListener(ListenerPlacementBateaux l) {
+	public void setPlateauListener(ActionListener l) {
 		for (int i = 0; i < tableauBoutonsBN.length; i++) {
 			for (int j = 0; j < tableauBoutonsBN.length; j++) {
 
@@ -102,14 +129,34 @@ public class PanelPlateau extends JPanel {
 		}
 	}
 
+	/**
+	 * Retourne le plateau du joueur
+	 * 
+	 * @return {@link Plateau}
+	 */
 	public Plateau getPlateau() {
 		return plateau;
 	}
 
+	/**
+	 * Retourne le tableau de {@link BoutonBN} du {@link PanelPlateau}
+	 * 
+	 * @return {@link BoutonBN}[][]
+	 */
 	public BoutonBN[][] getTableauBoutonsBN() {
 		return tableauBoutonsBN;
 	}
 
+	/**
+	 * Permet de modifier un {@link BoutonBN} à une position x et y donnée
+	 * 
+	 * @param x
+	 *            {@link Integer}
+	 * @param y
+	 *            {@link Integer}
+	 * @param bouton
+	 *            {@link BoutonBN}
+	 */
 	public void setTableauBoutonsBN(int x, int y, BoutonBN bouton) {
 		this.tableauBoutonsBN[x][y] = bouton;
 	}

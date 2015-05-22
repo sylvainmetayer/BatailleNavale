@@ -72,7 +72,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 		jpp_plateau = jpj_joueur.getPanelPlateau();
 
 		// on récupère le numéro du bateau
-		navireNumero = navireDetails.getNumeroBateau();
+		navireNumero = navireDetails.getNumeroNavire();
 
 	}
 
@@ -91,22 +91,25 @@ public class ListenerPlacementBateaux implements ActionListener {
 
 	private void placementBateaux(boolean isPlacementHorizontal, ActionEvent e) {
 
+		// TODO catcher les indexboundexception pour gérer les erreur hors
+		// plateau
+
+		List<BoutonBN> caseBoutons = new ArrayList<BoutonBN>();
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
 		int tmp = 0, y, x;
 		boolean collision;
 
-		caseDebut = ((BoutonBN) e.getSource());
+		caseDebut = ((BoutonBN) e.getSource()); // sert uniquement à récupérer
+												// les coordonnées de départ
 		x = caseDebut.getCase().getPosx();
-		y = caseDebut.getCase().getPosy() - 1;
+		y = caseDebut.getCase().getPosy();
 
 		if (isPlacementHorizontal)
 			tmp = y;
 		else
 			tmp = x;
 
-		System.out.println(navireDetails.getTaille()); // TODO erase
 		for (int i = 0; i < navireDetails.getTaille(); i++) {
-			System.out.println(navireValide); // TODO erase
 			if (navireValide == true) {
 
 				if (isPlacementHorizontal)
@@ -128,19 +131,10 @@ public class ListenerPlacementBateaux implements ActionListener {
 					else
 						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][x];
 
-					System.out.println(temporaire); // TODO erase
-
 					// on modifie le motif de la case associée
 					temporaire.setMotifCaseUniquement(navireDetails.getMotif());
 
-					// Ajout de la case a la liste de case occupee
-					caseOccupeParBateau.add(temporaire.getCase());
-
-					// on remplace le bouton modifié par ce dernier
-					if (isPlacementHorizontal)
-						jpp_plateau.setTableauBoutonsBN(x, tmp, temporaire);
-					else
-						jpp_plateau.setTableauBoutonsBN(tmp, x, temporaire);
+					caseBoutons.add(temporaire);
 
 				}
 
@@ -153,8 +147,14 @@ public class ListenerPlacementBateaux implements ActionListener {
 		}
 
 		if (navireValide == true) {
-
 			// le navire est valide et n'a pas de collision, on l'ajoute
+
+			for (BoutonBN b : caseBoutons) {
+				caseOccupeParBateau.add(b.getCase());
+				// jpp_plateau.setTableauBoutonsBN(b.getCase().getPosx(),
+				// b.getCase().getPosy(), b);
+			}
+
 			jpp_plateau.getPlateau().ajouterNavire(
 					new Navire(ListenerPlacementBateaux.idNavire, navireDetails
 							.getTaille(), caseOccupeParBateau, false,

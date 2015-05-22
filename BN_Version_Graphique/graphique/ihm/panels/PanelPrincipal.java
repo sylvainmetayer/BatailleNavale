@@ -20,10 +20,12 @@ import javax.swing.JTextField;
 
 import metier.CoupException;
 import metier.Jeu;
-
 import enums.NavireCaracteristique;
 
 /**
+ * Cette classe étend un {@link JPanel} et représente le jeu. Il s'agit du panel
+ * principal qui appelle et interagi avec les autres panels
+ * 
  * @author Sylvain - Kevin
  *
  */
@@ -131,9 +133,16 @@ public class PanelPrincipal extends JPanel {
 	}
 
 	/**
-	 * Méthode pour placer les bateaux d'un joueur
+	 * Méthode pour placer les bateaux des deux joueurs. Une fois les bateaux
+	 * placés, cette méthode appelle {@link PanelPrincipal#debutPartie()} pour
+	 * commencer le jeu
 	 * 
 	 * @param jpj_joueur
+	 *            {@link PanelJoueur}
+	 * @param navireDetails
+	 *            {@link NavireCaracteristique}
+	 * @param finPlacement
+	 *            {@link Boolean}
 	 */
 	public void placementBateaux(PanelJoueur jpj_joueur,
 			NavireCaracteristique navireDetails, boolean finPlacement) {
@@ -179,11 +188,29 @@ public class PanelPrincipal extends JPanel {
 		}
 	}
 
-	// Placement simple
-	// jpj_joueur
-	// .setPlateauListener(new ListenerPlacementBateaux(
-	// NavireCaracteristique.NAVIRESIZE2, jpj_joueur
-	// .getPanelPlateau()));
+	/**
+	 * Début de la partie une fois les bateaux des deux joueurs placés. Va
+	 * permettre le tir et le changement de joueur jusqu'à ce que l'un deux
+	 * gagne.
+	 */
+	public void debutPartie() {
+		jta_message.clearJTextArea();
+		jta_message.append("Fin de placement des bateaux...\n "
+				+ "Début de la guerre !".toUpperCase());
+		joueur1.setEtatGrille(false);
+		joueur2.setEtatGrille(false);
+
+		System.out.println(joueur1.getPanelPlateau().getPlateau().getListeNav()
+				.toString());
+		System.out
+				.println(joueur1.getPanelPlateau().getPlateau().getLstCases());
+		System.out.println();
+		System.out.println(joueur1.getPanelPlateau().getPlateau()
+				.getCasesOccupees());
+
+		// TODO
+
+	}
 
 	/**
 	 * Permet de recupérer n'importe quel panel de joueur. <br>
@@ -211,10 +238,20 @@ public class PanelPrincipal extends JPanel {
 		return null;
 	}
 
+	/**
+	 * Retourne le panel du joueur 1
+	 * 
+	 * @return {@link PanelJoueur}
+	 */
 	public PanelJoueur getPanelJoueurUn() {
 		return joueur1;
 	}
 
+	/**
+	 * Retourne le panel du joueur 2
+	 * 
+	 * @return {@link PanelJoueur}
+	 */
 	public PanelJoueur getPanelJoueurDeux() {
 		return joueur2;
 	}
@@ -222,7 +259,7 @@ public class PanelPrincipal extends JPanel {
 	/**
 	 * Ecouteur pour le bouton {@link PanelPrincipal#jb_commencerPartie} <br>
 	 * 
-	 * @author Sylvain - Kevin
+	 * @author Sylvain METAYER - Kevin DESSIMOULIE
 	 *
 	 */
 	public class LancerPartieListener implements ActionListener {
@@ -261,7 +298,7 @@ public class PanelPrincipal extends JPanel {
 	/**
 	 * Ecouteur pour le bouton {@link PanelPrincipal#jb_quitterPartie}
 	 * 
-	 * @author Sylvain - Kevin
+	 * @author Sylvain METAYER - Kevin DESSIMOULIE
 	 *
 	 */
 	public class QuitterListener implements ActionListener {
@@ -278,15 +315,6 @@ public class PanelPrincipal extends JPanel {
 				System.exit(0);
 			}
 		}
-
-	}
-
-	public void debutPartie() {
-		jta_message.clearJTextArea();
-		jta_message.append("Fin de placement des bateaux...\n "
-				+ "Début de la guerre !".toUpperCase());
-		joueur1.setEtatGrille(false);
-		joueur2.setEtatGrille(false);
 
 	}
 
