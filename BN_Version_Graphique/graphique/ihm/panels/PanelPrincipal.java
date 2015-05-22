@@ -157,16 +157,14 @@ public class PanelPrincipal extends JPanel {
 
 			// blocage grille adverse
 			getMonPanelJoueur(jpj_joueur, false).setEtatGrille(false);
-			getMonPanelJoueur(jpj_joueur, false).setMessage(
-					"Inactif..".toUpperCase());
+			getMonPanelJoueur(jpj_joueur, false).setMessage("Inactif..".toUpperCase());
 
 			// déblocage ma grille
 			getMonPanelJoueur(jpj_joueur, true).setEtatGrille(true);
 			getMonPanelJoueur(jpj_joueur, true).setMessage(
 					"Placement des bateaux en cours..".toUpperCase());
 
-			PanelPrincipal.jta_message.append("Placement du "
-					+ navireDetails.getNom());
+			PanelPrincipal.jta_message.append("Placement du " + navireDetails.getNom());
 
 			jpj_joueur.setPlateauListener(new ListenerPlacementBateaux(
 					navireDetails, this, jpj_joueur));

@@ -243,11 +243,18 @@ public class Plateau {
 	 */
 	public boolean isCollisionPlacement(int x, int y) {
 		boolean isCollision = false;
+	//	int cx = this.getLongueur()-1;
+	//	int cy = this.getLargeur()-1;
 		for (Case c : casesOccupees) {
 			if (c.getPosx() == x && c.getPosy() == y) {
 				isCollision = true;
 			}
 		}
+		// bateau dans le tableau ?
+		// fait freeze pour l'instant
+	/*	if (x > cx || y > cy || x < 0 || y < 0) {
+			isCollision = true;
+		}*/
 		return isCollision;
 	}
 

@@ -117,8 +117,7 @@ public class PanelPlateau extends JPanel {
 			for (int j = 0; j < tableauBoutonsBN.length; j++) {
 
 				// on retire les anciens listeners
-				for (ActionListener tmp : tableauBoutonsBN[i][j]
-						.getActionListeners()) {
+				for (ActionListener tmp : tableauBoutonsBN[i][j].getActionListeners()) {
 					tableauBoutonsBN[i][j].removeActionListener(tmp);
 				}
 

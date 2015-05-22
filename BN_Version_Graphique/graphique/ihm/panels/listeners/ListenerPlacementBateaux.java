@@ -97,30 +97,36 @@ public class ListenerPlacementBateaux implements ActionListener {
 		List<BoutonBN> caseBoutons = new ArrayList<BoutonBN>();
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
 		int tmp = 0, y, x;
-		boolean collision;
+		boolean collision = false;
 
 		caseDebut = ((BoutonBN) e.getSource()); // sert uniquement à récupérer
 												// les coordonnées de départ
 		x = caseDebut.getCase().getPosx();
 		y = caseDebut.getCase().getPosy();
 
-		if (isPlacementHorizontal)
-			tmp = y;
-		else
-			tmp = x;
+		for (int i = 1; i < navireDetails.getTaille() || collision; i++) {
+			if (isPlacementHorizontal) {
+				tmp = y + i;
+				collision = jpp_plateau.getPlateau().isCollisionPlacement(x, tmp);
+			} else {
+				tmp = x + i;
+				collision = jpp_plateau.getPlateau().isCollisionPlacement(tmp, y);
+			}
+			if (collision) {
+				PanelPrincipal.jta_message.append("Erreur, collision.\nRecommencer svp.");
+				navireValide = false;
+			}
+		}
+		
+		if(!collision) {
 
-		for (int i = 0; i < navireDetails.getTaille(); i++) {
-			if (navireValide == true) {
-
-				if (isPlacementHorizontal)
-					collision = jpp_plateau.getPlateau().isCollisionPlacement(x, tmp);
-				else
-					collision = jpp_plateau.getPlateau().isCollisionPlacement(tmp, y);
-
-				if (collision) {
-					PanelPrincipal.jta_message.append("Erreur, collision.\nRecommencer svp.");
-					navireValide = false;
-				} else {
+			if (isPlacementHorizontal)
+				tmp = y;
+			else
+				tmp = x;
+			
+			for ( int i = 0; i < navireDetails.getTaille(); i++) {
+				if (navireValide == true) {
 
 					// on recupère le bouton correspondant
 					if (isPlacementHorizontal)
