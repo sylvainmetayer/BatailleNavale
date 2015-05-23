@@ -11,6 +11,8 @@ import enums.Motif;
 import enums.NavireCaracteristique;
 
 /**
+ * Cette classe représente un plateau de {@link Jeu}
+ * 
  * @author Sylvain - Kevin
  *
  */
@@ -133,7 +135,7 @@ public class Plateau {
 		this.listeNav.add(n);
 		for (Case c : n.getCases()) {
 			this.casesOccupees.add(c);
-			this.lstCases[c.getPosx()][c.getPosy()]=c;
+			this.lstCases[c.getPosx()][c.getPosy()] = c;
 		}
 
 	}
@@ -160,19 +162,23 @@ public class Plateau {
 			for (Case a : c) {
 				if (n.getTaille() == 2) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE2.getMotif());
+							.setMotif(NavireCaracteristique.NAVIRESIZE2
+									.getMotif());
 				}
 				if (n.getTaille() == 3) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE3.getMotif());
+							.setMotif(NavireCaracteristique.NAVIRESIZE3
+									.getMotif());
 				}
 				if (n.getTaille() == 4) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE4.getMotif());
+							.setMotif(NavireCaracteristique.NAVIRESIZE4
+									.getMotif());
 				}
 				if (n.getTaille() == 5) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE5.getMotif());
+							.setMotif(NavireCaracteristique.NAVIRESIZE5
+									.getMotif());
 				}
 			}
 			casesOccupees.addAll(c);
@@ -243,18 +249,15 @@ public class Plateau {
 	 */
 	public boolean isCollisionPlacement(int x, int y) {
 		boolean isCollision = false;
-	//	int cx = this.getLongueur()-1;
-	//	int cy = this.getLargeur()-1;
 		for (Case c : casesOccupees) {
-			if (c.getPosx() == x && c.getPosy() == y) {
+			if (c.getPosx() == x && c.getPosy() == y || x >= this.largeur
+					|| y >= this.largeur) {
 				isCollision = true;
+			} else {
+				isCollision = false;
 			}
 		}
-		// bateau dans le tableau ?
-		// fait freeze pour l'instant
-	/*	if (x > cx || y > cy || x < 0 || y < 0) {
-			isCollision = true;
-		}*/
+
 		return isCollision;
 	}
 

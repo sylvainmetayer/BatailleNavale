@@ -15,27 +15,36 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import enums.Motif;
 import enums.NavireCaracteristique;
 import metier.Case;
 import metier.Navire;
 
 /**
+ * Cette classe permet l'ajout de navires lors d'un clic sur un {@link BoutonBN}
+ * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
 public class ListenerPlacementBateaux implements ActionListener {
 
-	// on ajoute deux fois chaque navire sur chacun des plateaux.
+	// on ajoute les navires sur chaque plateau.
 	private final int AJOUTNAVIRE = NavireCaracteristique.values().length * 2;
 
-	// Cela correspond à l'id d'un navire
 	private static int idNavire = 1;
 	private static int ajoutNavire = 1;
 
+	/**
+	 * Permet d'incrémenter l'id d'un navire, afin d'éviter qu'un navire n'ai
+	 * deux fois le meme id
+	 */
 	public static void incrementerIdNavire() {
 		ListenerPlacementBateaux.idNavire++;
 	}
 
+	/**
+	 * Permet d'incrémenter le nombre de navire déjà ajoutés
+	 */
 	public static void incrementerAjoutNavire() {
 		ListenerPlacementBateaux.ajoutNavire++;
 	}
@@ -58,6 +67,16 @@ public class ListenerPlacementBateaux implements ActionListener {
 	private int navireNumero;
 	private boolean finAjout;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param navireDetails
+	 *            {@link NavireCaracteristique}
+	 * @param jpp_principal
+	 *            {@link PanelPrincipal}
+	 * @param jpj_joueur
+	 *            {@link PanelJoueur}
+	 */
 	public ListenerPlacementBateaux(NavireCaracteristique navireDetails,
 			PanelPrincipal jpp_principal, PanelJoueur jpj_joueur) {
 		this.navireDetails = navireDetails;
@@ -89,10 +108,19 @@ public class ListenerPlacementBateaux implements ActionListener {
 		}
 	}
 
+	/**
+	 * Méthode permettant le placement d'un bateau, en controlant qu'il n'y a
+	 * pas de collision
+	 * 
+	 * @param isPlacementHorizontal
+	 *            {@link Boolean}
+	 * @param e
+	 *            {@link ActionEvent}
+	 */
 	private void placementBateaux(boolean isPlacementHorizontal, ActionEvent e) {
 
-		// TODO catcher les indexboundexception pour gérer les erreur hors
-		// plateau
+		// TODO gérer les cas limites, c'est à dire par exemple ajouter un
+		// navire taille 5 à pile 5 case du bord
 
 		List<BoutonBN> caseBoutons = new ArrayList<BoutonBN>();
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
@@ -104,38 +132,58 @@ public class ListenerPlacementBateaux implements ActionListener {
 		x = caseDebut.getCase().getPosx();
 		y = caseDebut.getCase().getPosy();
 
-		for (int i = 1; i < navireDetails.getTaille() || collision; i++) {
-			if (isPlacementHorizontal) {
-				tmp = y + i;
-				collision = jpp_plateau.getPlateau().isCollisionPlacement(x, tmp);
-			} else {
-				tmp = x + i;
-				collision = jpp_plateau.getPlateau().isCollisionPlacement(tmp, y);
+		// Cette boucle permet de vérifier que les placements sont autorisés
+		for (int i = 1; i <= navireDetails.getTaille(); i++) {
+
+			// S'il n'y a pas de collision a ce moment la, on teste la collision
+			// suivante
+			if (collision == false) {
+				if (isPlacementHorizontal) {
+					tmp = y + i;
+					collision = jpp_plateau.getPlateau().isCollisionPlacement(
+							x, tmp);
+				} else {
+					tmp = x + i;
+					collision = jpp_plateau.getPlateau().isCollisionPlacement(
+							tmp, y);
+				}
+
 			}
+
 			if (collision) {
-				PanelPrincipal.jta_message.append("Erreur, collision.\nRecommencer svp.");
 				navireValide = false;
 			}
 		}
-		
-		if(!collision) {
+
+		if (!collision) {
 
 			if (isPlacementHorizontal)
 				tmp = y;
 			else
 				tmp = x;
-			
-			for ( int i = 0; i < navireDetails.getTaille(); i++) {
+
+			// Cette boucle permet de récupérer la liste de boutons à ajouter
+			for (int i = 0; i < navireDetails.getTaille(); i++) {
 				if (navireValide == true) {
 
-					// on recupère le bouton correspondant
-					if (isPlacementHorizontal)
-						temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
-					else
-						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
+					try {
+						if (isPlacementHorizontal)
+							temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
+						else
+							temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
-					// on modifie le motif de la case associée
-					temporaire.setMotifCaseUniquement(navireDetails.getMotif());
+						// Test supplémentaire, au cas ou...
+						if (temporaire.getCase().getMotif() != Motif.EAU
+								.toString()) {
+							// Dans ce cas, cela veut dire que la case est déjà
+							// occupée. On empeche donc l'ajout du navire
+							navireValide = false;
+						}
+
+					} catch (ArrayIndexOutOfBoundsException exception) {
+						navireValide = false;
+						// une erreur est levée, on n'ajoute pas le navire.
+					}
 
 					caseBoutons.add(temporaire);
 
@@ -144,49 +192,57 @@ public class ListenerPlacementBateaux implements ActionListener {
 			}
 		}
 
+		// Permet d'ajouter le navire à la liste de navire
 		if (navireValide == true) {
 			// le navire est valide et n'a pas de collision, on l'ajoute
 
 			for (BoutonBN b : caseBoutons) {
 				caseOccupeParBateau.add(b.getCase());
-				// jpp_plateau.setTableauBoutonsBN(b.getCase().getPosx(),
-				// b.getCase().getPosy(), b);
+				// set du motif ici pour éviter levée d'exception
+				b.setMotifCaseUniquement(navireDetails.getMotif());
 			}
 
 			jpp_plateau.getPlateau().ajouterNavire(
 					new Navire(ListenerPlacementBateaux.idNavire, navireDetails
 							.getTaille(), caseOccupeParBateau, false,
 							navireDetails.getValeurScore()));
-			// on incrémente l'id pour le navire suivant
 			ListenerPlacementBateaux.incrementerIdNavire();
+
+			// Affichage de test..
+			// PanelPrincipal.jta_message.append(jpp_plateau.getPlateau()
+			// .getCasesOccupees().toString());
+
 		}
 
+		// Ajout du navire suivant
 		if (navireValide == true) {
 
 			ListenerPlacementBateaux.incrementerAjoutNavire();
 			navireNumero++;
 
+			if (navireNumero >= NavireCaracteristique.values().length) {
+				// on vient d'ajouter le dernier navire
+				finAjout = true;
+				navireNumero--;
+				// pour éviter collision avec navireCaractéristiques
+			}
+
 			if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
 				// on a fini de placer les bateaux pour les deux joueurs
 				jpp_principal.debutPartie();
 			} else {
-				// on ajoute le navire suivant.
-				if (navireNumero >= NavireCaracteristique.values().length) {
-					// on vient d'ajouter le dernier navire
-					finAjout = true;
-					navireNumero--;
-					// pour éviter collision avec navireCaractéristiques
-				}
 
 				jpp_principal.placementBateaux(jpj_joueur,
 						NavireCaracteristique.values()[navireNumero], finAjout);
 
 			}
-
 		} else {
-			// on remet le listener pour ajouter le même bateau avec un
-			// message d'erreurs
-			PanelPrincipal.jta_message.append("Merci de rajouter à nouveau le " + navireDetails.getNom());
+			// listener pour ajouter le même bateau et un message d'erreur
+
+			PanelPrincipal.jta_message
+					.append("Une collision a été détectée lors du placement.");
+			PanelPrincipal.jta_message.append("Merci de rajouter à nouveau le "
+					+ navireDetails.getNom());
 			jpp_principal.placementBateaux(jpj_joueur, navireDetails, finAjout);
 		}
 
@@ -194,6 +250,15 @@ public class ListenerPlacementBateaux implements ActionListener {
 		jpp_plateau.actualisation();
 	}
 
+	/**
+	 * Ceette méthode permet de choisir l'orientation du navire au travers d'une
+	 * {@link JOptionPane} <br>
+	 * Elle retourne 0 dans le cas ou le placement est horizontal et 1 dans le
+	 * cas ou il est vertical. <br>
+	 * <b>La gestion d'annulation de la popup n'est pas gérée.<b>
+	 * 
+	 * @return {@link Integer}
+	 */
 	private int popupChoixOrientation() {
 		String[] options = new String[] { "Horizontal", "Vertical" };
 		int choixPositionnement = JOptionPane.showOptionDialog(null,
