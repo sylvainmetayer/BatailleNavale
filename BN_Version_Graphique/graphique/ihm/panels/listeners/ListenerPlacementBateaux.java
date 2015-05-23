@@ -122,7 +122,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 		List<BoutonBN> caseBoutons = new ArrayList<BoutonBN>();
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
 		int tmp = 0, y, x;
-		boolean collision = false;
+		// boolean collision = false;
 
 		caseDebut = ((BoutonBN) e.getSource()); // sert uniquement à récupérer
 												// les coordonnées de départ
@@ -136,7 +136,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 
 		// Cette boucle permet de récupérer la liste de boutons à ajouter
 		for (int i = 0; i < navireDetails.getTaille(); i++) {
-			System.out.println("Je suis passe " + (i + 1) + "fois");
+			// System.out.println("Je suis passe " + (i + 1) + "fois");
 			if (navireValide == true) {
 
 				try {
@@ -162,7 +162,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 			}
 			tmp++;
 		}
-		System.out.println();
 
 		// Permet d'ajouter le navire à la liste de navire
 		if (navireValide == true) {

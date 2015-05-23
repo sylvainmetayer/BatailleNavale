@@ -12,7 +12,21 @@ import java.awt.Image;
  *
  */
 public enum Motif {
-	TOUCHE, EAU, COUPJOUE;
+
+	// TODO Si le temps, rechercher chaque appel et remplacer le .toString par
+	// le .getMotif() qui est plus propre
+
+	TOUCHE("X"), EAU("~"), COUPJOUE("@"), COULE("$");
+
+	private final String motif;
+
+	private Motif(final String motif) {
+		this.motif = motif;
+	}
+
+	public String getMotif() {
+		return motif;
+	}
 
 	@Override
 	public String toString() {
@@ -23,7 +37,8 @@ public enum Motif {
 			return "X";
 		case COUPJOUE:
 			return "@";
-
+		case COULE:
+			return "$";
 		default:
 			return null;
 		}

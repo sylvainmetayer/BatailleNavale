@@ -100,7 +100,8 @@ public class PanelJoueur extends JPanel {
 	}
 
 	/**
-	 * Permet de définit le listener à appliquer sur les boutons du plateau
+	 * Permet de définit le listener à appliquer sur les boutons du plateau et
+	 * retire tous les précédents listeners
 	 * 
 	 * @param l
 	 *            {@link ActionListener}

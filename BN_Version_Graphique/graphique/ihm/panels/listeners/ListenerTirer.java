@@ -6,40 +6,116 @@ import ihm.panels.PanelPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import metier.Case;
+import metier.Navire;
 import enums.Motif;
+import enums.NavireCaracteristique;
 
 public class ListenerTirer implements ActionListener {
 
 	private PanelPrincipal jpp_principal;
 	private PanelJoueur jpj_joueur;
-	
+
 	public ListenerTirer(PanelPrincipal jpp_principal, PanelJoueur jpj_joueur) {
 		this.jpp_principal = jpp_principal;
 		this.jpj_joueur = jpj_joueur;
 	}
+
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		List<Case> caseOccupees = jpj_joueur.getPanelPlateau().getPlateau()
+				.getCasesOccupees();
+
+		// pour "contrer" la reactivation des boutons du au changement de joueur
+		bloquerCaseOccupees(caseOccupees);
+
 		int y, x;
 		boolean collision = false;
+		Case caseVisee;
 
-		x = ((BoutonBN) e.getSource()).getCase().getPosx();
-		y = ((BoutonBN) e.getSource()).getCase().getPosy();
-		
-		collision = jpj_joueur.getPanelPlateau().getPlateau().isCollisionPlacement(x, y);
+		caseVisee = ((BoutonBN) e.getSource()).getCase();
+		x = caseVisee.getPosx();
+		y = caseVisee.getPosy();
+		Navire navire;
+		NavireCaracteristique caracteristique;
 
-		if (collision) {
-			PanelPrincipal.jta_message.append("Touché !");
-			jpj_joueur.getPanelPlateau().getPlateau().getLstCases()[x][y].setMotif(Motif.TOUCHE.toString());
-			jpp_principal.repaint();
-		} else {
+		navire = jpj_joueur.getPanelPlateau().getPlateau().jouerCoup(x, y);
+
+		System.out.println(navire);
+		if (navire == null) {
+			System.out.println("eau");
+			// coup dans l'eau
 			PanelPrincipal.jta_message.append("Dans l'eau !");
-			jpj_joueur.getPanelPlateau().getPlateau().getLstCases()[x][y].setMotif(Motif.COUPJOUE.toString());
-			jpp_principal.repaint();
+			jpj_joueur.getPanelPlateau().getPlateau().getLstCases()[x][y]
+					.setMotif(Motif.COUPJOUE.toString());
+			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
+					.setEnabled(false);
+			jpj_joueur.getPanelPlateau().actualisation();
+			jpj_joueur.repaint();
+		} else {
+			caracteristique = navire.getCaracteristiqueByTaille(navire
+					.getTaille());
+
+			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
+					.setMotifCaseEtPlateau(Motif.TOUCHE.toString());
+			caseOccupees.add(caseVisee);
+
+			if (navire.isEstCoule()) {
+				// coulé
+				navire.setEstCoule(true);
+
+				for (Case c : navire.getCases()) {
+					c.setEstTouche(true);
+					c.setMotif(Motif.COULE.toString());
+					jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[c
+							.getPosx()][c.getPosy()].setEnabled(false);
+				}
+				PanelPrincipal.jta_message.append(caracteristique.getNom()
+						+ "est touché coulé !");
+			} else {
+				// touché
+				PanelPrincipal.jta_message.append(caracteristique.getNom()
+						+ " a été touché !");
+				jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
+						.setEnabled(false);
+			}
+
 		}
-		// on actualise le plateau.
 		jpj_joueur.getPanelPlateau().actualisation();
+		jpj_joueur.repaint();
+		jpp_principal.repaint();
+		jpp_principal.jouerCoup(
+				jpp_principal.getMonPanelJoueur(jpj_joueur, false),
+				jpp_principal.getMonPanelJoueur(jpj_joueur, true));
+
+	}
+
+	private void bloquerCaseOccupees(List<Case> caseOccupees) {
+		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
+		BoutonBN tmp;
+
+		if (!caseOccupees.isEmpty() || caseOccupees == null) {
+
+			for (Case c : caseOccupees) {
+				tmp = jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[c
+						.getPosx()][c.getPosy()];
+				boutons.add(tmp);
+			}
+
+			for (BoutonBN b : boutons) {
+				// une vérification ne coute rien..
+				if (b.getCase().isEstTouche())
+					b.setEnabled(false);
+				// else
+				// b.setEnabled(true);
+			}
+
+		}
 	}
 
 }

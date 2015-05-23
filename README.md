@@ -6,8 +6,7 @@ Réalisé par Kévin DESSIMOULIE et Sylvain METAYER
 
 # Reste à faire
 
-1. Gestion placement bateaux.
-2. Gestion tirs.
-3. Gestion déroulement jeu (boucle, fin, affiche vainqueur, ...)
-4. Gestion sauvegarde/chargement.
-5. Amélioration design. *facultatif*
+1. Gestion masquage grille 
+2. Gestion sauvegarde/chargement.
+3. Amélioration design. *facultatif*
+4. Corrections de bugs, recherches, détails, oublis, ...

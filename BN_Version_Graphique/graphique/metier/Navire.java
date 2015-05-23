@@ -3,6 +3,8 @@ package metier;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.NavireCaracteristique;
+
 /**
  * Classe représentant un navire
  * 
@@ -172,6 +174,22 @@ public class Navire implements Comparable<Navire> {
 	 */
 	public void setValeurScore(int valeurScore) {
 		this.valeurScore = valeurScore;
+	}
+
+	public NavireCaracteristique getCaracteristiqueByTaille(int taille) {
+		if (taille == 2) {
+			return NavireCaracteristique.NAVIRESIZE2;
+		}
+		if (taille == 3) {
+			return NavireCaracteristique.NAVIRESIZE3;
+		}
+		if (taille == 4) {
+			return NavireCaracteristique.NAVIRESIZE4;
+		}
+		if (taille == 5) {
+			return NavireCaracteristique.NAVIRESIZE5;
+		}
+		return null;
 	}
 
 }

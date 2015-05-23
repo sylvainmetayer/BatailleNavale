@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 
 import metier.CoupException;
 import metier.Jeu;
+import metier.Navire;
+import metier.Plateau;
 import enums.NavireCaracteristique;
 
 /**
@@ -50,6 +52,7 @@ public class PanelPrincipal extends JPanel {
 	private JButton jb_quitterPartie;
 	private JButton jb_chargerPartie;
 	private JLabel jl_menuPrincipal;
+	private JButton jb_sauvegarderPartie;
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
 	public static JtextAreaBN jta_message;
@@ -70,6 +73,7 @@ public class PanelPrincipal extends JPanel {
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
 		jb_commencerPartie = new JButton("Commencer une nouvelle partie");
 		jb_quitterPartie = new JButton("Quitter");
+		jb_sauvegarderPartie = new JButton("Sauvegarder ?");
 		jb_chargerPartie = new JButton("Charger une partie");
 
 		// instanciations panels
@@ -122,6 +126,7 @@ public class PanelPrincipal extends JPanel {
 
 		panelPrincipal.setLayout(new BorderLayout());
 
+		panelPrincipal.add(jb_sauvegarderPartie, BorderLayout.NORTH);
 		panelPrincipal.add(joueur1, BorderLayout.WEST);
 		panelPrincipal.add(joueur2, BorderLayout.EAST);
 
@@ -158,14 +163,16 @@ public class PanelPrincipal extends JPanel {
 
 			// blocage grille adverse
 			getMonPanelJoueur(jpj_joueur, false).setEtatGrille(false);
-			getMonPanelJoueur(jpj_joueur, false).setMessage("Inactif..".toUpperCase());
+			getMonPanelJoueur(jpj_joueur, false).setMessage(
+					"Inactif..".toUpperCase());
 
 			// déblocage ma grille
 			getMonPanelJoueur(jpj_joueur, true).setEtatGrille(true);
 			getMonPanelJoueur(jpj_joueur, true).setMessage(
 					"Placement des bateaux en cours..".toUpperCase());
 
-			PanelPrincipal.jta_message.append("Placement du " + navireDetails.getNom());
+			PanelPrincipal.jta_message.append("Placement du "
+					+ navireDetails.getNom());
 
 			jpj_joueur.setPlateauListener(new ListenerPlacementBateaux(
 					navireDetails, this, jpj_joueur));
@@ -193,29 +200,99 @@ public class PanelPrincipal extends JPanel {
 	 * gagne.
 	 */
 	public void debutPartie() {
-		PanelPlateau ppj_1 = joueur1.getPanelPlateau();
-		PanelPlateau ppj_2 = joueur2.getPanelPlateau();
+
 		jta_message.clearJTextArea();
 		jta_message.append("Fin de placement des bateaux...\n "
-				+ "Début de la guerre !".toUpperCase());
-		joueur1.setEtatGrille(false);
-		getMonPanelJoueur(joueur1, true).setMessage(
-				"Placements terminés".toUpperCase());
-		joueur2.setEtatGrille(false);
-		getMonPanelJoueur(joueur2, true).setMessage(
-				"Placements terminés".toUpperCase());
+				+ "Début de la guerre !");
+		// joueur1.setEtatGrille(false);
+		// getMonPanelJoueur(joueur1, true).setMessage(
+		// "Placements terminés".toUpperCase());
+		// joueur2.setEtatGrille(false);
+		// getMonPanelJoueur(joueur2, true).setMessage(
+		// "Placements terminés".toUpperCase());
 
-		//System.out.println(joueur1.getPanelPlateau().getPlateau().getListeNav().toString());
-		//System.out.println(joueur1.getPanelPlateau().getPlateau().getLstCases());
-		//System.out.println();
-		//System.out.println(joueur1.getPanelPlateau().getPlateau().getCasesOccupees());
-		//System.out.println(joueur1.getPanelPlateau().getPlateau().isAllNavireCoule());
-		// TODO
-		if (ppj_1.getPlateau().sontCoules() != ppj_1.getPlateau().getListeNav() || ppj_2.getPlateau().sontCoules() != ppj_2.getPlateau().getListeNav()) {
-			joueur2.setEtatGrille(true);
-			joueur1.setPlateauListener( new ListenerTirer(this, joueur1));
-			joueur2.setPlateauListener( new ListenerTirer(this, joueur2));
+		// PanelJoueur joueurAttaque = getMonPanelJoueur(joueur1, false);
+		// PanelJoueur joueurAttaquant = getMonPanelJoueur(joueur1, true);
+
+		jouerCoup(getPanelJoueurDeux(), getPanelJoueurUn());
+
+	}
+
+	public void jouerCoup(PanelJoueur joueurSousAttaque,
+			PanelJoueur joueurAttaquant) {
+
+		PanelJoueur gagnant;
+
+		joueurAttaquant.setMessage("A toi de jouer !");
+		joueurAttaquant.setEtatGrille(false);
+
+		joueurSousAttaque.setMessage("Prions pour un coup dans l'eau...");
+		joueurSousAttaque.setEtatGrille(true);
+
+		joueurSousAttaque.setPlateauListener(new ListenerTirer(this,
+				joueurSousAttaque));
+
+		gagnant = tellMeWhoWin(joueurAttaquant, joueurSousAttaque);
+
+		// test
+		if (gagnant == null) {
+			System.out.println("pas encore fini");
 		}
+
+		if (gagnant == joueurAttaquant)
+			finDePartie(joueurAttaquant, joueurSousAttaque);
+
+		if (gagnant == joueurSousAttaque)
+			finDePartie(joueurSousAttaque, joueurAttaquant);
+	}
+
+	private PanelJoueur tellMeWhoWin(PanelJoueur jpj1, PanelJoueur jpj2) {
+
+		boolean jpp1Lose, jpp2Lose;
+
+		jpp1Lose = isAllNavireCoule(jpj1.getPanelPlateau().getPlateau());
+
+		if (jpp1Lose)
+			return jpj1;
+
+		jpp2Lose = isAllNavireCoule(jpj2.getPanelPlateau().getPlateau());
+
+		if (jpp2Lose)
+			return jpj2;
+
+		// la partie n'est pas encore finie si null
+		return null;
+	}
+
+	private boolean isAllNavireCoule(Plateau p) {
+		int nombreCoules = 0, nombreNavireMax;
+		nombreNavireMax = NavireCaracteristique.values().length;
+
+		for (Navire n : p.getListeNav()) {
+			for (Navire nTouches : p.sontCoules()) {
+				if (nTouches.equals(n))
+					nombreCoules++;
+			}
+		}
+
+		if (nombreCoules >= nombreNavireMax)
+			return true;
+		else
+			return false;
+	}
+
+	private void finDePartie(PanelJoueur gagnant, PanelJoueur perdant) {
+		String message;
+
+		gagnant.getPanelPlateau().setEnabled(false);
+		perdant.getPanelPlateau().setEnabled(false);
+
+		message = "Bravo " + gagnant.getNomJoueur() + ", tu as gagné !\n "
+				+ perdant.getNomJoueur() + ", désolé, tu as perdu..";
+		PanelPrincipal.jta_message.append(message);
+		message = "Fin de la partie..".toUpperCase();
+		PanelPrincipal.jta_message.append(message);
+
 	}
 
 	/**
