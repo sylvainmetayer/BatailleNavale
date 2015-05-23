@@ -119,9 +119,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 	 */
 	private void placementBateaux(boolean isPlacementHorizontal, ActionEvent e) {
 
-		// TODO gérer les cas limites, c'est à dire par exemple ajouter un
-		// navire taille 5 à pile 5 case du bord
-
 		List<BoutonBN> caseBoutons = new ArrayList<BoutonBN>();
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
 		int tmp = 0, y, x;
@@ -132,65 +129,40 @@ public class ListenerPlacementBateaux implements ActionListener {
 		x = caseDebut.getCase().getPosx();
 		y = caseDebut.getCase().getPosy();
 
-		// Cette boucle permet de vérifier que les placements sont autorisés
-		for (int i = 1; i <= navireDetails.getTaille(); i++) {
+		if (isPlacementHorizontal)
+			tmp = y;
+		else
+			tmp = x;
 
-			// S'il n'y a pas de collision a ce moment la, on teste la collision
-			// suivante
-			if (collision == false) {
-				if (isPlacementHorizontal) {
-					tmp = y + i;
-					collision = jpp_plateau.getPlateau().isCollisionPlacement(
-							x, tmp);
-				} else {
-					tmp = x + i;
-					collision = jpp_plateau.getPlateau().isCollisionPlacement(
-							tmp, y);
-				}
+		// Cette boucle permet de récupérer la liste de boutons à ajouter
+		for (int i = 0; i < navireDetails.getTaille(); i++) {
+			System.out.println("Je suis passe " + (i + 1) + "fois");
+			if (navireValide == true) {
 
-			}
+				try {
+					if (isPlacementHorizontal)
+						temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
+					else
+						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
-			if (collision) {
-				navireValide = false;
-			}
-		}
-
-		if (!collision) {
-
-			if (isPlacementHorizontal)
-				tmp = y;
-			else
-				tmp = x;
-
-			// Cette boucle permet de récupérer la liste de boutons à ajouter
-			for (int i = 0; i < navireDetails.getTaille(); i++) {
-				if (navireValide == true) {
-
-					try {
-						if (isPlacementHorizontal)
-							temporaire = jpp_plateau.getTableauBoutonsBN()[x][tmp];
-						else
-							temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
-
-						// Test supplémentaire, au cas ou...
-						if (temporaire.getCase().getMotif() != Motif.EAU
-								.toString()) {
-							// Dans ce cas, cela veut dire que la case est déjà
-							// occupée. On empeche donc l'ajout du navire
-							navireValide = false;
-						}
-
-					} catch (ArrayIndexOutOfBoundsException exception) {
+					// Test supplémentaire, au cas ou...
+					if (temporaire.getCase().getMotif() != Motif.EAU.toString()) {
+						// Dans ce cas, cela veut dire que la case est déjà
+						// occupée. On empeche donc l'ajout du navire
 						navireValide = false;
-						// une erreur est levée, on n'ajoute pas le navire.
 					}
 
-					caseBoutons.add(temporaire);
-
+				} catch (ArrayIndexOutOfBoundsException exception) {
+					navireValide = false;
+					// une erreur est levée, on n'ajoute pas le navire.
 				}
-				tmp++;
+
+				caseBoutons.add(temporaire);
+
 			}
+			tmp++;
 		}
+		System.out.println();
 
 		// Permet d'ajouter le navire à la liste de navire
 		if (navireValide == true) {
@@ -208,10 +180,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 							navireDetails.getValeurScore()));
 			ListenerPlacementBateaux.incrementerIdNavire();
 
-			// Affichage de test..
-			// PanelPrincipal.jta_message.append(jpp_plateau.getPlateau()
-			// .getCasesOccupees().toString());
-
 		}
 
 		// Ajout du navire suivant
@@ -228,7 +196,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 			}
 
 			if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
-				// on a fini de placer les bateaux pour les deux joueurs
+				// placement fini pour les deux joueurs
 				jpp_principal.debutPartie();
 			} else {
 
@@ -239,10 +207,10 @@ public class ListenerPlacementBateaux implements ActionListener {
 		} else {
 			// listener pour ajouter le même bateau et un message d'erreur
 
-			PanelPrincipal.jta_message
-					.append("Une collision a été détectée lors du placement.");
-			PanelPrincipal.jta_message.append("Merci de rajouter à nouveau le "
-					+ navireDetails.getNom());
+			String message = "Une collision a été détectée lors du placement.\n"
+					+ "Merci de rajouter à nouveau le "
+					+ navireDetails.getNom();
+			PanelPrincipal.jta_message.append(message);
 			jpp_principal.placementBateaux(jpj_joueur, navireDetails, finAjout);
 		}
 
