@@ -6,7 +6,6 @@ import ihm.panels.PanelPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import metier.Case;
@@ -31,11 +30,8 @@ public class ListenerTirer implements ActionListener {
 		List<Case> caseOccupees = jpj_joueur.getPanelPlateau().getPlateau()
 				.getCasesOccupees();
 
-		// pour "contrer" la reactivation des boutons du au changement de joueur
-		bloquerCaseOccupees(caseOccupees);
-
 		int y, x;
-		boolean collision = false;
+		// boolean collision = false;
 		Case caseVisee;
 
 		caseVisee = ((BoutonBN) e.getSource()).getCase();
@@ -45,7 +41,6 @@ public class ListenerTirer implements ActionListener {
 		NavireCaracteristique caracteristique;
 
 		navire = jpj_joueur.getPanelPlateau().getPlateau().jouerCoup(x, y);
-		
 
 		System.out.println(navire);
 		if (navire == null) {
@@ -64,6 +59,7 @@ public class ListenerTirer implements ActionListener {
 
 			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
 					.setMotifCaseEtPlateau(Motif.TOUCHE.toString());
+
 			caseOccupees.add(caseVisee);
 
 			if (navire.isEstCoule()) {
@@ -94,29 +90,6 @@ public class ListenerTirer implements ActionListener {
 				jpp_principal.getMonPanelJoueur(jpj_joueur, false),
 				jpp_principal.getMonPanelJoueur(jpj_joueur, true));
 
-	}
-
-	private void bloquerCaseOccupees(List<Case> caseOccupees) {
-		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
-		BoutonBN tmp;
-
-		if (!caseOccupees.isEmpty() || caseOccupees == null) {
-
-			for (Case c : caseOccupees) {
-				tmp = jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[c
-						.getPosx()][c.getPosy()];
-				boutons.add(tmp);
-			}
-
-			for (BoutonBN b : boutons) {
-				// une vérification ne coute rien..
-				if (b.getCase().isEstTouche())
-					b.setEnabled(false);
-				// else
-				// b.setEnabled(true);
-			}
-
-		}
 	}
 
 }

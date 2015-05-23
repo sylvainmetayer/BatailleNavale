@@ -7,11 +7,19 @@ import ihm.composants.BoutonBN;
 import ihm.composants.JtextAreaBN;
 import ihm.panels.listeners.ListenerPlacementBateaux;
 import ihm.panels.listeners.ListenerTirer;
+import ihm.panels.listeners.SauvegarderPartieListener;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import metier.Case;
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
@@ -34,7 +43,7 @@ import enums.NavireCaracteristique;
  * @author Sylvain - Kevin
  *
  */
-public class PanelPrincipal extends JPanel {
+public class PanelPrincipal extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -95,7 +104,9 @@ public class PanelPrincipal extends JPanel {
 		// ajouts des ecouteurs.
 		jb_quitterPartie.addActionListener(new QuitterListener());
 		jb_commencerPartie.addActionListener(new LancerPartieListener());
-		// TODO ajout charger/sauvegarder
+		jb_chargerPartie.addActionListener(new ChargerPartieListener());
+		jb_sauvegarderPartie.addActionListener(new SauvegarderPartieListener(
+				jta_message, joueur2, joueur1));
 	}
 
 	/**
@@ -254,6 +265,7 @@ public class PanelPrincipal extends JPanel {
 	 */
 	private void masquerPlateau(PanelJoueur jpj) {
 
+		// TODO non fonctionnelle
 		boolean[][] coupJoues = jpj.getPanelPlateau().getPlateau()
 				.getCoupsJoues();
 		BoutonBN[][] boutons = jpj.getPanelPlateau().getTableauBoutonsBN();
@@ -277,6 +289,44 @@ public class PanelPrincipal extends JPanel {
 			}
 		}
 
+		// Après avoir masquées les cases non jouees, on bloque celle jouees
+		bloquerCaseOccupees(jpj);
+
+	}
+
+	/**
+	 * Cette méthode permet de bloquer les cases occupées afin d'éviter de
+	 * recliquer dessus
+	 * 
+	 * @param caseOccupees
+	 */
+	private void bloquerCaseOccupees(PanelJoueur jpj) {
+		// TODO vérifier fonctionnement
+
+		List<Case> caseOccupees = jpj.getPanelPlateau().getPlateau()
+				.getCasesOccupees();
+
+		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
+
+		BoutonBN tmp;
+
+		if (!caseOccupees.isEmpty() || caseOccupees == null) {
+
+			for (Case c : caseOccupees) {
+				tmp = jpj.getPanelPlateau().getTableauBoutonsBN()[c.getPosx()][c
+						.getPosy()];
+				boutons.add(tmp);
+			}
+
+			for (BoutonBN b : boutons) {
+				// une vérification ne coute rien..
+				if (b.getCase().isEstTouche())
+					b.setEnabled(false);
+				// else
+				// b.setEnabled(true);
+			}
+
+		}
 	}
 
 	/**
@@ -387,6 +437,91 @@ public class PanelPrincipal extends JPanel {
 	 */
 	public PanelJoueur getPanelJoueurDeux() {
 		return joueur2;
+	}
+
+	/**
+	 * Méthode pour charger une partie à partir de ce qu'aura récupéré
+	 * l'écouteur
+	 * 
+	 * @param jta_message
+	 * @param joueur2
+	 * @param joueur1
+	 */
+	public void chargerPartie(JtextAreaBN jta_message, PanelJoueur joueur2,
+			PanelJoueur joueur1) {
+		// TODO
+		this.joueur1 = joueur1;
+		this.joueur2 = joueur2;
+		PanelPrincipal.jta_message = jta_message;
+
+	}
+
+	/**
+	 * Listener permettant de charger la partie lors du clic sur le bouton
+	 * charger partie.
+	 * 
+	 * @author Sylvain METAYER - Kevin DESSIMOULIE
+	 *
+	 */
+	public class ChargerPartieListener implements ActionListener {
+
+		private final static String NAME = "backup";
+		private final static String EXTENSION = ".data";
+
+		private String nomFichier;
+		private PanelJoueur joueur1, joueur2;
+		private JtextAreaBN jta_message;
+
+		public ChargerPartieListener() {
+			this.nomFichier = NAME + EXTENSION;
+
+			this.joueur1 = null;
+			this.joueur2 = null;
+			this.jta_message = null;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			chargerPartie();
+
+		}
+
+		private void chargerPartie() {
+
+			File f = new File(nomFichier);
+			if (f.exists()) {
+				try {
+
+					FileInputStream fis = new FileInputStream(nomFichier);
+					ObjectInputStream ois = new ObjectInputStream(fis);
+
+					try {
+						joueur1 = (PanelJoueur) ois.readObject();
+						jta_message = (JtextAreaBN) ois.readObject();
+						joueur2 = (PanelJoueur) ois.readObject();
+						// TODO appel méthode chargerPartie de PanelPrincipal
+					} finally {
+
+						try {
+							ois.close();
+						} finally {
+							fis.close();
+						}
+					}
+
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				} catch (ClassNotFoundException cnfe) {
+					cnfe.printStackTrace();
+				}
+				// PanelPrincipal.jta_message.append("Chargement réussi avec succès.");
+			} else {
+				System.out
+						.print("Une erreur s'est produite durant le chargement, car le fichier de sauvegarde n'existe pas."
+								+ " Merci de d'abord créer une sauvegarde.\n\n");
+			}
+
+		}
 	}
 
 	/**
