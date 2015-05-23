@@ -5,6 +5,7 @@ package ihm.panels;
 
 import ihm.composants.JtextAreaBN;
 import ihm.panels.listeners.ListenerPlacementBateaux;
+import ihm.panels.listeners.ListenerTirer;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -192,22 +193,29 @@ public class PanelPrincipal extends JPanel {
 	 * gagne.
 	 */
 	public void debutPartie() {
+		PanelPlateau ppj_1 = joueur1.getPanelPlateau();
+		PanelPlateau ppj_2 = joueur2.getPanelPlateau();
 		jta_message.clearJTextArea();
 		jta_message.append("Fin de placement des bateaux...\n "
 				+ "Début de la guerre !".toUpperCase());
 		joueur1.setEtatGrille(false);
+		getMonPanelJoueur(joueur1, true).setMessage(
+				"Placements terminés".toUpperCase());
 		joueur2.setEtatGrille(false);
+		getMonPanelJoueur(joueur2, true).setMessage(
+				"Placements terminés".toUpperCase());
 
-		System.out.println(joueur1.getPanelPlateau().getPlateau().getListeNav()
-				.toString());
-		System.out
-				.println(joueur1.getPanelPlateau().getPlateau().getLstCases());
-		System.out.println();
-		System.out.println(joueur1.getPanelPlateau().getPlateau()
-				.getCasesOccupees());
-
+		//System.out.println(joueur1.getPanelPlateau().getPlateau().getListeNav().toString());
+		//System.out.println(joueur1.getPanelPlateau().getPlateau().getLstCases());
+		//System.out.println();
+		//System.out.println(joueur1.getPanelPlateau().getPlateau().getCasesOccupees());
+		//System.out.println(joueur1.getPanelPlateau().getPlateau().isAllNavireCoule());
 		// TODO
-
+		if (ppj_1.getPlateau().sontCoules() != ppj_1.getPlateau().getListeNav() || ppj_2.getPlateau().sontCoules() != ppj_2.getPlateau().getListeNav()) {
+			joueur2.setEtatGrille(true);
+			joueur1.setPlateauListener( new ListenerTirer(this, joueur1));
+			joueur2.setPlateauListener( new ListenerTirer(this, joueur2));
+		}
 	}
 
 	/**
