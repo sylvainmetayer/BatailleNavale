@@ -3,6 +3,7 @@
  */
 package ihm.panels;
 
+import ihm.composants.BoutonBN;
 import ihm.composants.JtextAreaBN;
 import ihm.panels.listeners.ListenerPlacementBateaux;
 import ihm.panels.listeners.ListenerTirer;
@@ -23,6 +24,7 @@ import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
+import enums.Motif;
 import enums.NavireCaracteristique;
 
 /**
@@ -223,6 +225,8 @@ public class PanelPrincipal extends JPanel {
 
 		PanelJoueur gagnant;
 
+		masquerPlateau(joueurSousAttaque);
+
 		joueurAttaquant.setMessage("A toi de jouer !");
 		joueurAttaquant.setEtatGrille(false);
 
@@ -234,11 +238,6 @@ public class PanelPrincipal extends JPanel {
 
 		gagnant = tellMeWhoWin(joueurAttaquant, joueurSousAttaque);
 
-		// test
-		if (gagnant == null) {
-			System.out.println("pas encore fini");
-		}
-
 		if (gagnant == joueurAttaquant)
 			finDePartie(joueurAttaquant, joueurSousAttaque);
 
@@ -246,6 +245,50 @@ public class PanelPrincipal extends JPanel {
 			finDePartie(joueurSousAttaque, joueurAttaquant);
 	}
 
+	/**
+	 * Cette méthode permet de masquer tous les boutons d'un plateau, ne
+	 * laissant que ceux qui ont déjà été joués.
+	 * 
+	 * @param jpj
+	 *            {@link PanelJoueur}
+	 */
+	private void masquerPlateau(PanelJoueur jpj) {
+
+		boolean[][] coupJoues = jpj.getPanelPlateau().getPlateau()
+				.getCoupsJoues();
+		BoutonBN[][] boutons = jpj.getPanelPlateau().getTableauBoutonsBN();
+		int taillePlateau = boutons.length;
+
+		// Eau sur tous les motifs
+		for (int i = 0; i < taillePlateau; i++) {
+			for (int j = 0; j < taillePlateau; j++) {
+				boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
+			}
+		}
+
+		// Autorise coups déjà touchées.
+		for (int i = 0; i < taillePlateau; i++) {
+			for (int j = 0; j < taillePlateau; j++) {
+				if (coupJoues[i][j]) {
+					// on a déjà joue ce coup
+					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
+							.getCase().getMotif());
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Cette méthode retourne le gagnant du jeu, ou <code>null</code> si aucun
+	 * n'a pour l'instant gagné.
+	 * 
+	 * @param jpj1
+	 *            {@link PanelJoueur}
+	 * @param jpj2
+	 *            {@link PanelJoueur}
+	 * @return {@link PanelJoueur} || <code>null</code>
+	 */
 	private PanelJoueur tellMeWhoWin(PanelJoueur jpj1, PanelJoueur jpj2) {
 
 		boolean jpp1Lose, jpp2Lose;
@@ -264,6 +307,13 @@ public class PanelPrincipal extends JPanel {
 		return null;
 	}
 
+	/**
+	 * Indique si tous les bateaux d'un plateau sont coulés
+	 * 
+	 * @param p
+	 *            {@link Plateau}
+	 * @return <code>true</code> || <code>false</code>
+	 */
 	private boolean isAllNavireCoule(Plateau p) {
 		int nombreCoules = 0, nombreNavireMax;
 		nombreNavireMax = NavireCaracteristique.values().length;

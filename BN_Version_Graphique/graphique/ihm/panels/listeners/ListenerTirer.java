@@ -45,6 +45,7 @@ public class ListenerTirer implements ActionListener {
 		NavireCaracteristique caracteristique;
 
 		navire = jpj_joueur.getPanelPlateau().getPlateau().jouerCoup(x, y);
+		
 
 		System.out.println(navire);
 		if (navire == null) {
