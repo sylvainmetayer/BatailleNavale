@@ -4,13 +4,18 @@
 package ihm.panels;
 
 import ihm.composants.BoutonBN;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import metier.Case;
 import metier.Jeu;
 import metier.Plateau;
+import enums.Motif;
 
 /**
  * Cette classe étend le comportement d'un {@link JPanel} pour permettre de
@@ -156,6 +161,85 @@ public class PanelPlateau extends JPanel {
 	 */
 	public void setTableauBoutonsBN(int x, int y, BoutonBN bouton) {
 		this.tableauBoutonsBN[x][y] = bouton;
+	}
+
+	/**
+	 * Cette méthode permet de masquer tous les boutons d'un plateau, ne
+	 * laissant que ceux qui ont déjà été joués.
+	 * 
+	 */
+	public void masquerPlateau() {
+		// TODO non fonctionnelle
+		boolean[][] coupJoues = this.getPlateau().getCoupsJoues();
+		BoutonBN[][] boutons = this.getTableauBoutonsBN();
+		int taillePlateau = boutons.length;
+
+		// Eau sur tous les motifs
+		for (int i = 0; i < taillePlateau; i++) {
+			for (int j = 0; j < taillePlateau; j++) {
+				boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
+			}
+		}
+
+		// Autorise coups déjà touchées.
+		for (int i = 0; i < taillePlateau; i++) {
+			for (int j = 0; j < taillePlateau; j++) {
+				if (coupJoues[i][j]) {
+					// on a déjà joue ce coup
+					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
+							.getCase().getMotif());
+				}
+			}
+		}
+
+		// Après avoir masquées les cases non jouees, on bloque celle jouees
+		bloquerCaseOccupees(this);
+
+	}
+
+	/**
+	 * Cette méthode permet de bloquer les cases occupées afin d'éviter de
+	 * recliquer dessus
+	 * 
+	 * @param caseOccupees
+	 */
+	private void bloquerCaseOccupees(PanelPlateau jpp) {
+		// TODO vérifier fonctionnement
+
+		List<Case> caseOccupees = jpp.getPlateau().getCasesOccupees();
+
+		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
+
+		BoutonBN tmp;
+
+		if (!caseOccupees.isEmpty() || caseOccupees != null) {
+
+			for (Case c : caseOccupees) {
+				tmp = jpp.getTableauBoutonsBN()[c.getPosx()][c.getPosy()];
+				boutons.add(tmp);
+			}
+
+			for (BoutonBN b : boutons) {
+				// une vérification ne coute rien..
+				if (b.getCase().isEstTouche())
+					b.setEnabled(false);
+				// else
+				// b.setEnabled(true);
+			}
+
+		}
+	}
+
+	/**
+	 * Cette méthode permet de mettre le plateau avec les motifs des bateaux du
+	 * joueurs ainis que leur emplacements.<br>
+	 * A utiliser avant de jouer pour le joueurAttaquant
+	 */
+	public void unmaskPlateau() {
+		// TODO test
+		actualisation();
+		repaint();
+
 	}
 
 }

@@ -3,7 +3,6 @@
  */
 package ihm.panels;
 
-import ihm.composants.BoutonBN;
 import ihm.composants.JtextAreaBN;
 import ihm.panels.listeners.ListenerPlacementBateaux;
 import ihm.panels.listeners.ListenerTirer;
@@ -18,9 +17,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,12 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import metier.Case;
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
-import enums.Motif;
 import enums.NavireCaracteristique;
 
 /**
@@ -47,13 +41,14 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String NAMEORDI = "Ordinateur";
-	private final String DEFAULTNAME = "Joueur";
+	private final String DEFAULTJOUEURDEUX = "Joueur Deux";
+	private final String DEFAULTJOUEURUN = "Joueur Un";
 	private final int TAILLEGRILLE = 8;
 
 	// Paramètres du jeu
 	private Jeu jeu;
-	private String nomJoueur = DEFAULTNAME;
+	private String nomJoueurUn = DEFAULTJOUEURUN;
+	private String nomJoueurDeux = DEFAULTJOUEURDEUX;
 
 	// = this pour plus de facilité d'accès vis a vis des classe interne membres
 	private final JPanel panelPrincipal = this;
@@ -117,10 +112,13 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 */
 	private void initGame() {
 		try {
-			jeu = new Jeu(TAILLEGRILLE, TAILLEGRILLE, nomJoueur);
+			jeu = new Jeu(TAILLEGRILLE, TAILLEGRILLE, nomJoueurUn,
+					nomJoueurDeux);
 			// On crée les deux panels de jeu.
-			joueur1 = new PanelJoueur(nomJoueur, jeu, jeu.getPlateauJoueurUn());
-			joueur2 = new PanelJoueur(NAMEORDI, jeu, jeu.getPlateauJoueurDeux());
+			joueur1 = new PanelJoueur(nomJoueurUn, jeu,
+					jeu.getPlateauJoueurUn());
+			joueur2 = new PanelJoueur(nomJoueurDeux, jeu,
+					jeu.getPlateauJoueurDeux());
 			repaint();
 		} catch (CoupException e) {
 			e.printStackTrace();
@@ -236,7 +234,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		PanelJoueur gagnant;
 
-		masquerPlateau(joueurSousAttaque);
+		// joueurSousAttaque.getPanelPlateau().masquerPlateau();
+		// joueurAttaquant.getPanelPlateau().unmaskPlateau();
 
 		joueurAttaquant.setMessage("A toi de jouer !");
 		joueurAttaquant.setEtatGrille(false);
@@ -254,79 +253,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		if (gagnant == joueurSousAttaque)
 			finDePartie(joueurSousAttaque, joueurAttaquant);
-	}
-
-	/**
-	 * Cette méthode permet de masquer tous les boutons d'un plateau, ne
-	 * laissant que ceux qui ont déjà été joués.
-	 * 
-	 * @param jpj
-	 *            {@link PanelJoueur}
-	 */
-	private void masquerPlateau(PanelJoueur jpj) {
-
-		// TODO non fonctionnelle
-		boolean[][] coupJoues = jpj.getPanelPlateau().getPlateau()
-				.getCoupsJoues();
-		BoutonBN[][] boutons = jpj.getPanelPlateau().getTableauBoutonsBN();
-		int taillePlateau = boutons.length;
-
-		// Eau sur tous les motifs
-		for (int i = 0; i < taillePlateau; i++) {
-			for (int j = 0; j < taillePlateau; j++) {
-				boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
-			}
-		}
-
-		// Autorise coups déjà touchées.
-		for (int i = 0; i < taillePlateau; i++) {
-			for (int j = 0; j < taillePlateau; j++) {
-				if (coupJoues[i][j]) {
-					// on a déjà joue ce coup
-					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
-							.getCase().getMotif());
-				}
-			}
-		}
-
-		// Après avoir masquées les cases non jouees, on bloque celle jouees
-		bloquerCaseOccupees(jpj);
-
-	}
-
-	/**
-	 * Cette méthode permet de bloquer les cases occupées afin d'éviter de
-	 * recliquer dessus
-	 * 
-	 * @param caseOccupees
-	 */
-	private void bloquerCaseOccupees(PanelJoueur jpj) {
-		// TODO vérifier fonctionnement
-
-		List<Case> caseOccupees = jpj.getPanelPlateau().getPlateau()
-				.getCasesOccupees();
-
-		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
-
-		BoutonBN tmp;
-
-		if (!caseOccupees.isEmpty() || caseOccupees == null) {
-
-			for (Case c : caseOccupees) {
-				tmp = jpj.getPanelPlateau().getTableauBoutonsBN()[c.getPosx()][c
-						.getPosy()];
-				boutons.add(tmp);
-			}
-
-			for (BoutonBN b : boutons) {
-				// une vérification ne coute rien..
-				if (b.getCase().isEstTouche())
-					b.setEnabled(false);
-				// else
-				// b.setEnabled(true);
-			}
-
-		}
 	}
 
 	/**
@@ -381,18 +307,48 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			return false;
 	}
 
+	/**
+	 * Permet d'annoncer la fin de partie, ainisi que le nom du vainqueur.
+	 * 
+	 * @param gagnant
+	 *            {@link PanelJoueur}
+	 * @param perdant
+	 *            {@link PanelJoueur}
+	 */
 	private void finDePartie(PanelJoueur gagnant, PanelJoueur perdant) {
 		String message;
+		boolean nouvellePartie;
 
+		gagnant.setPlateauListener(null);
+		perdant.setPlateauListener(null);
 		gagnant.getPanelPlateau().setEnabled(false);
 		perdant.getPanelPlateau().setEnabled(false);
 
 		message = "Bravo " + gagnant.getNomJoueur() + ", tu as gagné !\n "
 				+ perdant.getNomJoueur() + ", désolé, tu as perdu..";
 		PanelPrincipal.jta_message.append(message);
-		message = "Fin de la partie..".toUpperCase();
-		PanelPrincipal.jta_message.append(message);
+		PanelPrincipal.jta_message.append("Fin de la partie..".toUpperCase());
 
+		JOptionPane.showMessageDialog(null, message);
+		nouvellePartie = questionOuiNon("Voulez vous rejouer ?",
+				"La partie est finie..");
+		if (nouvellePartie)
+			initGame();
+		else
+			System.exit(0);
+
+		// TODO gestion pour rejouer.
+
+	}
+
+	private boolean questionOuiNon(String message, String titreFenetre) {
+		int resultat = JOptionPane.showConfirmDialog(null, message,
+				titreFenetre, JOptionPane.YES_NO_OPTION);
+
+		if (resultat == JOptionPane.YES_OPTION)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -458,13 +414,13 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	/**
 	 * Listener permettant de charger la partie lors du clic sur le bouton
-	 * charger partie.
+	 * {@link PanelPrincipal#jb_chargerPartie}
 	 * 
 	 * @author Sylvain METAYER - Kevin DESSIMOULIE
 	 *
 	 */
 	public class ChargerPartieListener implements ActionListener {
-
+		// TODO
 		private final static String NAME = "backup";
 		private final static String EXTENSION = ".data";
 
@@ -538,9 +494,29 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			panelPrincipal.revalidate();
 			panelPrincipal.repaint();
 
-			// Demande du prenom avec un JOptionPane
+			demandePrenomJoueur(true);
+			demandePrenomJoueur(false);
+			initGame();
+		}
+
+		/**
+		 * Permet de demander le prenom d'un joueur et l'affecte à la variable
+		 * de {@link PanelPrincipal} correspondante selon qu'il s'agit du joueur
+		 * 1 ou 2
+		 * 
+		 * @param joueur1
+		 *            {@link Boolean}
+		 */
+		private void demandePrenomJoueur(boolean joueur1) {
 			Object[] message = new Object[2];
-			message[0] = "Votre prénom";
+
+			String nom = "";
+
+			if (joueur1)
+				message[0] = "Prénom du joueur 1 :";
+			else
+				message[0] = "Prénom du joueur 2 :";
+
 			message[1] = new JTextField();
 			String option[] = { "OK" };
 
@@ -549,17 +525,21 @@ public class PanelPrincipal extends JPanel implements Serializable {
 					JOptionPane.QUESTION_MESSAGE, null, option, message[1]);
 
 			if (result == JOptionPane.OK_OPTION) {
-				nomJoueur = ((JTextField) message[1]).getText();
+				nom = ((JTextField) message[1]).getText();
 			}
 
-			if (result == JOptionPane.CANCEL_OPTION) {
-				JOptionPane.showMessageDialog(panelPrincipal,
-						"Utilisation du nom par défaut...");
-				// TODO prenom non saisi = crash
+			if (nom.isEmpty()) {
+				if (joueur1)
+					nomJoueurUn = DEFAULTJOUEURUN;
+				else
+					nomJoueurDeux = DEFAULTJOUEURDEUX;
+			} else {
+				if (joueur1)
+					nomJoueurUn = nom;
+				else
+					nomJoueurDeux = nom;
 			}
 
-			// on démarre la partie.
-			initGame();
 		}
 	}
 

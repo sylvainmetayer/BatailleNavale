@@ -28,14 +28,20 @@ public class Jeu {
 	 * pour l'ordinateur
 	 * 
 	 * @param hauteur
+	 *            {@link Integer}
 	 * @param largeur
-	 * @param nomJoueur
+	 *            {@link Integer}
+	 * @param nomJoueurUn
+	 *            {@link String}
+	 * @param nomJoueurDeux
+	 *            {@link String}
 	 * @throws CoupException
 	 *             quand TODO
 	 */
-	public Jeu(int hauteur, int largeur, String nomJoueur) throws CoupException {
-		this.plateauJoueurUn = new Plateau(hauteur, largeur, nomJoueur);
-		this.plateauJoueurDeux = new Plateau(hauteur, largeur, "Ordinateur");
+	public Jeu(int hauteur, int largeur, String nomJoueurUn,
+			String nomJoueurDeux) throws CoupException {
+		this.plateauJoueurUn = new Plateau(hauteur, largeur, nomJoueurUn);
+		this.plateauJoueurDeux = new Plateau(hauteur, largeur, nomJoueurDeux);
 		this.score = 0;
 		this.nbreCoups = 0;
 
