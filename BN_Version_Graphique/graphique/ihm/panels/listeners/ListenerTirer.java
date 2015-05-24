@@ -42,9 +42,7 @@ public class ListenerTirer implements ActionListener {
 
 		navire = jpj_joueur.getPanelPlateau().getPlateau().jouerCoup(x, y);
 
-		System.out.println(navire);
 		if (navire == null) {
-			System.out.println("eau");
 			// coup dans l'eau
 			PanelPrincipal.jta_message.append("Dans l'eau !");
 			jpj_joueur.getPanelPlateau().getPlateau().getLstCases()[x][y]
@@ -54,8 +52,9 @@ public class ListenerTirer implements ActionListener {
 			jpj_joueur.getPanelPlateau().actualisation();
 			jpj_joueur.repaint();
 		} else {
-			caracteristique = navire.getCaracteristiqueByTaille(navire
-					.getTaille());
+
+			caracteristique = NavireCaracteristique
+					.getCaracteristiqueByTaille(navire.getTaille());
 
 			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
 					.setMotifCaseEtPlateau(Motif.TOUCHE.toString());
@@ -83,9 +82,13 @@ public class ListenerTirer implements ActionListener {
 			}
 
 		}
+
+		jpp_principal.getMonPanelJoueur(jpj_joueur, false).repaint();
 		jpj_joueur.getPanelPlateau().actualisation();
 		jpj_joueur.repaint();
 		jpp_principal.repaint();
+
+		// On joue le coup suivant en inversant les roles
 		jpp_principal.jouerCoup(
 				jpp_principal.getMonPanelJoueur(jpj_joueur, false),
 				jpp_principal.getMonPanelJoueur(jpj_joueur, true));

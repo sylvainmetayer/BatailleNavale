@@ -94,4 +94,27 @@ public enum NavireCaracteristique {
 		return motif;
 	}
 
+	/**
+	 * Retourne les caractéristiques d'un navire à partir de sa taille
+	 * 
+	 * @param taille
+	 *            {@link Integer}
+	 * @return {@link NavireCaracteristique}
+	 */
+	public static NavireCaracteristique getCaracteristiqueByTaille(int taille) {
+		if (taille == 2) {
+			return NavireCaracteristique.NAVIRESIZE2;
+		}
+		if (taille == 3) {
+			return NavireCaracteristique.NAVIRESIZE3;
+		}
+		if (taille == 4) {
+			return NavireCaracteristique.NAVIRESIZE4;
+		}
+		if (taille == 5) {
+			return NavireCaracteristique.NAVIRESIZE5;
+		}
+		return null;
+	}
+
 }

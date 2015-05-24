@@ -27,7 +27,7 @@ public class FrameBatailleNavale extends JFrame {
 		this.setContentPane(new PanelPrincipal());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		// this.setResizable(false);
+		this.setResizable(false);
 		// tant qu'il y a des problèmes de repaint, ne pas mettre
 
 		// TODO demander confirmation avant sortie

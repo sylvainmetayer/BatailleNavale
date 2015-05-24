@@ -53,10 +53,15 @@ public class Navire implements Comparable<Navire> {
 	 * Constructeur Navire
 	 * 
 	 * @param idNavire
+	 *            {@link Integer}
 	 * @param taille
+	 *            {@link Integer}
 	 * @param cases
+	 *            {@link List}
 	 * @param estCoule
+	 *            {@link Boolean}
 	 * @param valeurScore
+	 *            {@link Integer}
 	 * 
 	 */
 	public Navire(int idNavire, int taille, List<Case> cases, boolean estCoule,
@@ -89,7 +94,7 @@ public class Navire implements Comparable<Navire> {
 	/**
 	 * Retourne l'ID du navire.
 	 * 
-	 * @return idNavire
+	 * @return idNavire {@link Integer}
 	 */
 	public int getIdNavire() {
 		return idNavire;
@@ -99,6 +104,7 @@ public class Navire implements Comparable<Navire> {
 	 * Setter de l'ID du navire
 	 * 
 	 * @param idNavire
+	 *            {@link Integer}
 	 */
 	public void setIdNavire(int idNavire) {
 		this.idNavire = idNavire;
@@ -107,7 +113,7 @@ public class Navire implements Comparable<Navire> {
 	/**
 	 * Retourne la taille du navire.
 	 * 
-	 * @return taille
+	 * @return taille {@link Integer}
 	 */
 	public int getTaille() {
 		return taille;
@@ -117,6 +123,7 @@ public class Navire implements Comparable<Navire> {
 	 * Setter de la taille du navire.
 	 * 
 	 * @param taille
+	 *            {@link Integer}
 	 */
 	public void setTaille(int taille) {
 		this.taille = taille;
@@ -125,7 +132,7 @@ public class Navire implements Comparable<Navire> {
 	/**
 	 * Retourne une liste de cases sur lesquelles sont positionné le navire.
 	 * 
-	 * @return cases
+	 * @return cases {@link List}
 	 */
 	public List<Case> getCases() {
 		return cases;
@@ -135,6 +142,7 @@ public class Navire implements Comparable<Navire> {
 	 * Setter de la liste de cases sur lesquelles sont positionné le navire.
 	 * 
 	 * @param cases
+	 *            {@link List}
 	 */
 	public void setCases(List<Case> cases) {
 		this.cases = cases;
@@ -143,7 +151,7 @@ public class Navire implements Comparable<Navire> {
 	/**
 	 * Retourne un booléen indiquant si le navire est coulé ou pas.
 	 * 
-	 * @return estCoule
+	 * @return estCoule {@link Boolean}
 	 */
 	public boolean isEstCoule() {
 		return estCoule;
@@ -153,6 +161,7 @@ public class Navire implements Comparable<Navire> {
 	 * Setter du booléen indiquant si le navire est coulé ou pas.
 	 * 
 	 * @param estCoule
+	 *            {@link Boolean}
 	 */
 	public void setEstCoule(boolean estCoule) {
 		this.estCoule = estCoule;
@@ -161,7 +170,7 @@ public class Navire implements Comparable<Navire> {
 	/**
 	 * Retourne la valeur du navire utiisée pour calculer le score du joueur.
 	 * 
-	 * @return valeurScore
+	 * @return valeurScore {@link Integer}
 	 */
 	public int getValeurScore() {
 		return valeurScore;
@@ -171,25 +180,11 @@ public class Navire implements Comparable<Navire> {
 	 * Setter de la valeur du navire utiisée pour calculer le score du joueur
 	 * 
 	 * @param valeurScore
+	 *            {@link Integer}
 	 */
 	public void setValeurScore(int valeurScore) {
 		this.valeurScore = valeurScore;
 	}
 
-	public NavireCaracteristique getCaracteristiqueByTaille(int taille) {
-		if (taille == 2) {
-			return NavireCaracteristique.NAVIRESIZE2;
-		}
-		if (taille == 3) {
-			return NavireCaracteristique.NAVIRESIZE3;
-		}
-		if (taille == 4) {
-			return NavireCaracteristique.NAVIRESIZE4;
-		}
-		if (taille == 5) {
-			return NavireCaracteristique.NAVIRESIZE5;
-		}
-		return null;
-	}
-
+	
 }

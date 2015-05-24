@@ -9,6 +9,9 @@ import ihm.panels.listeners.ListenerTirer;
 import ihm.panels.listeners.SauvegarderPartieListener;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -55,17 +60,23 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	// Déclarations composants
 	private JButton jb_commencerPartie;
-	private JButton jb_quitterPartie;
 	private JButton jb_chargerPartie;
 	private JLabel jl_menuPrincipal;
 	private JButton jb_sauvegarderPartie;
+	private JButton jb_aide;
+
+	private JLabel jl_image;
+	File file = new File("graphique/images/bataillenavale.jpg");
+	ImageIcon image = new ImageIcon(file.getAbsolutePath());
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
 	public static JtextAreaBN jta_message;
 	private JScrollPane scroller;
 
 	// Déclarations Panels
+	private JPanel jp_image;
 	private JPanel jp_panelCentre;
+	private JPanel jp_aide_save;
 	private PanelJoueur joueur1;
 	private PanelJoueur joueur2;
 
@@ -78,26 +89,38 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jl_menuPrincipal = new JLabel("Bataille Navale - Le jeu !");
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
 		jb_commencerPartie = new JButton("Commencer une nouvelle partie");
-		jb_quitterPartie = new JButton("Quitter");
 		jb_sauvegarderPartie = new JButton("Sauvegarder ?");
+		jb_sauvegarderPartie.setForeground(Color.RED);
+		jb_aide = new JButton("Aide");
+		jb_aide.addActionListener(new AideListener());
+		jb_aide.setForeground(Color.BLUE);
 		jb_chargerPartie = new JButton("Charger une partie");
+
+		jl_image = new JLabel("");
+		jl_image.setIcon(image);
 
 		// instanciations panels
 		panelPrincipal.setLayout(new BorderLayout());
 		jp_panelCentre = new JPanel();
-		jp_panelCentre.setLayout(new GridLayout(2, 2));
+		jp_panelCentre.setLayout(new GridLayout(1, 2));
+		jp_image = new JPanel();
+		jp_image.setLayout(new FlowLayout());
+		jp_image.setPreferredSize(new Dimension(200, 250));
+		jp_aide_save = new JPanel();
+		jp_aide_save.setLayout(new FlowLayout());
 
 		// ajouts des composants dans les panels secondaires.
 		jp_panelCentre.add(jb_commencerPartie, 0);
 		jp_panelCentre.add(jb_chargerPartie, 1);
-		jp_panelCentre.add(jb_quitterPartie, 2);
+		jp_image.add(jl_image);
 
 		// ajouts des composants dans le panel principal
 		panelPrincipal.add(jl_menuPrincipal, BorderLayout.NORTH);
 		panelPrincipal.add(jp_panelCentre, BorderLayout.CENTER);
+		panelPrincipal.add(jp_image, BorderLayout.SOUTH);
 
 		// ajouts des ecouteurs.
-		jb_quitterPartie.addActionListener(new QuitterListener());
+		// jb_quitterPartie.addActionListener(new QuitterListener());
 		jb_commencerPartie.addActionListener(new LancerPartieListener());
 		jb_chargerPartie.addActionListener(new ChargerPartieListener());
 		jb_sauvegarderPartie.addActionListener(new SauvegarderPartieListener(
@@ -126,9 +149,9 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		PanelPrincipal.jta_message = new JtextAreaBN();
 		PanelPrincipal.jta_message.setEditable(false);
-		// retour à la ligne
 		PanelPrincipal.jta_message.setLineWrap(true);
 		PanelPrincipal.jta_message.setWrapStyleWord(true);
+
 		PanelPrincipal.jta_message.setText("Historique :");
 		PanelPrincipal.jta_message.setText("Début du jeu..");
 
@@ -137,12 +160,13 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		panelPrincipal.setLayout(new BorderLayout());
 
-		panelPrincipal.add(jb_sauvegarderPartie, BorderLayout.NORTH);
+		jp_aide_save.add(jb_sauvegarderPartie);
+		jp_aide_save.add(jb_aide);
+		panelPrincipal.add(jp_aide_save, BorderLayout.NORTH);
 		panelPrincipal.add(joueur1, BorderLayout.WEST);
 		panelPrincipal.add(joueur2, BorderLayout.EAST);
 
 		panelPrincipal.add(scroller, BorderLayout.CENTER);
-		// panelPrincipal.add(PanelPrincipal.jta_message, BorderLayout.CENTER);
 
 		super.revalidate();
 		super.repaint();
@@ -167,10 +191,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		repaint();
 		if (!finPlacement) {
-			//
-			// message = "Placement des bateaux de " +
-			// jpj_joueur.getNomJoueur();
-			// PanelPrincipal.jta_message.append(message.toUpperCase());
 
 			// blocage grille adverse
 			getMonPanelJoueur(jpj_joueur, false).setEtatGrille(false);
@@ -203,6 +223,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			placementBateaux(getMonPanelJoueur(jpj_joueur, false),
 					NavireCaracteristique.NAVIRESIZE2, false);
 		}
+		repaint();
 	}
 
 	/**
@@ -211,29 +232,31 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 * gagne.
 	 */
 	public void debutPartie() {
-
+		repaint();
 		jta_message.clearJTextArea();
 		jta_message.append("Fin de placement des bateaux...\n "
 				+ "Début de la guerre !");
-		// joueur1.setEtatGrille(false);
-		// getMonPanelJoueur(joueur1, true).setMessage(
-		// "Placements terminés".toUpperCase());
-		// joueur2.setEtatGrille(false);
-		// getMonPanelJoueur(joueur2, true).setMessage(
-		// "Placements terminés".toUpperCase());
-
-		// PanelJoueur joueurAttaque = getMonPanelJoueur(joueur1, false);
-		// PanelJoueur joueurAttaquant = getMonPanelJoueur(joueur1, true);
 
 		jouerCoup(getPanelJoueurDeux(), getPanelJoueurUn());
 
 	}
 
+	/**
+	 * Cette méthode permet de jouer un coup sur le plateau adverse. <br>
+	 * Le plateau adverse ne contient que les coup déjà joués, les autres étant
+	 * masqués, et la plateau du joueur est viisble
+	 * 
+	 * @param joueurSousAttaque
+	 *            {@link PanelJoueur}
+	 * @param joueurAttaquant
+	 *            {@link PanelJoueur}
+	 */
 	public void jouerCoup(PanelJoueur joueurSousAttaque,
 			PanelJoueur joueurAttaquant) {
 
 		PanelJoueur gagnant;
 
+		// TODO gestion plateau masqué unmask
 		// joueurSousAttaque.getPanelPlateau().masquerPlateau();
 		// joueurAttaquant.getPanelPlateau().unmaskPlateau();
 
@@ -253,6 +276,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		if (gagnant == joueurSousAttaque)
 			finDePartie(joueurSousAttaque, joueurAttaquant);
+		repaint();
 	}
 
 	/**
@@ -279,7 +303,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		if (jpp2Lose)
 			return jpj2;
 
-		// la partie n'est pas encore finie si null
+		// la partie n'est pas encore finie
 		return null;
 	}
 
@@ -337,10 +361,22 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		else
 			System.exit(0);
 
-		// TODO gestion pour rejouer.
+		// TODO gestion pour rejouer ne marche pas pour rejouer, freeze
 
 	}
 
+	/**
+	 * Cette méthode permet de poser une question à l'utilisateur au travers
+	 * d'une {@link JOptionPane}<br>
+	 * Les possibilités de réponses sont oui ou non
+	 * 
+	 * @param message
+	 *            {@link String}
+	 * @param titreFenetre
+	 *            {@link String}
+	 * @return <code>true</code> réponse positive || <code>false</code> réponse
+	 *         négative ou pas de réponse
+	 */
 	private boolean questionOuiNon(String message, String titreFenetre) {
 		int resultat = JOptionPane.showConfirmDialog(null, message,
 				titreFenetre, JOptionPane.YES_NO_OPTION);
@@ -420,7 +456,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 *
 	 */
 	public class ChargerPartieListener implements ActionListener {
-		// TODO
 		private final static String NAME = "backup";
 		private final static String EXTENSION = ".data";
 
@@ -544,26 +579,29 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	}
 
 	/**
-	 * Ecouteur pour le bouton {@link PanelPrincipal#jb_quitterPartie}
+	 * Classe permettant d'afficher une aide dans une {@link JOptionPane}
 	 * 
 	 * @author Sylvain METAYER - Kevin DESSIMOULIE
 	 *
 	 */
-	public class QuitterListener implements ActionListener {
+	public class AideListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent e) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("Bienvenue sur l'aide de la bataille navale.\n");
+			sb.append("Pour jouer, il faut commencer par placer les bateaux pour chaque joueur\n");
+			sb.append("Ensuite, vous jouerez tour par tour, en cliquant sur une case du plateau adverse\n");
+			sb.append("pour tenter de couler tous ses navires\n");
+			sb.append("En cas de placement erroné, ou de coup joué de façon incorrect,\n");
+			sb.append("vous serez invité à rejouer ou replacer votre bateau.\n");
+			sb.append("Vous pouvez consulter l'historique des actions sur le bloc de log ci dessous.\n");
+			sb.append("\nQue le meilleur d'entre vous gagne !");
 
-			int option = JOptionPane.showConfirmDialog(null,
-					"Voulez-vous quitter ?", "Arrêt de l'application",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if (option != JOptionPane.NO_OPTION
-					&& option != JOptionPane.CLOSED_OPTION) {
-				panelPrincipal.setVisible(false);
-				System.exit(0);
-			}
+			JOptionPane.showMessageDialog(null, sb.toString(), "Aide",
+					JOptionPane.INFORMATION_MESSAGE);
+
 		}
 
 	}
-
 }

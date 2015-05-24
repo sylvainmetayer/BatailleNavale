@@ -119,4 +119,24 @@ public class PanelJoueur extends JPanel {
 		return jpp_panelPlateau;
 	}
 
+	/**
+	 * Retourne le score du joueur
+	 * 
+	 * @return {@link Integer}
+	 */
+	public int getScore() {
+		return jpp_panelPlateau.getPlateau().getScore();
+	}
+
+	/**
+	 * Permet de definir le score
+	 * 
+	 * @param scoreToAdd
+	 *            {@link Integer}
+	 */
+	public void setScore(int scoreToAdd) {
+		jpp_panelPlateau.getPlateau().setScore(scoreToAdd);
+		this.score = getScore();
+	}
+
 }

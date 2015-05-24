@@ -13,10 +13,9 @@ import enums.NavireCaracteristique;
 /**
  * Cette classe représente un plateau de {@link Jeu}
  * 
- * @author Sylvain - Kevin
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-
 public class Plateau {
 
 	@Override
@@ -47,6 +46,7 @@ public class Plateau {
 	private String joueur;
 	private int longueur;
 	private int largeur;
+	private int score;
 
 	private List<Navire> listeNav;
 	private List<Case> casesOccupees;
@@ -54,6 +54,15 @@ public class Plateau {
 	private boolean[][] casesTouchees;
 	private Case[][] lstCases;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param longueur
+	 *            {@link Integer}
+	 * @param largeur
+	 *            {@link Integer}
+	 * @throws CoupException
+	 */
 	public Plateau(int longueur, int largeur) throws CoupException {
 		this(longueur, largeur, "Joueur");
 
@@ -64,8 +73,11 @@ public class Plateau {
 	 * coups joues et cases touchees
 	 * 
 	 * @param longueur
+	 *            {@link Integer}
 	 * @param largeur
+	 *            {@link Integer}
 	 * @param joueur
+	 *            {@link StringIndexOutOfBoundsException}
 	 * @throws CoupException
 	 *             lorsque le plateau n'est pas correct
 	 */
@@ -78,6 +90,7 @@ public class Plateau {
 
 		this.longueur = longueur;
 		this.largeur = largeur;
+		this.score = 0;
 
 		// affectation des dimensions
 		lstCases = new Case[longueur][largeur];
@@ -130,6 +143,7 @@ public class Plateau {
 	 * du joueur
 	 * 
 	 * @param n
+	 *            {@link Navire}
 	 */
 	public void ajouterNavire(Navire n) {
 		this.listeNav.add(n);
@@ -148,12 +162,6 @@ public class Plateau {
 	 *            {@link List}
 	 */
 	private void randomiserPlacement(List<Navire> lstn) {
-		//
-		// for (Navire n : lstn) {
-		// List<Case> c = placerNavire(n);
-		// n.setCases(c);
-		// casesOccupees.addAll(c);
-		// }
 
 		for (Navire n : lstn) {
 			List<Case> c = placerNavire(n);
@@ -185,6 +193,13 @@ public class Plateau {
 		}
 	}
 
+	/**
+	 * Permet de placer un navire sur le {@link Plateau}
+	 * 
+	 * @param n
+	 *            {@link Navire}
+	 * @return {@link List} de cases occupées par le {@link Navire}
+	 */
 	public List<Case> placerNavire(Navire n) {
 		List<Case> lc = null;
 		Case c = null;
@@ -244,7 +259,9 @@ public class Plateau {
 	 * la liste des case occupées.
 	 * 
 	 * @param x
+	 *            {@link Integer}
 	 * @param y
+	 *            {@link Integer}
 	 * @return <code>true</code> || <code>false</code>
 	 */
 	public boolean isCollisionPlacement(int x, int y) {
@@ -264,7 +281,7 @@ public class Plateau {
 	/**
 	 * Renvoie la liste des navires coulés
 	 * 
-	 * @return la liste
+	 * @return {@link List} des {@link Navire} coulés
 	 */
 	public List<Navire> sontCoules() {
 		List<Navire> coules = new ArrayList<Navire>();
@@ -287,11 +304,12 @@ public class Plateau {
 	 *            {@link Integer}
 	 * @param y
 	 *            {@link Integer}
-	 * @return le navire touché ou null si coup dans l'eau
+	 * @return le {@link Navire} touché || <code>null</code> si coup dans l'eau
 	 */
 	public Navire jouerCoup(int x, int y) {
 		int nbreTouche = 0;
 		Navire navireTouche = null;
+		int valeurCoup;
 
 		// 1 - a t on déja joué le coup ?
 		if (!coupsJoues[x][y]) {
@@ -308,6 +326,9 @@ public class Plateau {
 				nbreTouche = 0;
 				List<Case> cases = n.getCases();
 				for (Case c : cases) {
+					NavireCaracteristique nc = NavireCaracteristique
+							.getCaracteristiqueByTaille(n.getTaille());
+					valeurCoup = nc.getValeurScore() / nc.getTaille();
 					if (c.isEstTouche())
 						nbreTouche++;
 					if (c.getPosx() == x && c.getPosy() == y) {
@@ -317,6 +338,7 @@ public class Plateau {
 						casesTouchees[x][y] = true;
 						getLstCases()[x][y].setEstTouche(true);
 						getLstCases()[x][y].setMotif(Motif.TOUCHE.toString());
+						setScore(valeurCoup);
 					}
 				}
 				if (nbreTouche == cases.size()) {
@@ -333,7 +355,7 @@ public class Plateau {
 	/**
 	 * Retourne la liste des navires du plateau.
 	 * 
-	 * @return listeNav
+	 * @return listeNav {@link List}
 	 */
 	public List<Navire> getListeNav() {
 		return listeNav;
@@ -343,6 +365,7 @@ public class Plateau {
 	 * Setter de la liste des navires du plateau.
 	 * 
 	 * @param listeNav
+	 *            {@link List}
 	 */
 	public void setListeNav(List<Navire> listeNav) {
 		this.listeNav = listeNav;
@@ -352,7 +375,7 @@ public class Plateau {
 	/**
 	 * Retourne la liste des cases occupées par des navires.
 	 * 
-	 * @return casesOccupees
+	 * @return casesOccupees {@link List}
 	 */
 	public List<Case> getCasesOccupees() {
 		return casesOccupees;
@@ -362,6 +385,7 @@ public class Plateau {
 	 * Setter de la liste des cases occupées par des navires.
 	 * 
 	 * @param casesOccupees
+	 *            {@link List}
 	 */
 	public void setCasesOccupees(List<Case> casesOccupees) {
 		this.casesOccupees = casesOccupees;
@@ -370,7 +394,7 @@ public class Plateau {
 	/**
 	 * Retourne la longueur de ce plateau.
 	 * 
-	 * @return longueur
+	 * @return longueur {@link Integer}
 	 */
 	public int getLongueur() {
 		return longueur;
@@ -379,7 +403,7 @@ public class Plateau {
 	/**
 	 * Retourne la largeur de ce plateau.
 	 * 
-	 * @return largeur
+	 * @return largeur {@link Integer}
 	 */
 	public int getLargeur() {
 		return largeur;
@@ -388,7 +412,7 @@ public class Plateau {
 	/**
 	 * Retourne le nom du joueur de ce plateau.
 	 * 
-	 * @return joueur
+	 * @return joueur {@link String}
 	 */
 	public String getJoueur() {
 		return joueur;
@@ -398,6 +422,7 @@ public class Plateau {
 	 * Setter du nom du joueur de ce plateau.
 	 * 
 	 * @param joueur
+	 *            {@link String}
 	 */
 	public void setJoueur(String joueur) {
 		this.joueur = joueur;
@@ -407,7 +432,7 @@ public class Plateau {
 	 * Retourne un tableau de bool�ens représentant les coups joués sur ce
 	 * plateau.
 	 * 
-	 * @return coupsJoues
+	 * @return coupsJoues {@link Boolean}
 	 */
 	public boolean[][] getCoupsJoues() {
 		return coupsJoues;
@@ -418,6 +443,7 @@ public class Plateau {
 	 * plateau.
 	 * 
 	 * @param coupsJoues
+	 *            {@link Boolean}
 	 */
 	public void setCoupsJoues(boolean[][] coupsJoues) {
 		this.coupsJoues = coupsJoues;
@@ -427,7 +453,7 @@ public class Plateau {
 	 * Retourne un tableau de booléens représentant les cases touchées sur ce
 	 * plateau.
 	 * 
-	 * @return casesTouchees
+	 * @return casesTouchees {@link Boolean}
 	 */
 	public void setCasesTouchees(boolean[][] casesTouchees) {
 		this.casesTouchees = casesTouchees;
@@ -438,6 +464,7 @@ public class Plateau {
 	 * plateau.
 	 * 
 	 * @param casesTouchees
+	 *            {@link Boolean}
 	 */
 	public boolean[][] getCasesTouchees() {
 		return casesTouchees;
@@ -447,10 +474,29 @@ public class Plateau {
 	 * Retourne un tableau de Cases représentant l'ensemble des cases de ce
 	 * plateau.
 	 * 
-	 * @return lstCases
+	 * @return lstCases {@link List}
 	 */
 	public Case[][] getLstCases() {
 		return lstCases;
+	}
+
+	/**
+	 * Retourne le score du plateau
+	 * 
+	 * @return {@link Integer}
+	 */
+	public int getScore() {
+		return score;
+	}
+
+	/**
+	 * Ajoute le score au score actuel
+	 * 
+	 * @param score
+	 *            {@link Integer}
+	 */
+	public void setScore(int scoreToAdd) {
+		this.score += scoreToAdd;
 	}
 
 }

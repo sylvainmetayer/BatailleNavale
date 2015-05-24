@@ -3,6 +3,12 @@ package metier;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cette classe représente un {@link Jeu} de bataille navale
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
+ *
+ */
 public class Jeu {
 
 	private Plateau plateauJoueurUn;
@@ -13,6 +19,13 @@ public class Jeu {
 
 	private int nbreCoups;
 
+	/**
+	 * Permet de récupérér le plateau correspondant
+	 * 
+	 * @param p
+	 *            {@link Plateau}
+	 * @return {@link Plateau}
+	 */
 	public Plateau goodPlateau(Plateau p) {
 		if (p.equals(plateauJoueurUn))
 			return plateauJoueurUn;
@@ -52,32 +65,22 @@ public class Jeu {
 	 * x,y....
 	 * 
 	 * @param x
+	 *            {@link Integer}
 	 * @param y
+	 *            {@link Integer}
 	 * @param plateau
+	 *            {@link Plateau}
 	 * @return Navire : le navire touche ou coule, ou alors null si rien ne
 	 *         s'est passe
 	 * @throws CoupException
+	 * @see {@link Plateau#jouerCoup(int, int)} pour la gestion des cases
+	 *      ajoutées, touchées, ...
 	 */
 	public Navire jouer(int x, int y, Plateau plateau) throws CoupException {
 
 		isCoupAutorise(x, y, plateau);
 		Navire n = this.goodPlateau(plateau).jouerCoup(x, y);
-		/*
-		 * if (n == null) { System.out.println("Coup dans l'eau !"); if
-		 * (plateau.equals(getPlateauJoueurUn())) { score += 0; score ordi à
-		 * gérer ? } } else { if (n.isEstCoule() == true) {
-		 * System.out.println("Touché Coulé !"); if
-		 * (plateau.equals(getPlateauJoueurUn())) { // score += 2; // score ordi
-		 * à gérer ? } if (plateau.equals(getPlateauJoueurDeux())) { int score =
-		 * getScore() + n.getValeurScore(); setScore(score); } } else if
-		 * (n.isEstCoule() == false) { System.out.println("Touché !"); if
-		 * (plateau.equals(getPlateauJoueurUn())) { // score += 1; // score ordi
-		 * à gérer ? } } }
-		 */
 
-		// la gestion des cases étant déjà faite avant (cf plateau#jouerCoup, on
-		// peut juste retourner
-		// le bateau tel quel.. ?
 		return n;
 
 	}
@@ -87,8 +90,11 @@ public class Jeu {
 	 * taille de l'aire de jeu
 	 * 
 	 * @param x
+	 *            {@link Integer}
 	 * @param y
+	 *            {@link Integer}
 	 * @param plateau
+	 *            {@link Plateau}
 	 * @throws CoupException
 	 */
 	private void isCoupAutorise(int x, int y, Plateau plateau)
@@ -132,7 +138,7 @@ public class Jeu {
 	 * Permet de générer une partie en récupérant la liste des navires à partir
 	 * d'un fichier.
 	 * 
-	 * @throws metier.bataille.application.BatailleNavaleException
+	 * @throws BatailleNavaleException
 	 * @throws NumberFormatException
 	 * 
 	 */
@@ -187,14 +193,12 @@ public class Jeu {
 		// TODO quand on place en manuel, ne set que le plateau 2 !
 		plateauJoueurUn.setListeNav(listeNav);
 		plateauJoueurDeux.setListeNav(listeNav);
-
-		// TODO definir nombre navires, type navire, taille navire
 	}
 
 	/**
 	 * Retourne le plateau du joueur Un (l'humain).
 	 * 
-	 * @return plateauJoueurUn
+	 * @return plateauJoueurUn {@link Plateau}
 	 * 
 	 */
 	public Plateau getPlateauJoueurUn() {
@@ -205,6 +209,7 @@ public class Jeu {
 	 * Setter du plateau du joueur Un (l'humain).
 	 * 
 	 * @param plateauJoueurUn
+	 *            {@link Plateau}
 	 */
 	public void setPlateauJoueurUn(Plateau plateauJoueurUn) {
 		this.plateauJoueurUn = plateauJoueurUn;
@@ -213,8 +218,7 @@ public class Jeu {
 	/**
 	 * Retourne le plateau du joueur Deux (l'ordinateur).
 	 * 
-	 * @return plateauJoueurDeux
-	 * 
+	 * @return plateauJoueurDeux {@link Plateau}
 	 */
 	public Plateau getPlateauJoueurDeux() {
 		return plateauJoueurDeux;
@@ -224,6 +228,7 @@ public class Jeu {
 	 * Setter du plateau du joueur Deux (l'ordinateur).
 	 * 
 	 * @param plateauJoueurDeux
+	 *            {@link Plateau}
 	 */
 	public void setPlateauJoueurDeux(Plateau plateauJoueurDeux) {
 		this.plateauJoueurDeux = plateauJoueurDeux;
@@ -232,7 +237,7 @@ public class Jeu {
 	/**
 	 * Retourne le score du joueur
 	 * 
-	 * @return score
+	 * @return score {@link Integer}
 	 * 
 	 */
 	public int getScore() {
@@ -243,6 +248,7 @@ public class Jeu {
 	 * Setter du score du joueur
 	 * 
 	 * @param score
+	 *            {@link Integer}
 	 */
 	public void setScore(int score) {
 		this.score = score;
@@ -251,7 +257,7 @@ public class Jeu {
 	/**
 	 * Retourne le nombre de coups d'un joueur durant la partie.
 	 * 
-	 * @return nbreCoups
+	 * @return nbreCoups {@link Integer}
 	 * 
 	 */
 	public int getNbreCoups() {
@@ -262,6 +268,7 @@ public class Jeu {
 	 * Setter du nombre de coups d'un joueur durant la partie.
 	 * 
 	 * @param nbreCoups
+	 *            {@link Integer}
 	 */
 	public void setNbreCoups(int nbreCoups) {
 		this.nbreCoups = nbreCoups;
@@ -270,7 +277,7 @@ public class Jeu {
 	/**
 	 * Retourne l'entier x.
 	 * 
-	 * @return x
+	 * @return x {@link Integer}
 	 * 
 	 */
 	public int getX() {
@@ -281,6 +288,7 @@ public class Jeu {
 	 * Setter du l'entier x.
 	 * 
 	 * @param x
+	 *            {@link Integer}
 	 */
 	public void setX(int x) {
 		this.x = x;
@@ -289,7 +297,7 @@ public class Jeu {
 	/**
 	 * Retourne l'entier y.
 	 * 
-	 * @return y
+	 * @return y {@link Integer}
 	 * 
 	 */
 	public int getY() {
@@ -300,15 +308,10 @@ public class Jeu {
 	 * Setter de l'entier y.
 	 * 
 	 * @param y
+	 *            {@link Integer}
 	 */
 	public void setY(int y) {
 		this.y = y;
-	}
-
-	@Deprecated
-	Plateau initialiserLeJeu() {
-		// demander la taille du jeu, le nom de joueur et initaliser le score.
-		return null;
 	}
 
 }

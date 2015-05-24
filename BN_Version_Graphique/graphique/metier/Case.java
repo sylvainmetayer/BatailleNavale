@@ -5,9 +5,16 @@ package metier;
 
 import enums.Motif;
 
+/**
+ * 
+ * @author Sylvain - Kevin
+ *
+ */
 
 /**
- * @author Sylvain - Kevin
+ * Cette classe représente une case du {@link Plateau} de {@link Jeu}s
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
 public class Case implements Comparable<Case> {
@@ -69,9 +76,13 @@ public class Case implements Comparable<Case> {
 	 * Constructeur Case
 	 * 
 	 * @param posx
+	 *            {@link Integer}
 	 * @param posy
+	 *            {@link Integer}
 	 * @param estTouche
+	 *            {@link Boolean}
 	 * @param motif
+	 *            {@link String}
 	 * 
 	 */
 	public Case(int posx, int posy, boolean estTouche, String motif) {
@@ -86,8 +97,11 @@ public class Case implements Comparable<Case> {
 	 * Constructeur Case
 	 * 
 	 * @param position
+	 *            {@link String}
 	 * @param estTouche
+	 *            {@link Boolean}
 	 * @param motif
+	 *            {@link String}
 	 * 
 	 */
 	public Case(String position, boolean estTouche, String motif) {
@@ -113,7 +127,7 @@ public class Case implements Comparable<Case> {
 	/**
 	 * Retourne la position x de la case.
 	 * 
-	 * @return posx
+	 * @return {@link Integer}
 	 */
 	public int getPosx() {
 		return posx;
@@ -123,6 +137,7 @@ public class Case implements Comparable<Case> {
 	 * Setter de la position x de la case.
 	 * 
 	 * @param posx
+	 *            {@link Integer}
 	 */
 	public void setPosx(int posx) {
 		this.posx = posx;
@@ -131,7 +146,7 @@ public class Case implements Comparable<Case> {
 	/**
 	 * Retourne la position y de la case.
 	 * 
-	 * @return posy
+	 * @return posy {@link Integer}
 	 */
 	public int getPosy() {
 		return posy;
@@ -141,6 +156,7 @@ public class Case implements Comparable<Case> {
 	 * Setter de la position y de la case.
 	 * 
 	 * @param posy
+	 *            {@link Integer}
 	 */
 	public void setPosy(int posy) {
 		this.posy = posy;
@@ -149,7 +165,7 @@ public class Case implements Comparable<Case> {
 	/**
 	 * Retourne un booléen indiquant si la case a été touchée ou pas.
 	 * 
-	 * @return estTouche
+	 * @return estTouche {@link Boolean}
 	 */
 	public boolean isEstTouche() {
 		return estTouche;
@@ -159,6 +175,7 @@ public class Case implements Comparable<Case> {
 	 * Setter du booléen indiquant si la case a été touchée ou pas.
 	 * 
 	 * @param estTouche
+	 *            {@link Boolean}
 	 */
 	public void setEstTouche(boolean estTouche) {
 		this.estTouche = estTouche;
@@ -167,7 +184,7 @@ public class Case implements Comparable<Case> {
 	/**
 	 * Retourne le motif de la case.
 	 * 
-	 * @return motif
+	 * @return motif {@link String}
 	 */
 	public String getMotif() {
 		return motif;
@@ -177,6 +194,7 @@ public class Case implements Comparable<Case> {
 	 * Setter du motif de la case.
 	 * 
 	 * @param motif
+	 *            {@link String}
 	 */
 	public void setMotif(String motif) {
 		this.motif = motif;
