@@ -449,6 +449,10 @@ public class Plateau {
 		this.coupsJoues = coupsJoues;
 	}
 
+	public void setUnCoupJoue(int x, int y, boolean value) {
+		this.coupsJoues[x][y] = value;
+	}
+
 	/**
 	 * Retourne un tableau de booléens représentant les cases touchées sur ce
 	 * plateau.

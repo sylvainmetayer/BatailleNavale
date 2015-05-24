@@ -66,7 +66,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	private JButton jb_aide;
 
 	private JLabel jl_image;
-	File file = new File("graphique/images/bataillenavale.jpg");
+	File file = new File("bataillenavale.jpg");
 	ImageIcon image = new ImageIcon(file.getAbsolutePath());
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
@@ -256,15 +256,15 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		PanelJoueur gagnant;
 
-		// TODO gestion plateau masqué unmask
-		// joueurSousAttaque.getPanelPlateau().masquerPlateau();
-		// joueurAttaquant.getPanelPlateau().unmaskPlateau();
-
 		joueurAttaquant.setMessage("A toi de jouer !");
 		joueurAttaquant.setEtatGrille(false);
 
 		joueurSousAttaque.setMessage("Prions pour un coup dans l'eau...");
 		joueurSousAttaque.setEtatGrille(true);
+
+		// TODO gestion plateau masqué unmask
+		joueurSousAttaque.getPanelPlateau().masquerPlateau();
+		joueurAttaquant.getPanelPlateau().unmaskPlateau();
 
 		joueurSousAttaque.setPlateauListener(new ListenerTirer(this,
 				joueurSousAttaque));
@@ -272,10 +272,10 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		gagnant = tellMeWhoWin(joueurAttaquant, joueurSousAttaque);
 
 		if (gagnant == joueurAttaquant)
-			finDePartie(joueurAttaquant, joueurSousAttaque);
+			finDePartie(joueurSousAttaque, joueurAttaquant);
 
 		if (gagnant == joueurSousAttaque)
-			finDePartie(joueurSousAttaque, joueurAttaquant);
+			finDePartie(joueurAttaquant, joueurSousAttaque);
 		repaint();
 	}
 

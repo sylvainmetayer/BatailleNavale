@@ -44,7 +44,8 @@ public enum Motif {
 		}
 	}
 
-	// TODO gérer le renvoi d'une image pour l'interface graphique
+	// TODO gérer le renvoi d'une image pour l'interface graphique, penser à
+	// gérer la taille de l'image
 	public Image toImage() {
 		return null;
 

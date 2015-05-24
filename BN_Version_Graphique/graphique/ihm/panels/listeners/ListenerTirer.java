@@ -39,17 +39,23 @@ public class ListenerTirer implements ActionListener {
 		y = caseVisee.getPosy();
 		Navire navire;
 		NavireCaracteristique caracteristique;
+		String nomJoueurAttaquant = jpp_principal.getMonPanelJoueur(jpj_joueur,
+				false).getNomJoueur();
+		String message;
 
 		navire = jpj_joueur.getPanelPlateau().getPlateau().jouerCoup(x, y);
 
 		if (navire == null) {
 			// coup dans l'eau
-			PanelPrincipal.jta_message.append("Dans l'eau !");
+			message = "Résultat du tour de " + nomJoueurAttaquant
+					+ " : Dans l'eau !";
+			PanelPrincipal.jta_message.append(message);
 			jpj_joueur.getPanelPlateau().getPlateau().getLstCases()[x][y]
 					.setMotif(Motif.COUPJOUE.toString());
 			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
 					.setEnabled(false);
 			jpj_joueur.getPanelPlateau().actualisation();
+			jpj_joueur.getPanelPlateau().getPlateau().setUnCoupJoue(x, y, true);
 			jpj_joueur.repaint();
 		} else {
 
@@ -71,19 +77,20 @@ public class ListenerTirer implements ActionListener {
 					jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[c
 							.getPosx()][c.getPosy()].setEnabled(false);
 				}
-				PanelPrincipal.jta_message.append(caracteristique.getNom()
-						+ "est touché coulé !");
+				message = "Résultat du tour de " + nomJoueurAttaquant + " : "
+						+ caracteristique.getNom() + " est touché coulé !";
+				PanelPrincipal.jta_message.append(message);
 			} else {
 				// touché
-				PanelPrincipal.jta_message.append(caracteristique.getNom()
-						+ " a été touché !");
+				message = "Résultat du tour de " + nomJoueurAttaquant + " : "
+						+ caracteristique.getNom() + " a été touché !";
+				PanelPrincipal.jta_message.append(message);
 				jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
 						.setEnabled(false);
 			}
 
 		}
 
-		jpp_principal.getMonPanelJoueur(jpj_joueur, false).repaint();
 		jpj_joueur.getPanelPlateau().actualisation();
 		jpj_joueur.repaint();
 		jpp_principal.repaint();

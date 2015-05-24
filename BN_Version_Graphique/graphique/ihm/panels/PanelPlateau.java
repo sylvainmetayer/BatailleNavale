@@ -174,39 +174,84 @@ public class PanelPlateau extends JPanel {
 		BoutonBN[][] boutons = this.getTableauBoutonsBN();
 		int taillePlateau = boutons.length;
 
-		// Eau sur tous les motifs
-		for (int i = 0; i < taillePlateau; i++) {
-			for (int j = 0; j < taillePlateau; j++) {
-				boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
-			}
-		}
+		// TODO ce qui est en commentaire devrait servir à cacher le plateau
+		// adverse, mais ne fonctionne pas. A fixer
 
-		// Autorise coups déjà touchées.
-		for (int i = 0; i < taillePlateau; i++) {
-			for (int j = 0; j < taillePlateau; j++) {
-				if (coupJoues[i][j]) {
-					// on a déjà joue ce coup
-					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
-							.getCase().getMotif());
+		//
+		// // Eau sur tous les motifs
+		// for (int i = 0; i < taillePlateau; i++) {
+		// for (int j = 0; j < taillePlateau; j++) {
+		// boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
+		// }
+		// }
+		//
+		// // Autorise coups déjà touchées.
+		// for (int i = 0; i < taillePlateau; i++) {
+		// for (int j = 0; j < taillePlateau; j++) {
+		// if (coupJoues[i][j]) {
+		// // on a déjà joue ce coup
+		// boutons[i][j].setMotifCaseUniquement(boutons[i][j]
+		// .getCase().getMotif());
+		// }
+		// }
+		// }
+
+		// Après avoir masqué les cases non jouees, on bloque celle jouees
+		bloquerCaseOccupees();
+		// bloquerCoupJoues(); à utiliser quand sera fonctionnelle
+
+	}
+
+	/**
+	 * Cette méthode permet de bloquer tous les coups déjà joués afin d'éviter
+	 * de recliquer dessus.<br>
+	 * Ne fonctionne pour le moment pas, puisque elle laisse les coups tirés
+	 * dans l'eau actifs.<br>
+	 * Actuellement, la méthode {@link PanelPlateau#bloquerCaseOccupees()} est
+	 * utilisée en solution temporaire
+	 */
+	private void bloquerCoupJoues() {
+		// TODO fix it
+		boolean[][] coupJoues = this.getPlateau().getCoupsJoues();
+
+		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
+		BoutonBN tmp;
+
+		if (coupJoues != null) {
+			for (int i = 0; i < this.getTableauBoutonsBN().length; i++) {
+				for (int j = 0; j < this.getTableauBoutonsBN().length; j++) {
+					if (coupJoues[i][j]) {
+						tmp = this.getTableauBoutonsBN()[i][j];
+						boutons.add(tmp);
+					}
 				}
 			}
-		}
 
-		// Après avoir masquées les cases non jouees, on bloque celle jouees
-		bloquerCaseOccupees(this);
+			for (BoutonBN b : boutons) {
+				System.out.println("bouton case touche ?"
+						+ b.getCase().isEstTouche());
+				// une vérification ne coute rien..
+				if (b.getCase().isEstTouche())
+					b.setEnabled(false);
+				// else
+				// b.setEnabled(true);
+			}
+
+		}
 
 	}
 
 	/**
 	 * Cette méthode permet de bloquer les cases occupées afin d'éviter de
-	 * recliquer dessus
+	 * recliquer dessus. <br>
+	 * Cela parcourt chaque case de chaque navire, et desactive les cases pour
+	 * lesquelles un tir a déjà été effectué
 	 * 
 	 * @param caseOccupees
 	 */
-	private void bloquerCaseOccupees(PanelPlateau jpp) {
-		// TODO vérifier fonctionnement
+	private void bloquerCaseOccupees() {
 
-		List<Case> caseOccupees = jpp.getPlateau().getCasesOccupees();
+		List<Case> caseOccupees = this.getPlateau().getCasesOccupees();
 
 		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
 
@@ -215,7 +260,7 @@ public class PanelPlateau extends JPanel {
 		if (!caseOccupees.isEmpty() || caseOccupees != null) {
 
 			for (Case c : caseOccupees) {
-				tmp = jpp.getTableauBoutonsBN()[c.getPosx()][c.getPosy()];
+				tmp = this.getTableauBoutonsBN()[c.getPosx()][c.getPosy()];
 				boutons.add(tmp);
 			}
 
@@ -236,7 +281,6 @@ public class PanelPlateau extends JPanel {
 	 * A utiliser avant de jouer pour le joueurAttaquant
 	 */
 	public void unmaskPlateau() {
-		// TODO test
 		actualisation();
 		repaint();
 
