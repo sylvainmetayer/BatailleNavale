@@ -58,9 +58,9 @@ public class PanelJoueur extends JPanel {
 		jpp_panelPlateau = new PanelPlateau(plateau, plateau.getLongueur(), jeu);
 
 		this.score = this.getPanelPlateau().getPlateau().getScore();
-		jl_detailsJoueur = new JLabel(this.nomJoueur + ", votre score : "
-				+ this.score + " /" + NavireCaracteristique.getScoreTotal(),
-				JLabel.CENTER);
+		jl_detailsJoueur = new JLabel(this.nomJoueur
+				+ ", vos vies restantes : " + this.score + " /"
+				+ NavireCaracteristique.getScoreTotal(), JLabel.CENTER);
 		jl_messageDivers = new JLabel("Placement des bateaux...", JLabel.CENTER);
 
 		this.setLayout(new BorderLayout());
@@ -143,8 +143,8 @@ public class PanelJoueur extends JPanel {
 
 	public void actualisation() {
 		this.getPanelPlateau().actualisation();
-		String message = this.nomJoueur + ", votre score : " + getScore()
-				+ " /" + NavireCaracteristique.getScoreTotal();
+		String message = this.nomJoueur + ", vos vies restantes : "
+				+ getScore() + " /" + NavireCaracteristique.getScoreTotal();
 		jl_detailsJoueur.setText(message);
 		this.repaint();
 	}

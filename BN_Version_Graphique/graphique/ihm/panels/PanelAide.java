@@ -40,7 +40,7 @@ public class PanelAide extends JPanel {
 
 		nbColonnes = 2;
 		nbLignes = NavireCaracteristique.values().length
-				+ MotifsDivers.values().length;
+				+ MotifsDivers.values().length + 2;
 		jp_grilleIcon.setLayout(new GridLayout(nbLignes, nbColonnes));
 
 		texteAide();
@@ -57,6 +57,7 @@ public class PanelAide extends JPanel {
 	 */
 	private void ajoutIconTexte() {
 		JLabel jl_icon, jl_texte;
+		JTextArea jt_texte;
 		ImageIcon ic;
 		String motif;
 
@@ -80,7 +81,10 @@ public class PanelAide extends JPanel {
 			jp_grilleIcon.add(jl_texte, i);
 			i++;
 		}
-
+		jp_grilleIcon.add(new JLabel(""), i);
+		i++;
+		jp_grilleIcon.add(new JLabel(""), i);
+		i++;
 		for (NavireCaracteristique n : NavireCaracteristique.values()) {
 			ic = n.getIcon();
 			motif = n.getMotif();
@@ -88,12 +92,14 @@ public class PanelAide extends JPanel {
 			jl_icon.setIcon(ic);
 			jl_icon.setText("Motif : " + motif);
 			jl_icon.setForeground(c);
-			jl_texte = new JLabel();
-			jl_texte.setText(n.getTextEnrichi());
-			jl_texte.setForeground(c);
+			jt_texte = new JTextArea();
+			jt_texte.setEditable(false);
+			jt_texte.setText(n.getTextEnrichi());
+			jt_texte.append("\nValeur de score : " + n.getValeurScore());
+			jt_texte.setForeground(c);
 			jp_grilleIcon.add(jl_icon, i);
 			i++;
-			jp_grilleIcon.add(jl_texte, i);
+			jp_grilleIcon.add(jt_texte, i);
 			i++;
 		}
 	}
@@ -110,9 +116,9 @@ public class PanelAide extends JPanel {
 		sb.append("Une fois que les deux joueurs auront placé leur navires, la partie commence.\n");
 		sb.append("Tour à tour, chaque joueur clique sur une case du plateau adverse, dans l'espoir de toucher un navire.\n");
 		sb.append("Lorsqu'un navire voit toutes ses cases touchées, il est alors coulé.\n");
-		sb.append("Votre score vous indique votre progression. Le premier arrivé à "
+		sb.append("Votre nombre de vie définit le nombre de bateaux qu'ils vous reste\n(Chaque bateaux dispose d'une valeur de score différente).\nAu début de la partie, chaque joueur dispose de "
 				+ NavireCaracteristique.getScoreTotal()
-				+ " gagne la partie !\n\n");
+				+ " vies. Le premier à 0 vies perd la partie.\n\n");
 		sb.append("En cas de placement erroné, ou de coup joué de façon incorrect, vous serez invité à rejouer ou replacer votre bateau.\n");
 		sb.append("Vous pouvez consulter l'historique des actions (placement ou tirs effectués)\nsur le bloc de log présent entre les deux plateaux.\n");
 

@@ -90,7 +90,7 @@ public class Plateau {
 
 		this.longueur = longueur;
 		this.largeur = largeur;
-		this.score = 0;
+		this.score = NavireCaracteristique.getScoreTotal();
 
 		// affectation des dimensions
 		lstCases = new Case[longueur][largeur];
@@ -100,7 +100,8 @@ public class Plateau {
 		// on instancie le plateau vide
 		for (int y = 0; y < longueur; y++) {
 			for (int x = 0; x < largeur; x++) {
-				lstCases[x][y] = new Case(x, y, false, MotifsDivers.EAU.getMotif());
+				lstCases[x][y] = new Case(x, y, false,
+						MotifsDivers.EAU.getMotif());
 				getCoupsJoues()[x][y] = false;
 				getCasesTouchees()[x][y] = false;
 			}
@@ -180,8 +181,7 @@ public class Plateau {
 				}
 				if (n.getTaille() == 4) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.CROISEUR
-									.getMotif());
+							.setMotif(NavireCaracteristique.CROISEUR.getMotif());
 				}
 				if (n.getTaille() == 5) {
 					getLstCases()[a.getPosx()][a.getPosy()]
@@ -337,7 +337,8 @@ public class Plateau {
 						navireTouche = n;
 						casesTouchees[x][y] = true;
 						getLstCases()[x][y].setEstTouche(true);
-						getLstCases()[x][y].setMotif(MotifsDivers.TOUCHE.getMotif());
+						getLstCases()[x][y].setMotif(MotifsDivers.TOUCHE
+								.getMotif());
 						setScore(valeurCoup);
 					}
 				}
@@ -500,7 +501,7 @@ public class Plateau {
 	 *            {@link Integer}
 	 */
 	public void setScore(int scoreToAdd) {
-		this.score += scoreToAdd;
+		this.score -= scoreToAdd;
 	}
 
 }

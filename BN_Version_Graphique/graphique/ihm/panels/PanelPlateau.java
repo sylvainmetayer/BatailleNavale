@@ -286,21 +286,22 @@ public class PanelPlateau extends JPanel {
 		for (Navire n : listNav) {
 			int tailleNavire = n.getTaille();
 			List<Case> caseNavire = n.getCases();
-
+			NavireCaracteristique nc = NavireCaracteristique
+					.getCaracteristiqueByTaille(n.getTaille());
 			for (Case c : caseNavire) {
 				if (!c.isEstTouche()) {
 					switch (tailleNavire) {
 					case 2:
-						c.setMotif("T");
+						c.setMotif(nc.getMotif());
 						break;
 					case 3:
-						c.setMotif("D");
+						c.setMotif(nc.getMotif());
 						break;
 					case 4:
-						c.setMotif("C");
+						c.setMotif(nc.getMotif());
 						break;
 					case 5:
-						c.setMotif("P");
+						c.setMotif(nc.getMotif());
 						break;
 					default:
 						;
