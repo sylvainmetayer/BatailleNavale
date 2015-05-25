@@ -12,10 +12,10 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import enums.Motif;
 import metier.Case;
 import metier.Jeu;
 import metier.Plateau;
-import enums.Motif;
 
 /**
  * Cette classe étend le comportement d'un {@link JPanel} pour permettre de
@@ -170,35 +170,28 @@ public class PanelPlateau extends JPanel {
 	 */
 	public void masquerPlateau() {
 		// TODO non fonctionnelle
-		boolean[][] coupJoues = this.getPlateau().getCoupsJoues();
 		BoutonBN[][] boutons = this.getTableauBoutonsBN();
 		int taillePlateau = boutons.length;
 
 		// TODO ce qui est en commentaire devrait servir à cacher le plateau
 		// adverse, mais ne fonctionne pas. A fixer
 
-		//
-		// // Eau sur tous les motifs
-		// for (int i = 0; i < taillePlateau; i++) {
-		// for (int j = 0; j < taillePlateau; j++) {
-		// boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
-		// }
-		// }
-		//
-		// // Autorise coups déjà touchées.
-		// for (int i = 0; i < taillePlateau; i++) {
-		// for (int j = 0; j < taillePlateau; j++) {
-		// if (coupJoues[i][j]) {
-		// // on a déjà joue ce coup
-		// boutons[i][j].setMotifCaseUniquement(boutons[i][j]
-		// .getCase().getMotif());
-		// }
-		// }
-		// }
+		
+		// Eau sur tous les motifs
+		// Mais autorise coups déjà touchées.
+		for (int i = 0; i < taillePlateau; i++) {
+			for (int j = 0; j < taillePlateau; j++) {
+				if (boutons[i][j].getCase().isEstTouche() 
+						|| boutons[i][j].getCase().getMotif() == Motif.COUPJOUE.getMotif())
+					boutons[i][j].setMotifCaseUniquement(boutons[i][j].getCase().getMotif());
+				else 
+				boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
+			}
+		}
 
 		// Après avoir masqué les cases non jouees, on bloque celle jouees
-		bloquerCaseOccupees();
-		// bloquerCoupJoues(); à utiliser quand sera fonctionnelle
+		// bloquerCaseOccupees();
+		bloquerCoupJoues(); // à utiliser quand sera fonctionnelle
 
 	}
 
@@ -228,10 +221,9 @@ public class PanelPlateau extends JPanel {
 			}
 
 			for (BoutonBN b : boutons) {
-				System.out.println("bouton case touche ?"
-						+ b.getCase().isEstTouche());
+				//System.out.println("bouton case touche ?"+ b.getCase().isEstTouche());
 				// une vérification ne coute rien..
-				if (b.getCase().isEstTouche())
+				if (b.getCase().isEstTouche() || b.getCase().getMotif() == Motif.COUPJOUE.getMotif())
 					b.setEnabled(false);
 				// else
 				// b.setEnabled(true);
@@ -249,6 +241,7 @@ public class PanelPlateau extends JPanel {
 	 * 
 	 * @param caseOccupees
 	 */
+	@SuppressWarnings("unused")
 	private void bloquerCaseOccupees() {
 
 		List<Case> caseOccupees = this.getPlateau().getCasesOccupees();

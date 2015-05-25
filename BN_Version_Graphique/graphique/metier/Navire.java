@@ -3,8 +3,6 @@ package metier;
 import java.util.ArrayList;
 import java.util.List;
 
-import enums.NavireCaracteristique;
-
 /**
  * Classe représentant un navire
  * 

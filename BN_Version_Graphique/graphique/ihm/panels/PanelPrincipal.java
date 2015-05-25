@@ -455,6 +455,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 * @author Sylvain METAYER - Kevin DESSIMOULIE
 	 *
 	 */
+	@SuppressWarnings("unused")
 	public class ChargerPartieListener implements ActionListener {
 		private final static String NAME = "backup";
 		private final static String EXTENSION = ".data";
