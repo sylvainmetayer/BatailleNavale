@@ -68,8 +68,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	private JButton jb_aide;
 
 	private JLabel jl_image;
-	File file = new File("images/bataillenavale.jpg");
-	ImageIcon image = new ImageIcon(file.getAbsolutePath());
+	ImageIcon image = new ImageIcon(this.getClass().getResource(
+			"/images/bataillenavale.jpg"));
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
 	public static JTextAreaBN jta_message;

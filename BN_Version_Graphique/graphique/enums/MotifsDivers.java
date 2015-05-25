@@ -47,8 +47,9 @@ public enum MotifsDivers {
 	 * @return {@link ImageIcon}
 	 */
 	public ImageIcon getIcon() {
-		String prefixe = "images/";
-		ImageIcon ic = new ImageIcon(prefixe+cheminIcon);
+		String prefixe = "/images/";
+		ImageIcon ic = new ImageIcon(this.getClass().getResource(
+				prefixe + cheminIcon));
 		return ic;
 	}
 
