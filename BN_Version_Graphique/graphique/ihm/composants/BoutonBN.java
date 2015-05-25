@@ -3,10 +3,11 @@
  */
 package ihm.composants;
 
-import java.awt.Dimension;
-
 import ihm.panels.PanelPlateau;
 
+import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import metier.Case;
@@ -81,7 +82,16 @@ public class BoutonBN extends JButton {
 	@Deprecated
 	public void setMotifCaseEtPlateau(String motif) {
 		caseBouton.setMotif(motif);
-		this.setText(motif);
+
+		ImageIcon ic;
+		ic = PanelPlateau.getIconDiversByMotif(motif);
+
+		if (ic == null)
+			ic = PanelPlateau.getIconNavireByMotif(motif);
+
+		this.setIcon(ic);
+		this.setText(motif); // si l'image n'apparait pas, on a quand meme le
+								// motif
 	}
 
 	/**

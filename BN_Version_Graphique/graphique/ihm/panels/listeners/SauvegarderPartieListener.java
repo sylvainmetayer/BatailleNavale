@@ -1,6 +1,6 @@
 package ihm.panels.listeners;
 
-import ihm.composants.JtextAreaBN;
+import ihm.composants.JTextAreaBN;
 import ihm.panels.PanelJoueur;
 import ihm.panels.PanelPrincipal;
 
@@ -17,9 +17,9 @@ public class SauvegarderPartieListener implements ActionListener {
 
 	private String nomFichier;
 	private PanelJoueur joueur1, joueur2;
-	private JtextAreaBN jta_message;
+	private JTextAreaBN jta_message;
 
-	public SauvegarderPartieListener(JtextAreaBN jta_message,
+	public SauvegarderPartieListener(JTextAreaBN jta_message,
 			PanelJoueur joueur2, PanelJoueur joueur1) {
 		this.nomFichier = NAME + EXTENSION;
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 import metier.Case;
 import metier.Navire;
-import enums.Motif;
+import enums.MotifsDivers;
 import enums.NavireCaracteristique;
 
 public class ListenerTirer implements ActionListener {
@@ -51,7 +51,7 @@ public class ListenerTirer implements ActionListener {
 					+ " : Dans l'eau !";
 			PanelPrincipal.jta_message.append(message);
 			jpj_joueur.getPanelPlateau().getPlateau().getLstCases()[x][y]
-					.setMotif(Motif.COUPJOUE.getMotif());
+					.setMotif(MotifsDivers.COUPJOUE.getMotif());
 			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
 					.setEnabled(false);
 			jpj_joueur.getPanelPlateau().actualisation();
@@ -63,7 +63,7 @@ public class ListenerTirer implements ActionListener {
 					.getCaracteristiqueByTaille(navire.getTaille());
 
 			jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[x][y]
-					.setMotifCaseEtPlateau(Motif.TOUCHE.getMotif());
+					.setMotifCaseEtPlateau(MotifsDivers.TOUCHE.getMotif());
 
 			caseOccupees.add(caseVisee);
 
@@ -73,7 +73,7 @@ public class ListenerTirer implements ActionListener {
 
 				for (Case c : navire.getCases()) {
 					c.setEstTouche(true);
-					c.setMotif(Motif.COULE.getMotif());
+					c.setMotif(MotifsDivers.COULE.getMotif());
 					jpj_joueur.getPanelPlateau().getTableauBoutonsBN()[c
 							.getPosx()][c.getPosy()].setEnabled(false);
 				}

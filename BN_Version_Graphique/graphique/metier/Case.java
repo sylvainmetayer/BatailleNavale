@@ -3,7 +3,7 @@
  */
 package metier;
 
-import enums.Motif;
+import enums.MotifsDivers;
 
 /**
  * 
@@ -121,7 +121,7 @@ public class Case implements Comparable<Case> {
 		this.posx = 0;
 		this.posy = 0;
 		this.estTouche = false;
-		this.motif = Motif.EAU.getMotif();
+		this.motif = MotifsDivers.EAU.getMotif();
 	}
 
 	/**

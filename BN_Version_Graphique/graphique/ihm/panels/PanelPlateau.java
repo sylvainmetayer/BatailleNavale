@@ -10,13 +10,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import enums.Motif;
 import metier.Case;
 import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
+import enums.MotifsDivers;
+import enums.NavireCaracteristique;
 
 /**
  * Cette classe étend le comportement d'un {@link JPanel} pour permettre de
@@ -102,10 +104,11 @@ public class PanelPlateau extends JPanel {
 	public void setEtatGrille(boolean enabled) {
 		for (int i = 0; i < tableauBoutonsBN.length; i++) {
 			for (int j = 0; j < tableauBoutonsBN.length; j++) {
-				if (enabled)
+				if (enabled) {
 					tableauBoutonsBN[i][j].setEnabled(true);
-				else
+				} else {
 					tableauBoutonsBN[i][j].setEnabled(false);
+				}
 			}
 		}
 
@@ -178,12 +181,12 @@ public class PanelPlateau extends JPanel {
 		for (int i = 0; i < taillePlateau; i++) {
 			for (int j = 0; j < taillePlateau; j++) {
 				if (boutons[i][j].getCase().isEstTouche()
-						|| boutons[i][j].getCase().getMotif() == Motif.COUPJOUE
+						|| boutons[i][j].getCase().getMotif() == MotifsDivers.COUPJOUE
 								.getMotif())
 					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
 							.getCase().getMotif());
 				else
-					boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
+					boutons[i][j].setMotifCaseUniquement(MotifsDivers.EAU.getMotif());
 			}
 		}
 
@@ -224,7 +227,7 @@ public class PanelPlateau extends JPanel {
 				// b.getCase().isEstTouche());
 				// une vérification ne coute rien..
 				if (b.getCase().isEstTouche()
-						|| b.getCase().getMotif() == Motif.COUPJOUE.getMotif())
+						|| b.getCase().getMotif() == MotifsDivers.COUPJOUE.getMotif())
 					b.setEnabled(false);
 				// else
 				// b.setEnabled(true);
@@ -275,32 +278,56 @@ public class PanelPlateau extends JPanel {
 	 * A utiliser avant de jouer pour le joueurAttaquant
 	 */
 	public void unmaskPlateau() {
-		
+
 		List<Navire> listNav = this.getPlateau().getListeNav();
 
 		for (Navire n : listNav) {
 			int tailleNavire = n.getTaille();
 			List<Case> caseNavire = n.getCases();
-			
+
 			for (Case c : caseNavire) {
-				if(!c.isEstTouche()) {
+				if (!c.isEstTouche()) {
 					switch (tailleNavire) {
-					case 2 :c.setMotif("T");
+					case 2:
+						c.setMotif("T");
 						break;
-					case 3 :c.setMotif("D");
+					case 3:
+						c.setMotif("D");
 						break;
-					case 4 :c.setMotif("C");
+					case 4:
+						c.setMotif("C");
 						break;
-					case 5 :c.setMotif("P");
+					case 5:
+						c.setMotif("P");
 						break;
-					default:;
+					default:
+						;
 					}
 				}
 			}
 		}
-		
+
 		actualisation();
 
+	}
+
+	public static ImageIcon getIconNavireByMotif(String motif) {
+
+		for (NavireCaracteristique n : NavireCaracteristique.values()) {
+			if (motif.equals(n.getMotif())) {
+				return n.getIcon();
+			}
+		}
+		return null;
+	}
+
+	public static ImageIcon getIconDiversByMotif(String motif) {
+		for (MotifsDivers m : MotifsDivers.values()) {
+			if (motif.equals(m.getMotif())) {
+				return m.getIcon();
+			}
+		}
+		return null;
 	}
 
 }

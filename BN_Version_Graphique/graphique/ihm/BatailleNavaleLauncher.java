@@ -1,5 +1,7 @@
 package ihm;
 
+import ihm.frames.FrameBatailleNavale;
+
 /**
  * Cette classe permet de lancer la bataille navale
  * 

@@ -12,14 +12,14 @@ import javax.swing.JTextArea;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class JtextAreaBN extends JTextArea {
+public class JTextAreaBN extends JTextArea {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructeur
 	 */
-	public JtextAreaBN() {
+	public JTextAreaBN() {
 		super();
 	}
 

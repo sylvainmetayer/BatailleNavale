@@ -3,7 +3,8 @@
  */
 package ihm.panels;
 
-import ihm.composants.JtextAreaBN;
+import ihm.composants.JTextAreaBN;
+import ihm.frames.FrameAideBatailleNavale;
 import ihm.panels.listeners.ListenerPlacementBateaux;
 import ihm.panels.listeners.ListenerTirer;
 import ihm.panels.listeners.SauvegarderPartieListener;
@@ -23,6 +24,7 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -66,11 +68,11 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	private JButton jb_aide;
 
 	private JLabel jl_image;
-	File file = new File("bataillenavale.jpg");
+	File file = new File("images/bataillenavale.jpg");
 	ImageIcon image = new ImageIcon(file.getAbsolutePath());
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
-	public static JtextAreaBN jta_message;
+	public static JTextAreaBN jta_message;
 	private JScrollPane scroller;
 
 	// Déclarations Panels
@@ -147,7 +149,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			e.printStackTrace();
 		}
 
-		PanelPrincipal.jta_message = new JtextAreaBN();
+		PanelPrincipal.jta_message = new JTextAreaBN();
 		PanelPrincipal.jta_message.setEditable(false);
 		PanelPrincipal.jta_message.setLineWrap(true);
 		PanelPrincipal.jta_message.setWrapStyleWord(true);
@@ -170,7 +172,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		super.revalidate();
 		super.repaint();
-		placementBateaux(joueur1, NavireCaracteristique.NAVIRESIZE2, false);
+		placementBateaux(joueur1, NavireCaracteristique.TORPILLEUR, false);
 	}
 
 	/**
@@ -216,12 +218,13 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			message = jpj_joueur.getNomJoueur()
 					+ " a fini de placer ses bateaux.";
 			jta_message.append(message.toUpperCase());
+			jpj_joueur.getPanelPlateau().masquerPlateau();
 
 			message = getMonPanelJoueur(jpj_joueur, false).getNomJoueur()
 					+ ", c'est à toi !";
 			jta_message.append(message.toUpperCase());
 			placementBateaux(getMonPanelJoueur(jpj_joueur, false),
-					NavireCaracteristique.NAVIRESIZE2, false);
+					NavireCaracteristique.TORPILLEUR, false);
 		}
 		repaint();
 	}
@@ -439,7 +442,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 * @param joueur2
 	 * @param joueur1
 	 */
-	public void chargerPartie(JtextAreaBN jta_message, PanelJoueur joueur2,
+	public void chargerPartie(JTextAreaBN jta_message, PanelJoueur joueur2,
 			PanelJoueur joueur1) {
 		// TODO
 		this.joueur1 = joueur1;
@@ -462,7 +465,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		private String nomFichier;
 		private PanelJoueur joueur1, joueur2;
-		private JtextAreaBN jta_message;
+		private JTextAreaBN jta_message;
 
 		public ChargerPartieListener() {
 			this.nomFichier = NAME + EXTENSION;
@@ -489,7 +492,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 					try {
 						joueur1 = (PanelJoueur) ois.readObject();
-						jta_message = (JtextAreaBN) ois.readObject();
+						jta_message = (JTextAreaBN) ois.readObject();
 						joueur2 = (PanelJoueur) ois.readObject();
 						// TODO appel méthode chargerPartie de PanelPrincipal
 					} finally {
@@ -580,31 +583,17 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	}
 
 	/**
-	 * Classe permettant d'afficher une aide dans une {@link JOptionPane}
+	 * Classe permettant d'afficher une aide dans une nouvelle {@link JFrame}.
 	 * 
 	 * @author Sylvain METAYER - Kevin DESSIMOULIE
 	 *
+	 * @see FrameAideBatailleNavale
 	 */
 	public class AideListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			StringBuilder sb = new StringBuilder();
-			sb.append("Bienvenue sur l'aide de la bataille navale.\n");
-			sb.append("Pour jouer, il faut commencer par placer les bateaux pour chaque joueur\n");
-			sb.append("Ensuite, vous jouerez tour par tour, en cliquant sur une case du plateau adverse\n");
-			sb.append("pour tenter de couler tous ses navires\n");
-			sb.append("En cas de placement erroné, ou de coup joué de façon incorrect,\n");
-			sb.append("vous serez invité à rejouer ou replacer votre bateau.\n");
-			sb.append("Vous pouvez consulter l'historique des actions sur le bloc de log ci dessous.\n");
-			sb.append("Votre score vous indique votre progression. Une fois arrivé à "
-					+ NavireCaracteristique.getScoreTotal()
-					+ ", vous gagnez la partie !");
-			sb.append("\nQue le meilleur d'entre vous gagne !");
-
-			JOptionPane.showMessageDialog(null, sb.toString(), "Aide",
-					JOptionPane.INFORMATION_MESSAGE);
-
+			new FrameAideBatailleNavale();
 		}
 	}
 }

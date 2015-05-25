@@ -3,6 +3,8 @@
  */
 package enums;
 
+import javax.swing.ImageIcon;
+
 /**
  * Cette classe représente les différentes caractéristiques d'un navire : <br>
  * <ul>
@@ -16,15 +18,21 @@ package enums;
  *
  */
 public enum NavireCaracteristique {
-	NAVIRESIZE2(2, 2, "Navire taille 2", 0, "T"), NAVIRESIZE3(3, 6,
-			"Navire taille 3", 1, "D"), NAVIRESIZE4(4, 8, "Navire taille 4", 2,
-			"C"), NAVIRESIZE5(5, 10, "Navire taille 5", 3, "P");
+	TORPILLEUR(2, 2, "torpilleur", 0, "T", "torpilleur.jpg",
+			"Représente un torpilleur (2 cases)"), SOUSMARIN(3, 6,
+			"sous marin", 1, "S", "sousMarin.jpg",
+			"Représente un sous-marin (3 cases)"), CROISEUR(4, 8, "croiseur",
+			2, "C", "croiseur.jpg", "Représente un croiseur (4 cases)"), PORTEAVION(
+			5, 10, "porte avion", 3, "P", "porteAvion.jpg",
+			"Représente un porte-avion (5 cases)");
 
 	private final int taille;
 	private final int valeurScore;
 	private final String nom;
 	private final int numeroNavire;
 	private final String motif;
+	private final String cheminIcon;
+	private final String textEnrichi;
 
 	/**
 	 * Constructeur de l'énumération.
@@ -41,12 +49,15 @@ public enum NavireCaracteristique {
 	 *            {@link String}
 	 */
 	private NavireCaracteristique(final int taille, final int valeurScore,
-			final String nom, final int numeroBateau, String motif) {
+			final String nom, final int numeroBateau, final String motif,
+			final String cheminIcon, final String textEnrichi) {
 		this.taille = taille;
 		this.valeurScore = valeurScore;
 		this.nom = nom;
 		this.numeroNavire = numeroBateau;
 		this.motif = motif;
+		this.cheminIcon = cheminIcon;
+		this.textEnrichi = textEnrichi;
 	}
 
 	/**
@@ -103,20 +114,25 @@ public enum NavireCaracteristique {
 	 */
 	public static NavireCaracteristique getCaracteristiqueByTaille(int taille) {
 		if (taille == 2) {
-			return NavireCaracteristique.NAVIRESIZE2;
+			return NavireCaracteristique.TORPILLEUR;
 		}
 		if (taille == 3) {
-			return NavireCaracteristique.NAVIRESIZE3;
+			return NavireCaracteristique.SOUSMARIN;
 		}
 		if (taille == 4) {
-			return NavireCaracteristique.NAVIRESIZE4;
+			return NavireCaracteristique.CROISEUR;
 		}
 		if (taille == 5) {
-			return NavireCaracteristique.NAVIRESIZE5;
+			return NavireCaracteristique.PORTEAVION;
 		}
 		return null;
 	}
 
+	/**
+	 * Retourne le score maximal atteignable
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getScoreTotal() {
 		int somme = 0;
 
@@ -125,4 +141,25 @@ public enum NavireCaracteristique {
 		}
 		return somme;
 	}
+
+	/**
+	 * Retourne l'icone correspondant au navire
+	 * 
+	 * @return {@link ImageIcon}
+	 */
+	public ImageIcon getIcon() {
+		String prefixe = "images/";
+		ImageIcon ic = new ImageIcon(prefixe + cheminIcon);
+		return ic;
+	}
+
+	/**
+	 * Retourne la description detaille du navire
+	 * 
+	 * @return {@link String}
+	 */
+	public String getTextEnrichi() {
+		return textEnrichi;
+	}
+
 }

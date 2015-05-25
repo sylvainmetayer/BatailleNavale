@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import enums.Motif;
+import enums.MotifsDivers;
 import enums.NavireCaracteristique;
 
 /**
@@ -100,7 +100,7 @@ public class Plateau {
 		// on instancie le plateau vide
 		for (int y = 0; y < longueur; y++) {
 			for (int x = 0; x < largeur; x++) {
-				lstCases[x][y] = new Case(x, y, false, Motif.EAU.getMotif());
+				lstCases[x][y] = new Case(x, y, false, MotifsDivers.EAU.getMotif());
 				getCoupsJoues()[x][y] = false;
 				getCasesTouchees()[x][y] = false;
 			}
@@ -170,22 +170,22 @@ public class Plateau {
 			for (Case a : c) {
 				if (n.getTaille() == 2) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE2
+							.setMotif(NavireCaracteristique.TORPILLEUR
 									.getMotif());
 				}
 				if (n.getTaille() == 3) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE3
+							.setMotif(NavireCaracteristique.SOUSMARIN
 									.getMotif());
 				}
 				if (n.getTaille() == 4) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE4
+							.setMotif(NavireCaracteristique.CROISEUR
 									.getMotif());
 				}
 				if (n.getTaille() == 5) {
 					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.NAVIRESIZE5
+							.setMotif(NavireCaracteristique.PORTEAVION
 									.getMotif());
 				}
 			}
@@ -314,7 +314,7 @@ public class Plateau {
 		// 1 - a t on déja joué le coup ?
 		if (!coupsJoues[x][y]) {
 
-			getLstCases()[x][y].setMotif(Motif.COUPJOUE.getMotif());
+			getLstCases()[x][y].setMotif(MotifsDivers.COUPJOUE.getMotif());
 			getLstCases()[x][y].setEstTouche(false);
 			casesTouchees[x][y] = false;
 
@@ -337,7 +337,7 @@ public class Plateau {
 						navireTouche = n;
 						casesTouchees[x][y] = true;
 						getLstCases()[x][y].setEstTouche(true);
-						getLstCases()[x][y].setMotif(Motif.TOUCHE.getMotif());
+						getLstCases()[x][y].setMotif(MotifsDivers.TOUCHE.getMotif());
 						setScore(valeurCoup);
 					}
 				}

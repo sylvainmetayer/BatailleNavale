@@ -1,4 +1,4 @@
-package ihm;
+package ihm.frames;
 
 import ihm.panels.PanelPrincipal;
 
@@ -28,9 +28,6 @@ public class FrameBatailleNavale extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setResizable(false);
-		// tant qu'il y a des problèmes de repaint, ne pas mettre
-
-		// TODO demander confirmation avant sortie
 		this.setVisible(true);
 	}
 }

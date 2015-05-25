@@ -15,7 +15,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import enums.Motif;
+import enums.MotifsDivers;
 import enums.NavireCaracteristique;
 import metier.Case;
 import metier.Navire;
@@ -146,7 +146,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
 					// Test supplémentaire, au cas ou...
-					if (temporaire.getCase().getMotif() != Motif.EAU.getMotif()) {
+					if (temporaire.getCase().getMotif() != MotifsDivers.EAU.getMotif()) {
 						// Dans ce cas, cela veut dire que la case est déjà
 						// occupée. On empeche donc l'ajout du navire
 						navireValide = false;
