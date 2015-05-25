@@ -100,7 +100,7 @@ public class Plateau {
 		// on instancie le plateau vide
 		for (int y = 0; y < longueur; y++) {
 			for (int x = 0; x < largeur; x++) {
-				lstCases[x][y] = new Case(x, y, false, Motif.EAU.toString());
+				lstCases[x][y] = new Case(x, y, false, Motif.EAU.getMotif());
 				getCoupsJoues()[x][y] = false;
 				getCasesTouchees()[x][y] = false;
 			}
@@ -314,7 +314,7 @@ public class Plateau {
 		// 1 - a t on déja joué le coup ?
 		if (!coupsJoues[x][y]) {
 
-			getLstCases()[x][y].setMotif(Motif.COUPJOUE.toString());
+			getLstCases()[x][y].setMotif(Motif.COUPJOUE.getMotif());
 			getLstCases()[x][y].setEstTouche(false);
 			casesTouchees[x][y] = false;
 
@@ -337,7 +337,7 @@ public class Plateau {
 						navireTouche = n;
 						casesTouchees[x][y] = true;
 						getLstCases()[x][y].setEstTouche(true);
-						getLstCases()[x][y].setMotif(Motif.TOUCHE.toString());
+						getLstCases()[x][y].setMotif(Motif.TOUCHE.getMotif());
 						setScore(valeurCoup);
 					}
 				}

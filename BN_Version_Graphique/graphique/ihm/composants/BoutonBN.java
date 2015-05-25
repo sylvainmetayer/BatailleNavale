@@ -3,6 +3,8 @@
  */
 package ihm.composants;
 
+import java.awt.Dimension;
+
 import ihm.panels.PanelPlateau;
 
 import javax.swing.JButton;
@@ -57,6 +59,8 @@ public class BoutonBN extends JButton {
 	public BoutonBN(Case c, String motif) {
 		super(motif);
 		this.caseBouton = c;
+		this.setPreferredSize(new Dimension(50, 50));
+		// pour pouvoir mettre des icones de 50*50
 	}
 
 	/**

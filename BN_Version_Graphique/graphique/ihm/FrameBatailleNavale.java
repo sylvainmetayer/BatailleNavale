@@ -12,8 +12,8 @@ import javax.swing.JFrame;
  */
 public class FrameBatailleNavale extends JFrame {
 
-	private static final int LONGUEUR = 900;
-	private static final int LARGEUR = 400;
+	private static final int LONGUEUR = 1200;
+	private static final int LARGEUR = 500;
 	private static final long serialVersionUID = 1L;
 
 	/**

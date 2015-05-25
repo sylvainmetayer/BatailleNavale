@@ -146,7 +146,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
 					// Test supplémentaire, au cas ou...
-					if (temporaire.getCase().getMotif() != Motif.EAU.toString()) {
+					if (temporaire.getCase().getMotif() != Motif.EAU.getMotif()) {
 						// Dans ce cas, cela veut dire que la case est déjà
 						// occupée. On empeche donc l'ajout du navire
 						navireValide = false;

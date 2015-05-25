@@ -28,25 +28,9 @@ public enum Motif {
 		return motif;
 	}
 
-	@Override
-	public String toString() {
-		switch (this) {
-		case EAU:
-			return "~";
-		case TOUCHE:
-			return "X";
-		case COUPJOUE:
-			return "@";
-		case COULE:
-			return "$";
-		default:
-			return null;
-		}
-	}
-
 	// TODO gérer le renvoi d'une image pour l'interface graphique, penser à
 	// gérer la taille de l'image
-	public Image toImage() {
+	public Image getIcon() {
 		return null;
 
 	}
