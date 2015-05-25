@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import enums.Motif;
 import metier.Case;
 import metier.Jeu;
+import metier.Navire;
 import metier.Plateau;
 
 /**
@@ -189,6 +190,7 @@ public class PanelPlateau extends JPanel {
 			}
 		}
 
+		actualisation();
 		// Après avoir masqué les cases non jouees, on bloque celle jouees
 		// bloquerCaseOccupees();
 		bloquerCoupJoues(); // à utiliser quand sera fonctionnelle
@@ -270,12 +272,35 @@ public class PanelPlateau extends JPanel {
 
 	/**
 	 * Cette méthode permet de mettre le plateau avec les motifs des bateaux du
-	 * joueurs ainis que leur emplacements.<br>
+	 * joueurs ainsi que leur emplacements.<br>
 	 * A utiliser avant de jouer pour le joueurAttaquant
 	 */
 	public void unmaskPlateau() {
+		
+		List<Navire> listNav = this.getPlateau().getListeNav();
+
+		for (Navire n : listNav) {
+			int tailleNavire = n.getTaille();
+			List<Case> caseNavire = n.getCases();
+			
+			for (Case c : caseNavire) {
+				if(!c.isEstTouche()) {
+					switch (tailleNavire) {
+					case 2 :c.setMotif("T");
+						break;
+					case 3 :c.setMotif("D");
+						break;
+					case 4 :c.setMotif("C");
+						break;
+					case 5 :c.setMotif("P");
+						break;
+					default:;
+					}
+				}
+			}
+		}
+		
 		actualisation();
-		repaint();
 
 	}
 

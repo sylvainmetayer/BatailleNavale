@@ -263,8 +263,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		joueurSousAttaque.setEtatGrille(true);
 
 		// TODO gestion plateau masqué unmask
-		joueurSousAttaque.getPanelPlateau().masquerPlateau();
 		joueurAttaquant.getPanelPlateau().unmaskPlateau();
+		joueurSousAttaque.getPanelPlateau().masquerPlateau();
 
 		joueurSousAttaque.setPlateauListener(new ListenerTirer(this,
 				joueurSousAttaque));
