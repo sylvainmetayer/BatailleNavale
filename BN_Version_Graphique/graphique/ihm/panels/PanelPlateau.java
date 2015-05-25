@@ -170,23 +170,20 @@ public class PanelPlateau extends JPanel {
 	 * 
 	 */
 	public void masquerPlateau() {
-		// TODO non fonctionnelle
 		BoutonBN[][] boutons = this.getTableauBoutonsBN();
 		int taillePlateau = boutons.length;
 
-		// TODO ce qui est en commentaire devrait servir à cacher le plateau
-		// adverse, mais ne fonctionne pas. A fixer
-
-		
 		// Eau sur tous les motifs
 		// Mais autorise coups déjà touchées.
 		for (int i = 0; i < taillePlateau; i++) {
 			for (int j = 0; j < taillePlateau; j++) {
-				if (boutons[i][j].getCase().isEstTouche() 
-						|| boutons[i][j].getCase().getMotif() == Motif.COUPJOUE.getMotif())
-					boutons[i][j].setMotifCaseUniquement(boutons[i][j].getCase().getMotif());
-				else 
-				boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
+				if (boutons[i][j].getCase().isEstTouche()
+						|| boutons[i][j].getCase().getMotif() == Motif.COUPJOUE
+								.getMotif())
+					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
+							.getCase().getMotif());
+				else
+					boutons[i][j].setMotifCaseUniquement(Motif.EAU.getMotif());
 			}
 		}
 
@@ -223,9 +220,11 @@ public class PanelPlateau extends JPanel {
 			}
 
 			for (BoutonBN b : boutons) {
-				//System.out.println("bouton case touche ?"+ b.getCase().isEstTouche());
+				// System.out.println("bouton case touche ?"+
+				// b.getCase().isEstTouche());
 				// une vérification ne coute rien..
-				if (b.getCase().isEstTouche() || b.getCase().getMotif() == Motif.COUPJOUE.getMotif())
+				if (b.getCase().isEstTouche()
+						|| b.getCase().getMotif() == Motif.COUPJOUE.getMotif())
 					b.setEnabled(false);
 				// else
 				// b.setEnabled(true);

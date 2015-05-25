@@ -597,12 +597,14 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			sb.append("En cas de placement erroné, ou de coup joué de façon incorrect,\n");
 			sb.append("vous serez invité à rejouer ou replacer votre bateau.\n");
 			sb.append("Vous pouvez consulter l'historique des actions sur le bloc de log ci dessous.\n");
+			sb.append("Votre score vous indique votre progression. Une fois arrivé à "
+					+ NavireCaracteristique.getScoreTotal()
+					+ ", vous gagnez la partie !");
 			sb.append("\nQue le meilleur d'entre vous gagne !");
 
 			JOptionPane.showMessageDialog(null, sb.toString(), "Aide",
 					JOptionPane.INFORMATION_MESSAGE);
 
 		}
-
 	}
 }

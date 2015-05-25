@@ -16,8 +16,8 @@ package enums;
  *
  */
 public enum NavireCaracteristique {
-	NAVIRESIZE2(2, 2, "Navire taille 2", 0, "T"), NAVIRESIZE3(3, 4,
-			"Navire taille 3", 1, "D"), NAVIRESIZE4(4, 6, "Navire taille 4", 2,
+	NAVIRESIZE2(2, 2, "Navire taille 2", 0, "T"), NAVIRESIZE3(3, 6,
+			"Navire taille 3", 1, "D"), NAVIRESIZE4(4, 8, "Navire taille 4", 2,
 			"C"), NAVIRESIZE5(5, 10, "Navire taille 5", 3, "P");
 
 	private final int taille;
@@ -117,4 +117,12 @@ public enum NavireCaracteristique {
 		return null;
 	}
 
+	public static int getScoreTotal() {
+		int somme = 0;
+
+		for (NavireCaracteristique n : NavireCaracteristique.values()) {
+			somme = somme + n.getValeurScore();
+		}
+		return somme;
+	}
 }
