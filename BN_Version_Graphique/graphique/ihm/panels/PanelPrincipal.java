@@ -24,11 +24,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import outils.NavireCaracteristique;
+import outils.Options;
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
-import enums.NavireCaracteristique;
 
 /**
  * Cette classe étend un {@link JPanel} et représente le jeu. Il s'agit du panel
@@ -41,14 +43,12 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final String DEFAULTJOUEURDEUX = "Joueur Deux";
-	public final String DEFAULTJOUEURUN = System.getProperty("user.name");
-	private final int TAILLEGRILLE = 8;
+	private int tailleGrille;
 
 	// Paramètres du jeu
 	private Jeu jeu;
-	private String nomJoueurUn = DEFAULTJOUEURUN;
-	private String nomJoueurDeux = DEFAULTJOUEURDEUX;
+	private String nomJoueurUn;
+	private String nomJoueurDeux;
 
 	// = this pour plus de facilité d'accès vis a vis des classe interne membres
 	private final JPanel panelPrincipal = this;
@@ -62,7 +62,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	private JLabel jl_image;
 	ImageIcon image = new ImageIcon(this.getClass().getResource(
-			"/images/bataillenavale.jpg"));
+			Options.getPrefixeDossierImage() + "bataillenavale.jpg"));
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
 	public static JTextAreaBN jta_message;
@@ -80,6 +80,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 * ou lancer une partie.
 	 */
 	public PanelPrincipal() {
+
 		// instanciations composants
 		jl_menuPrincipal = new JLabel("Bataille Navale - Le jeu !");
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
@@ -130,7 +131,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 */
 	public void initGame() {
 		try {
-			jeu = new Jeu(TAILLEGRILLE, TAILLEGRILLE, nomJoueurUn,
+			tailleGrille = Options.getTailleGrilleJeu();
+			jeu = new Jeu(tailleGrille, tailleGrille, nomJoueurUn,
 					nomJoueurDeux);
 			// On crée les deux panels de jeu.
 			joueur1 = new PanelJoueur(nomJoueurUn, jeu,
@@ -147,8 +149,11 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		PanelPrincipal.jta_message.setLineWrap(true);
 		PanelPrincipal.jta_message.setWrapStyleWord(true);
 
-		PanelPrincipal.jta_message.setText("Historique :");
-		PanelPrincipal.jta_message.setText("Début du jeu..");
+		PanelPrincipal.jta_message.append("Historique :");
+		PanelPrincipal.jta_message.append("Début du jeu :\n" + getNomJoueurUn()
+				+ " contre " + getNomJoueurDeux() + " sur une grille de "
+				+ Options.getTailleGrilleJeu() + "*"
+				+ Options.getTailleGrilleJeu());
 
 		// scrollbar pour le jtextarea
 		scroller = new JScrollPane(jta_message);

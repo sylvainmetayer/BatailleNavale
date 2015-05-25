@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import enums.MotifsDivers;
-import enums.NavireCaracteristique;
+import outils.MotifsDivers;
+import outils.NavireCaracteristique;
 
 /**
  * Cette classe représente un plateau de {@link Jeu}

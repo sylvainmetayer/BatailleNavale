@@ -49,7 +49,6 @@ public class Jeu {
 	 * @param nomJoueurDeux
 	 *            {@link String}
 	 * @throws CoupException
-	 *             quand TODO
 	 */
 	public Jeu(int hauteur, int largeur, String nomJoueurUn,
 			String nomJoueurDeux) throws CoupException {
@@ -190,7 +189,6 @@ public class Jeu {
 
 		}
 
-		// TODO quand on place en manuel, ne set que le plateau 2 !
 		plateauJoueurUn.setListeNav(listeNav);
 		plateauJoueurDeux.setListeNav(listeNav);
 	}

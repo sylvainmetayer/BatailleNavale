@@ -8,10 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import outils.MotifsDivers;
+import outils.NavireCaracteristique;
 import metier.Case;
 import metier.Navire;
-import enums.MotifsDivers;
-import enums.NavireCaracteristique;
 
 public class ListenerTirer implements ActionListener {
 

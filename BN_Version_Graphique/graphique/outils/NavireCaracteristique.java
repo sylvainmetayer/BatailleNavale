@@ -1,7 +1,7 @@
 /**
  * 
  */
-package enums;
+package outils;
 
 import javax.swing.ImageIcon;
 
@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
  *
  */
 public enum NavireCaracteristique {
+
 	TORPILLEUR(2, 2, "torpilleur", 0, "T", "torpilleur.jpg",
 			"Représente un torpilleur (2 cases)"), SOUSMARIN(3, 6,
 			"sous marin", 1, "S", "sousMarin.jpg",
@@ -148,9 +149,8 @@ public enum NavireCaracteristique {
 	 * @return {@link ImageIcon}
 	 */
 	public ImageIcon getIcon() throws NullPointerException {
-		String prefixe = "/images/";
 		ImageIcon ic = new ImageIcon(this.getClass().getResource(
-				prefixe + cheminIcon));
+				Options.getPrefixeDossierImage() + cheminIcon));
 		return ic;
 	}
 

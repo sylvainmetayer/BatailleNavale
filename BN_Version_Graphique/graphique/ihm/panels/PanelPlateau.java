@@ -13,12 +13,12 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import outils.MotifsDivers;
+import outils.NavireCaracteristique;
 import metier.Case;
 import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
-import enums.MotifsDivers;
-import enums.NavireCaracteristique;
 
 /**
  * Cette classe étend le comportement d'un {@link JPanel} pour permettre de
@@ -193,7 +193,6 @@ public class PanelPlateau extends JPanel {
 
 		actualisation();
 		// Après avoir masqué les cases non jouees, on bloque celle jouees
-		// bloquerCaseOccupees();
 		bloquerCoupJoues(); // à utiliser quand sera fonctionnelle
 
 	}
@@ -201,13 +200,8 @@ public class PanelPlateau extends JPanel {
 	/**
 	 * Cette méthode permet de bloquer tous les coups déjà joués afin d'éviter
 	 * de recliquer dessus.<br>
-	 * Ne fonctionne pour le moment pas, puisque elle laisse les coups tirés
-	 * dans l'eau actifs.<br>
-	 * Actuellement, la méthode {@link PanelPlateau#bloquerCaseOccupees()} est
-	 * utilisée en solution temporaire
 	 */
 	private void bloquerCoupJoues() {
-		// TODO fix it
 		boolean[][] coupJoues = this.getPlateau().getCoupsJoues();
 
 		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
@@ -224,8 +218,6 @@ public class PanelPlateau extends JPanel {
 			}
 
 			for (BoutonBN b : boutons) {
-				// System.out.println("bouton case touche ?"+
-				// b.getCase().isEstTouche());
 				// une vérification ne coute rien..
 				if (b.getCase().isEstTouche()
 						|| b.getCase().getMotif() == MotifsDivers.COUPJOUE
@@ -237,41 +229,6 @@ public class PanelPlateau extends JPanel {
 
 		}
 
-	}
-
-	/**
-	 * Cette méthode permet de bloquer les cases occupées afin d'éviter de
-	 * recliquer dessus. <br>
-	 * Cela parcourt chaque case de chaque navire, et desactive les cases pour
-	 * lesquelles un tir a déjà été effectué
-	 * 
-	 * @param caseOccupees
-	 */
-	@SuppressWarnings("unused")
-	private void bloquerCaseOccupees() {
-
-		List<Case> caseOccupees = this.getPlateau().getCasesOccupees();
-
-		List<BoutonBN> boutons = new ArrayList<BoutonBN>();
-
-		BoutonBN tmp;
-
-		if (!caseOccupees.isEmpty() || caseOccupees != null) {
-
-			for (Case c : caseOccupees) {
-				tmp = this.getTableauBoutonsBN()[c.getPosx()][c.getPosy()];
-				boutons.add(tmp);
-			}
-
-			for (BoutonBN b : boutons) {
-				// une vérification ne coute rien..
-				if (b.getCase().isEstTouche())
-					b.setEnabled(false);
-				// else
-				// b.setEnabled(true);
-			}
-
-		}
 	}
 
 	/**

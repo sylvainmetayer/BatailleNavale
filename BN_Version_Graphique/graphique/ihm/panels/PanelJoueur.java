@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import enums.NavireCaracteristique;
+import outils.NavireCaracteristique;
 import metier.Jeu;
 import metier.Plateau;
 

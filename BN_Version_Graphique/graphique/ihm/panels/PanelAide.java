@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import enums.MotifsDivers;
-import enums.NavireCaracteristique;
+import outils.MotifsDivers;
+import outils.NavireCaracteristique;
 
 /**
  * Ce panel contient une aide du jeu, avec les différents motifs et leur

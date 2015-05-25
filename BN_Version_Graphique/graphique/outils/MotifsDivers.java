@@ -1,7 +1,7 @@
 /**
  * 
  */
-package enums;
+package outils;
 
 import javax.swing.ImageIcon;
 
@@ -12,9 +12,6 @@ import javax.swing.ImageIcon;
  *
  */
 public enum MotifsDivers {
-
-	// TODO Si le temps, rechercher chaque appel et remplacer le .toString par
-	// le .getMotif() qui est plus propre
 
 	TOUCHE("X", "touche.jpg", "Représente une case d'un navire touché"), EAU(
 			"~", "eau.jpg", "Réprésente l'eau"), COUPJOUE("@", "coupJoue.jpg",
@@ -47,9 +44,8 @@ public enum MotifsDivers {
 	 * @return {@link ImageIcon}
 	 */
 	public ImageIcon getIcon() throws NullPointerException {
-		String prefixe = "/images/";
 		ImageIcon ic = new ImageIcon(this.getClass().getResource(
-				prefixe + cheminIcon));
+				Options.getPrefixeDossierImage() + cheminIcon));
 		return ic;
 	}
 

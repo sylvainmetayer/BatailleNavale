@@ -3,7 +3,7 @@
  */
 package metier;
 
-import enums.MotifsDivers;
+import outils.MotifsDivers;
 
 /**
  * 

@@ -15,8 +15,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import enums.MotifsDivers;
-import enums.NavireCaracteristique;
+import outils.MotifsDivers;
+import outils.NavireCaracteristique;
 import metier.Case;
 import metier.Navire;
 

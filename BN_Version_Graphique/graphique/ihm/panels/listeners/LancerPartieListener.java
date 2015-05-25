@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import outils.Options;
+
 /**
  * Ecouteur pour le bouton {@link PanelPrincipal#jb_commencerPartie} <br>
  * 
@@ -30,7 +32,29 @@ public class LancerPartieListener implements ActionListener {
 
 		demandePrenomJoueur(true);
 		demandePrenomJoueur(false);
+		demandeTailleGrille();
 		jp.initGame();
+	}
+
+	private void demandeTailleGrille() {
+		Object[] message = new Object[4];
+		String tailleGrille = "";
+
+		message[0] = "Taille de la grille de jeu :";
+
+		String[] choix = { "10 fois 10", "8 fois 8", "6 fois 6" };
+		tailleGrille = (String) JOptionPane.showInputDialog(null,
+				"Veuillez choisir une taille pour la grille de jeu",
+				"Une dernière question..", JOptionPane.QUESTION_MESSAGE, null,
+				choix, choix[2]);
+
+		if (tailleGrille != null) {
+			String[] tmp = tailleGrille.split(" fois ");
+			int taille = Integer.valueOf(tmp[0]);
+			Options.setTailleGrilleJeu(taille);
+
+		}
+
 	}
 
 	/**
@@ -52,7 +76,7 @@ public class LancerPartieListener implements ActionListener {
 
 		message[1] = new JTextField();
 		if (joueur1)
-			((JTextField) message[1]).setText(jp.DEFAULTJOUEURUN);
+			((JTextField) message[1]).setText(Options.getDefaultjoueurun());
 		String option[] = { "OK" };
 
 		int result = JOptionPane.showOptionDialog(null, message,
@@ -65,9 +89,9 @@ public class LancerPartieListener implements ActionListener {
 
 		if (nom.isEmpty()) {
 			if (joueur1)
-				jp.setNomJoueurUn(jp.DEFAULTJOUEURUN);
+				jp.setNomJoueurUn(Options.getDefaultjoueurun());
 			else
-				jp.setNomJoueurDeux(jp.DEFAULTJOUEURDEUX);
+				jp.setNomJoueurDeux(Options.getDefaultjoueurdeux());
 		} else {
 			if (joueur1)
 				jp.setNomJoueurUn(nom);
@@ -76,4 +100,5 @@ public class LancerPartieListener implements ActionListener {
 		}
 
 	}
+
 }
