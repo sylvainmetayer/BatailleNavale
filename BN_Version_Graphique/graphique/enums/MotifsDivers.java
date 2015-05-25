@@ -3,8 +3,6 @@
  */
 package enums;
 
-import ihm.panels.PanelPrincipal;
-
 import javax.swing.ImageIcon;
 
 /**

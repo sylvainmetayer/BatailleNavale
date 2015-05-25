@@ -92,6 +92,7 @@ public class BoutonBN extends JButton {
 
 		try {
 			this.setIcon(ic);
+			this.setDisabledIcon(ic);
 		} catch (NullPointerException ex) {
 			PanelPrincipal.jta_message
 					.append("Le motif est indisponible, utilisation du mode texte..");
