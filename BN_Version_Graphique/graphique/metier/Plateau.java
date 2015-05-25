@@ -494,7 +494,7 @@ public class Plateau {
 	}
 
 	/**
-	 * Ajoute le score au score actuel
+	 * Retire le score au score actuel
 	 * 
 	 * @param score
 	 *            {@link Integer}

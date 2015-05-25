@@ -91,8 +91,9 @@ public class ListenerTirer implements ActionListener {
 
 		}
 
-		jpj_joueur.getPanelPlateau().actualisation();
-		jpj_joueur.repaint();
+		jpj_joueur.actualisation();
+		// jpj_joueur.getPanelPlateau().actualisation();
+		// jpj_joueur.repaint();
 		jpp_principal.repaint();
 
 		// On joue le coup suivant en inversant les roles

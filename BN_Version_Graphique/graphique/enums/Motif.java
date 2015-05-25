@@ -3,7 +3,7 @@
  */
 package enums;
 
-import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  * Enumération permettant de définir les motifs des cases
@@ -30,7 +30,7 @@ public enum Motif {
 
 	// TODO gérer le renvoi d'une image pour l'interface graphique, penser à
 	// gérer la taille de l'image
-	public Image getIcon() {
+	public ImageIcon getIcon() {
 		return null;
 
 	}
