@@ -4,7 +4,9 @@
 package ihm.panels;
 
 import ihm.composants.JTextAreaBN;
-import ihm.frames.FrameAideBatailleNavale;
+import ihm.panels.listeners.AideListener;
+import ihm.panels.listeners.ChargerPartieListener;
+import ihm.panels.listeners.LancerPartieListener;
 import ihm.panels.listeners.ListenerPlacementBateaux;
 import ihm.panels.listeners.ListenerTirer;
 import ihm.panels.listeners.SauvegarderPartieListener;
@@ -14,23 +16,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
@@ -39,7 +32,7 @@ import enums.NavireCaracteristique;
 
 /**
  * Cette classe étend un {@link JPanel} et représente le jeu. Il s'agit du panel
- * principal qui appelle et interagi avec les autres panels
+ * principal qui appelle et interagit avec les autres panels
  * 
  * @author Sylvain - Kevin
  *
@@ -48,8 +41,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String DEFAULTJOUEURDEUX = "Joueur Deux";
-	private final String DEFAULTJOUEURUN = "Joueur Un";
+	public final String DEFAULTJOUEURDEUX = "Joueur Deux";
+	public final String DEFAULTJOUEURUN = System.getProperty("user.name");
 	private final int TAILLEGRILLE = 8;
 
 	// Paramètres du jeu
@@ -123,8 +116,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 		// ajouts des ecouteurs.
 		// jb_quitterPartie.addActionListener(new QuitterListener());
-		jb_commencerPartie.addActionListener(new LancerPartieListener());
-		jb_chargerPartie.addActionListener(new ChargerPartieListener());
+		jb_commencerPartie.addActionListener(new LancerPartieListener(this));
+		jb_chargerPartie.addActionListener(new ChargerPartieListener(this));
 		jb_sauvegarderPartie.addActionListener(new SauvegarderPartieListener(
 				jta_message, joueur2, joueur1));
 	}
@@ -135,7 +128,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 * les deux joueurs. <br>
 	 * Ensuite, on effectue le placement des bateaux.
 	 */
-	private void initGame() {
+	public void initGame() {
 		try {
 			jeu = new Jeu(TAILLEGRILLE, TAILLEGRILLE, nomJoueurUn,
 					nomJoueurDeux);
@@ -451,149 +444,19 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	}
 
-	/**
-	 * Listener permettant de charger la partie lors du clic sur le bouton
-	 * {@link PanelPrincipal#jb_chargerPartie}
-	 * 
-	 * @author Sylvain METAYER - Kevin DESSIMOULIE
-	 *
-	 */
-	@SuppressWarnings("unused")
-	public class ChargerPartieListener implements ActionListener {
-		private final static String NAME = "backup";
-		private final static String EXTENSION = ".data";
-
-		private String nomFichier;
-		private PanelJoueur joueur1, joueur2;
-		private JTextAreaBN jta_message;
-
-		public ChargerPartieListener() {
-			this.nomFichier = NAME + EXTENSION;
-
-			this.joueur1 = null;
-			this.joueur2 = null;
-			this.jta_message = null;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			chargerPartie();
-
-		}
-
-		private void chargerPartie() {
-
-			File f = new File(nomFichier);
-			if (f.exists()) {
-				try {
-
-					FileInputStream fis = new FileInputStream(nomFichier);
-					ObjectInputStream ois = new ObjectInputStream(fis);
-
-					try {
-						joueur1 = (PanelJoueur) ois.readObject();
-						jta_message = (JTextAreaBN) ois.readObject();
-						joueur2 = (PanelJoueur) ois.readObject();
-						// TODO appel méthode chargerPartie de PanelPrincipal
-					} finally {
-
-						try {
-							ois.close();
-						} finally {
-							fis.close();
-						}
-					}
-
-				} catch (IOException ioe) {
-					ioe.printStackTrace();
-				} catch (ClassNotFoundException cnfe) {
-					cnfe.printStackTrace();
-				}
-				// PanelPrincipal.jta_message.append("Chargement réussi avec succès.");
-			} else {
-				System.out
-						.print("Une erreur s'est produite durant le chargement, car le fichier de sauvegarde n'existe pas."
-								+ " Merci de d'abord créer une sauvegarde.\n\n");
-			}
-
-		}
+	public String getNomJoueurUn() {
+		return nomJoueurUn;
 	}
 
-	/**
-	 * Ecouteur pour le bouton {@link PanelPrincipal#jb_commencerPartie} <br>
-	 * 
-	 * @author Sylvain METAYER - Kevin DESSIMOULIE
-	 *
-	 */
-	public class LancerPartieListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			panelPrincipal.removeAll();
-			panelPrincipal.revalidate();
-			panelPrincipal.repaint();
-
-			demandePrenomJoueur(true);
-			demandePrenomJoueur(false);
-			initGame();
-		}
-
-		/**
-		 * Permet de demander le prenom d'un joueur et l'affecte à la variable
-		 * de {@link PanelPrincipal} correspondante selon qu'il s'agit du joueur
-		 * 1 ou 2
-		 * 
-		 * @param joueur1
-		 *            {@link Boolean}
-		 */
-		private void demandePrenomJoueur(boolean joueur1) {
-			Object[] message = new Object[2];
-
-			String nom = "";
-
-			if (joueur1)
-				message[0] = "Prénom du joueur 1 :";
-			else
-				message[0] = "Prénom du joueur 2 :";
-
-			message[1] = new JTextField();
-			String option[] = { "OK" };
-
-			int result = JOptionPane.showOptionDialog(null, message,
-					"Renseignements", JOptionPane.OK_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, option, message[1]);
-
-			if (result == JOptionPane.OK_OPTION) {
-				nom = ((JTextField) message[1]).getText();
-			}
-
-			if (nom.isEmpty()) {
-				if (joueur1)
-					nomJoueurUn = DEFAULTJOUEURUN;
-				else
-					nomJoueurDeux = DEFAULTJOUEURDEUX;
-			} else {
-				if (joueur1)
-					nomJoueurUn = nom;
-				else
-					nomJoueurDeux = nom;
-			}
-
-		}
+	public void setNomJoueurUn(String nomJoueurUn) {
+		this.nomJoueurUn = nomJoueurUn;
 	}
 
-	/**
-	 * Classe permettant d'afficher une aide dans une nouvelle {@link JFrame}.
-	 * 
-	 * @author Sylvain METAYER - Kevin DESSIMOULIE
-	 *
-	 * @see FrameAideBatailleNavale
-	 */
-	public class AideListener implements ActionListener {
+	public String getNomJoueurDeux() {
+		return nomJoueurDeux;
+	}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new FrameAideBatailleNavale();
-		}
+	public void setNomJoueurDeux(String nomJoueurDeux) {
+		this.nomJoueurDeux = nomJoueurDeux;
 	}
 }

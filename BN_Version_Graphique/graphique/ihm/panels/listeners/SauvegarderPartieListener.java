@@ -49,7 +49,13 @@ public class SauvegarderPartieListener implements ActionListener {
 					oos.writeObject(jta_message);
 					oos.flush();
 					oos.close();
-					PanelPrincipal.jta_message.append("Sauvegarde réussie !");
+					try {
+						PanelPrincipal.jta_message
+								.append("Sauvegarde réussie !");
+					} catch (NullPointerException e) {
+
+					}
+
 				}
 			} catch (final IOException ex) {
 				PanelPrincipal.jta_message
