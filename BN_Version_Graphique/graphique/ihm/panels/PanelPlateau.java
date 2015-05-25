@@ -186,7 +186,8 @@ public class PanelPlateau extends JPanel {
 					boutons[i][j].setMotifCaseUniquement(boutons[i][j]
 							.getCase().getMotif());
 				else
-					boutons[i][j].setMotifCaseUniquement(MotifsDivers.EAU.getMotif());
+					boutons[i][j].setMotifCaseUniquement(MotifsDivers.EAU
+							.getMotif());
 			}
 		}
 
@@ -227,7 +228,8 @@ public class PanelPlateau extends JPanel {
 				// b.getCase().isEstTouche());
 				// une vérification ne coute rien..
 				if (b.getCase().isEstTouche()
-						|| b.getCase().getMotif() == MotifsDivers.COUPJOUE.getMotif())
+						|| b.getCase().getMotif() == MotifsDivers.COUPJOUE
+								.getMotif())
 					b.setEnabled(false);
 				// else
 				// b.setEnabled(true);
@@ -315,7 +317,13 @@ public class PanelPlateau extends JPanel {
 
 		for (NavireCaracteristique n : NavireCaracteristique.values()) {
 			if (motif.equals(n.getMotif())) {
-				return n.getIcon();
+				try {
+					return n.getIcon();
+				} catch (NullPointerException ex) {
+					PanelPrincipal.jta_message
+							.append("Le motif est indisponible, utilisation du mode texte..");
+				}
+
 			}
 		}
 		return null;
@@ -324,7 +332,12 @@ public class PanelPlateau extends JPanel {
 	public static ImageIcon getIconDiversByMotif(String motif) {
 		for (MotifsDivers m : MotifsDivers.values()) {
 			if (motif.equals(m.getMotif())) {
-				return m.getIcon();
+				try {
+					return m.getIcon();
+				} catch (NullPointerException ex) {
+					PanelPrincipal.jta_message
+							.append("Le motif est indisponible, utilisation du mode texte..");
+				}
 			}
 		}
 		return null;

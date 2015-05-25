@@ -3,6 +3,8 @@
  */
 package enums;
 
+import ihm.panels.PanelPrincipal;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -46,7 +48,7 @@ public enum MotifsDivers {
 	 * 
 	 * @return {@link ImageIcon}
 	 */
-	public ImageIcon getIcon() {
+	public ImageIcon getIcon() throws NullPointerException {
 		String prefixe = "/images/";
 		ImageIcon ic = new ImageIcon(this.getClass().getResource(
 				prefixe + cheminIcon));

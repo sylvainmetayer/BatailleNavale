@@ -4,6 +4,7 @@
 package ihm.composants;
 
 import ihm.panels.PanelPlateau;
+import ihm.panels.PanelPrincipal;
 
 import java.awt.Dimension;
 
@@ -89,7 +90,13 @@ public class BoutonBN extends JButton {
 		if (ic == null)
 			ic = PanelPlateau.getIconNavireByMotif(motif);
 
-		this.setIcon(ic);
+		try {
+			this.setIcon(ic);
+		} catch (NullPointerException ex) {
+			PanelPrincipal.jta_message
+					.append("Le motif est indisponible, utilisation du mode texte..");
+		}
+
 		this.setText(motif); // si l'image n'apparait pas, on a quand meme le
 								// motif
 	}
