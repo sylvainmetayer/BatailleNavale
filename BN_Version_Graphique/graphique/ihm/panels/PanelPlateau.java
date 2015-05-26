@@ -58,7 +58,6 @@ public class PanelPlateau extends JPanel {
 				.getLongueur()));
 		initPlateau();
 
-		// tableauBoutonsBN[5][3].getCase().setMotif("e");
 		actualisation();
 		repaint();
 
@@ -83,7 +82,6 @@ public class PanelPlateau extends JPanel {
 	 * Permet d'acualiser le plateau de bouton en récupérant les motifs des
 	 * cases du plateaux.
 	 */
-	@SuppressWarnings("deprecation")
 	public void actualisation() {
 		String motif;
 		for (int i = 0; i < tableauBoutonsBN.length; i++) {

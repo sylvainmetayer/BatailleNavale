@@ -33,7 +33,6 @@ public class FileUtil {
 		try {
 			loadProp();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

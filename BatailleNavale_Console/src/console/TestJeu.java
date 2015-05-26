@@ -25,7 +25,6 @@ public class TestJeu {
 		try {
 			j = new Jeu(x, y, "Jimmy");
 		} catch (CoordonneeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		pJoueur = j.getPlateauJoueurUn();

@@ -37,9 +37,9 @@ public class Jeu {
 	 * @param largeur
 	 * @param nomJoueur
 	 * @throws CoordonneeException
-	 *             quand TODO
 	 */
-	public Jeu(int hauteur, int largeur, String nomJoueur) throws CoordonneeException {
+	public Jeu(int hauteur, int largeur, String nomJoueur)
+			throws CoordonneeException {
 		this.plateauJoueurUn = new Plateau(hauteur, largeur, nomJoueur);
 		this.plateauJoueurDeux = new Plateau(hauteur, largeur, "Ordinateur");
 		this.score = 0;
@@ -58,25 +58,34 @@ public class Jeu {
 	 *         s'est passe
 	 * @throws CoordonneeException
 	 */
-	public Navire jouer(int x, int y, Plateau plateau) throws CoordonneeException {
+	public Navire jouer(int x, int y, Plateau plateau)
+			throws CoordonneeException {
 
 		isCoordonneeAutorise(x, y, plateau);
 		Navire n = this.goodPlateau(plateau).jouerCoup(x, y);
 
-		if (n == null) { System.out.println("Coup dans l'eau !"); 
-		if (plateau.equals(getPlateauJoueurUn())) { score += 0; } } //score ordi à gérer ?
-		else { 
+		if (n == null) {
+			System.out.println("Coup dans l'eau !");
+			if (plateau.equals(getPlateauJoueurUn())) {
+				score += 0;
+			}
+		} // score ordi à gérer ?
+		else {
 			if (n.isEstCoule() == true) {
-				System.out.println("Touché Coulé !"); 
-				if (plateau.equals(getPlateauJoueurUn())) { score += 2; } // score ordi à gérer ?
-				if (plateau.equals(getPlateauJoueurDeux())) { 
-					int score = getScore() + n.getValeurScore(); 
+				System.out.println("Touché Coulé !");
+				if (plateau.equals(getPlateauJoueurUn())) {
+					score += 2;
+				} // score ordi à gérer ?
+				if (plateau.equals(getPlateauJoueurDeux())) {
+					int score = getScore() + n.getValeurScore();
 					setScore(score);
-				} 
-			} else if (n.isEstCoule() == false) { 
-				System.out.println("Touché !"); 
-				if (plateau.equals(getPlateauJoueurUn())) {  score += 1; }// score ordi à gérer ?
-			} 
+				}
+			} else if (n.isEstCoule() == false) {
+				System.out.println("Touché !");
+				if (plateau.equals(getPlateauJoueurUn())) {
+					score += 1;
+				}// score ordi à gérer ?
+			}
 		}
 
 		// la gestion des cases étant déjà faite avant (cf plateau#jouerCoup, on
@@ -86,7 +95,6 @@ public class Jeu {
 
 	}
 
-	
 	/**
 	 * Permet de verifier que les coordonnees du coup joue sont bien dans la
 	 * taille de l'aire de jeu
@@ -96,7 +104,8 @@ public class Jeu {
 	 * @param plateau
 	 * @throws CoordonneeException
 	 */
-	protected boolean isCoordonneeAutorise(int x, int y, Plateau plateau) throws CoordonneeException {
+	protected boolean isCoordonneeAutorise(int x, int y, Plateau plateau)
+			throws CoordonneeException {
 
 		boolean isAutorise = true;
 		int cx = this.goodPlateau(plateau).getLongueur();
@@ -109,7 +118,7 @@ public class Jeu {
 			throw new CoordonneeException("coordonnées non autorisé ");
 		}
 		return isAutorise;
-		
+
 	}
 
 	/**
@@ -187,7 +196,6 @@ public class Jeu {
 
 			}
 
-			// TODO quand on place en manuel, ne set que le plateau 2 !
 			plateauJoueurUn.setListeNav(listeNav);
 			plateauJoueurDeux.setListeNav(listeNav);
 
@@ -195,7 +203,6 @@ public class Jeu {
 			bne.printStackTrace();
 		}
 
-		// TODO definir nombre navires, type navire, taille navire ?
 	}
 
 	/**

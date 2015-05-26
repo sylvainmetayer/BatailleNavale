@@ -14,6 +14,8 @@ public abstract class Options {
 	public static final String DEFAULTJOUEURDEUX = "Joueur Deux";
 	public static final String DEFAULTJOUEURUN = System
 			.getProperty("user.name");
+	private final static String NAMEFICHIER = "backup";
+	private final static String EXTENSIONFICHIER = ".data";
 
 	public static int getTailleGrilleJeu() {
 		return tailleGrilleJeu;
@@ -43,6 +45,14 @@ public abstract class Options {
 
 	public static String getDefaultjoueurun() {
 		return DEFAULTJOUEURUN;
+	}
+
+	public static String getNamefichier() {
+		return NAMEFICHIER;
+	}
+
+	public static String getExtensionfichier() {
+		return EXTENSIONFICHIER;
 	}
 
 }

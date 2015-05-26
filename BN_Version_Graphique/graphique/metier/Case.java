@@ -3,6 +3,8 @@
  */
 package metier;
 
+import java.io.Serializable;
+
 import outils.MotifsDivers;
 
 /**
@@ -17,7 +19,7 @@ import outils.MotifsDivers;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class Case implements Comparable<Case> {
+public class Case implements Comparable<Case>, Serializable {
 
 	@Override
 	public int compareTo(Case uneCase) {

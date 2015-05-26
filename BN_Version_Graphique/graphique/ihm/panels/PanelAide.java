@@ -31,11 +31,16 @@ public class PanelAide extends JPanel {
 	private int nbLignes;
 	private int nbColonnes;
 
+	private float[] couleurHSB = Color.RGBtoHSB(19, 23, 214, null);
+	private Color couleurTexte = Color.getHSBColor(couleurHSB[0],
+			couleurHSB[1], couleurHSB[2]);
+
 	public PanelAide() {
 
 		jta_regle = new JTextArea();
-		jta_regle.setForeground(Color.BLUE);
+		jta_regle.setForeground(couleurTexte);
 		jta_regle.setEditable(false);
+		jta_regle.setText(texteAide());
 		jp_grilleIcon = new JPanel();
 
 		nbColonnes = 2;
@@ -43,7 +48,6 @@ public class PanelAide extends JPanel {
 				+ MotifsDivers.values().length + 2;
 		jp_grilleIcon.setLayout(new GridLayout(nbLignes, nbColonnes));
 
-		texteAide();
 		ajoutIconTexte();
 
 		this.setLayout(new BorderLayout());
@@ -61,9 +65,6 @@ public class PanelAide extends JPanel {
 		ImageIcon ic;
 		String motif;
 
-		float[] f = Color.RGBtoHSB(21, 195, 214, null);
-		Color c = Color.getHSBColor(f[0], f[1], f[2]);
-
 		int i = 0;
 		for (MotifsDivers m : MotifsDivers.values()) {
 
@@ -72,31 +73,34 @@ public class PanelAide extends JPanel {
 			jl_icon = new JLabel();
 			jl_icon.setIcon(ic);
 			jl_icon.setText("Motif : " + motif);
-			jl_icon.setForeground(c);
+			jl_icon.setForeground(couleurTexte);
 			jl_texte = new JLabel();
 			jl_texte.setText(m.getTextEnrichi());
-			jl_texte.setForeground(c);
+			jl_texte.setForeground(couleurTexte);
 			jp_grilleIcon.add(jl_icon, i);
 			i++;
 			jp_grilleIcon.add(jl_texte, i);
 			i++;
 		}
+
+		// on ajoute un espace entre les deux
 		jp_grilleIcon.add(new JLabel(""), i);
 		i++;
 		jp_grilleIcon.add(new JLabel(""), i);
 		i++;
+
 		for (NavireCaracteristique n : NavireCaracteristique.values()) {
 			ic = n.getIcon();
 			motif = n.getMotif();
 			jl_icon = new JLabel();
 			jl_icon.setIcon(ic);
 			jl_icon.setText("Motif : " + motif);
-			jl_icon.setForeground(c);
+			jl_icon.setForeground(couleurTexte);
 			jt_texte = new JTextArea();
 			jt_texte.setEditable(false);
 			jt_texte.setText(n.getTextEnrichi());
 			jt_texte.append("\nValeur de score : " + n.getValeurScore());
-			jt_texte.setForeground(c);
+			jt_texte.setForeground(couleurTexte);
 			jp_grilleIcon.add(jl_icon, i);
 			i++;
 			jp_grilleIcon.add(jt_texte, i);
@@ -107,7 +111,7 @@ public class PanelAide extends JPanel {
 	/**
 	 * Texte d'aide contenu dans le {@link PanelAide#jta_regle}
 	 */
-	private void texteAide() {
+	private String texteAide() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Bienvenue sur l'aide de la bataille navale.\n\n");
 		sb.append("Pour jouer, il vous faut commencer par placer vos navires.\n");
@@ -124,6 +128,6 @@ public class PanelAide extends JPanel {
 
 		sb.append("Ci-contre, vous trouverez les différents icones utilisés dans le jeu, ainsi que leur significations.\n");
 		sb.append("\nQue le meilleur d'entre vous gagne !");
-		jta_regle.append(sb.toString());
+		return sb.toString();
 	}
 }

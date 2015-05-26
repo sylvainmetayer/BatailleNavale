@@ -1,5 +1,6 @@
 package metier;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class Jeu {
+public class Jeu implements Serializable {
 
 	private Plateau plateauJoueurUn;
 	private Plateau plateauJoueurDeux;

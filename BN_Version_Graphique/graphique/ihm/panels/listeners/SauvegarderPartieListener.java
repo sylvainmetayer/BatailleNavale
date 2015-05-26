@@ -10,10 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class SauvegarderPartieListener implements ActionListener {
+import outils.Options;
 
-	private final static String NAME = "backup";
-	private final static String EXTENSION = ".data";
+public class SauvegarderPartieListener implements ActionListener {
 
 	private String nomFichier;
 	private PanelJoueur joueur1, joueur2;
@@ -21,7 +20,8 @@ public class SauvegarderPartieListener implements ActionListener {
 
 	public SauvegarderPartieListener(JTextAreaBN jta_message,
 			PanelJoueur joueur2, PanelJoueur joueur1) {
-		this.nomFichier = NAME + EXTENSION;
+		this.nomFichier = Options.getNamefichier()
+				+ Options.getExtensionfichier();
 
 		this.joueur1 = joueur1;
 		this.joueur2 = joueur2;
@@ -35,6 +35,10 @@ public class SauvegarderPartieListener implements ActionListener {
 
 	private void sauvegarder() {
 		ObjectOutputStream oos = null;
+
+		// Récupérer un tableau d'objet contenant le jeu, le plateaux, le nom du
+		// joueur.
+		// fois deux
 
 		try {
 			final FileOutputStream fichier = new FileOutputStream(nomFichier);

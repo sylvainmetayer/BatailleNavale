@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
  * <li>nom
  * <li>numero
  * <li>motif
+ * <li>Chemin vers le motif de l'image
  * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *

@@ -66,7 +66,8 @@ public class Plateau {
 			throws CoordonneeException {
 
 		if (!CtrlGoodPlateau(largeur, longueur, joueur))
-			throw new CoordonneeException("Le plateau n'est pas initialisé correctement");
+			throw new CoordonneeException(
+					"Le plateau n'est pas initialisé correctement");
 
 		this.longueur = longueur;
 		this.largeur = largeur;
@@ -92,8 +93,6 @@ public class Plateau {
 	}
 
 	/**
-	 * 
-	 * TODO check <br>
 	 * Verifie qu'un plateau est correct <br>
 	 * longeur = largeur (pas de plateau de 4*2, ...) <br>
 	 * Nom non vide
@@ -129,7 +128,7 @@ public class Plateau {
 		this.listeNav.add(n);
 		for (Case c : n.getCases()) {
 			this.casesOccupees.add(c);
-			this.lstCases[c.getPosx()][c.getPosy()]=c;
+			this.lstCases[c.getPosx()][c.getPosy()] = c;
 		}
 
 	}

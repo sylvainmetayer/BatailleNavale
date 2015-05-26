@@ -78,9 +78,7 @@ public class BoutonBN extends JButton {
 	 * @param motif
 	 * @see PanelPlateau#actualisation()
 	 * @see BoutonBN#setMotifCaseUniquement(String)
-	 * @deprecated depuis que setMotifCaseUniquement est implémenté
 	 */
-	@Deprecated
 	public void setMotifCaseEtPlateau(String motif) {
 		caseBouton.setMotif(motif);
 

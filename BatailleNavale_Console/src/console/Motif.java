@@ -1,7 +1,5 @@
 package console;
 
-import java.awt.Image;
-
 /**
  * Enumération permettant de définir les motifs des cases
  * 
@@ -31,12 +29,6 @@ public enum Motif {
 		default:
 			return null;
 		}
-	}
-
-	// Pour le graphique ?
-	public Image toImage() {
-		return null;
-
 	}
 
 }

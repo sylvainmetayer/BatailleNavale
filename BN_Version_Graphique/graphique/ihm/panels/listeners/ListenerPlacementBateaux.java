@@ -29,10 +29,8 @@ import metier.Navire;
 public class ListenerPlacementBateaux implements ActionListener {
 
 	// on ajoute les navires sur chaque plateau.
-	private final int AJOUTNAVIRE = NavireCaracteristique.values().length * 2;
 
 	private static int idNavire = 1;
-	private static int ajoutNavire = 1;
 
 	/**
 	 * Permet d'incrémenter l'id d'un navire, afin d'éviter qu'un navire n'ai
@@ -40,13 +38,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 	 */
 	public static void incrementerIdNavire() {
 		ListenerPlacementBateaux.idNavire++;
-	}
-
-	/**
-	 * Permet d'incrémenter le nombre de navire déjà ajoutés
-	 */
-	public static void incrementerAjoutNavire() {
-		ListenerPlacementBateaux.ajoutNavire++;
 	}
 
 	private boolean navireValide;
@@ -146,9 +137,8 @@ public class ListenerPlacementBateaux implements ActionListener {
 						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
 					// Test supplémentaire, au cas ou...
-					if (temporaire.getCase().getMotif() != MotifsDivers.EAU.getMotif()) {
-						// Dans ce cas, cela veut dire que la case est déjà
-						// occupée. On empeche donc l'ajout du navire
+					if (temporaire.getCase().getMotif() != MotifsDivers.EAU
+							.getMotif()) {
 						navireValide = false;
 					}
 
@@ -184,7 +174,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 		// Ajout du navire suivant
 		if (navireValide == true) {
 
-			ListenerPlacementBateaux.incrementerAjoutNavire();
 			navireNumero++;
 
 			if (navireNumero >= NavireCaracteristique.values().length) {
@@ -194,9 +183,17 @@ public class ListenerPlacementBateaux implements ActionListener {
 				// pour éviter collision avec navireCaractéristiques
 			}
 
-			if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
-				// placement fini pour les deux joueurs
+			// if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
+			// placement fini pour les deux joueurs
+			if (jpp_principal.getPanelJoueurDeux().getPanelPlateau()
+					.getPlateau().getListeNav().size() == NavireCaracteristique
+					.values().length
+					&& jpp_principal.getPanelJoueurUn().getPanelPlateau()
+							.getPlateau().getListeNav().size() == NavireCaracteristique
+							.values().length) {
 				jpp_principal.debutPartie();
+				// }
+
 			} else {
 
 				jpp_principal.placementBateaux(jpj_joueur,
