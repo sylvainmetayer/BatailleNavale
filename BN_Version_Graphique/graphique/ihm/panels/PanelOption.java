@@ -4,16 +4,21 @@
 package ihm.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-
-import javafx.scene.layout.Border;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import outils.Options;
 
 /**
  * @author Sylvain METAYER - Kevin DESSIMOULIE
@@ -30,39 +35,84 @@ public class PanelOption extends JPanel {
 	private JLabel jl_joueurDeux;
 	private JComboBox<Integer> jcb_choixTaille;
 	private JLabel jl_choixTaille;
-	private Integer[] valeurs = { 8, 10, 12 };
+	private Integer[] valeurs = { 6, 8, 10 };
 	private JLabel jl_haut;
 	private JButton jb_valider;
 
-	public PanelOption() {
+	private PanelPrincipal jpp;
+
+	public PanelOption(PanelPrincipal jpp) {
+		this.jpp = jpp;
+
 		jp_contenu = new JPanel();
 		jp_contenu.setLayout(new GridLayout(3, 2));
 		this.setLayout(new BorderLayout());
 
-		jl_haut = new JLabel("Saisir vos options");
+		jl_haut = new JLabel("Saisir vos options", JLabel.CENTER);
 		jb_valider = new JButton("Valider");
+		jb_valider.setPreferredSize(new Dimension(100, 100));
+		jb_valider.setBackground(Color.GREEN);
 		jt_joueurUn = new JTextField();
-		jl_joueurUn = new JLabel("Nom du joueur un :");
+		jt_joueurUn.setText(System.getProperty("user.name"));
+		jl_joueurUn = new JLabel(
+				"Nom du joueur un : (defaut : nom d'utilisateur)",
+				JLabel.CENTER);
 		jt_joueurDeux = new JTextField();
-		jl_joueurUn = new JLabel("Nom du joueur deux :");
+		jl_joueurDeux = new JLabel(
+				"Nom du joueur deux : (laisser vide pour utiliser la valeur par défaut",
+				JLabel.CENTER);
 		jcb_choixTaille = new JComboBox<Integer>();
 
 		for (Integer i : valeurs) {
 			jcb_choixTaille.addItem(i);
 		}
-		jcb_choixTaille.setSelectedItem(valeurs[1]);
+		jcb_choixTaille.setSelectedItem(valeurs[0]);
 
-		jl_choixTaille = new JLabel("Choisir la taille du plateau :");
+		jl_choixTaille = new JLabel("Choisir la taille du plateau :"
+				+ jcb_choixTaille.getSelectedItem() + "*"
+				+ jcb_choixTaille.getSelectedItem(), JLabel.CENTER);
 
-		Object[] tab = { jl_joueurDeux, jt_joueurUn, jl_joueurDeux,
-				jt_joueurDeux, jl_choixTaille, jcb_choixTaille };
-
-		for (int i = 0; i < 6; i++) {
-			jp_contenu.add((Component) tab[i], i);
-		}
+		jp_contenu.add(jl_joueurUn, 0);
+		jp_contenu.add(jt_joueurUn, 1);
+		jp_contenu.add(jl_joueurDeux, 2);
+		jp_contenu.add(jt_joueurDeux, 3);
+		jp_contenu.add(jl_choixTaille, 4);
+		jp_contenu.add(jcb_choixTaille, 5);
 
 		this.add(jl_haut, BorderLayout.NORTH);
 		this.add(jp_contenu, BorderLayout.CENTER);
 		this.add(jb_valider, BorderLayout.SOUTH);
+		repaint();
+
+		jb_valider.addActionListener(new DebutPartieListener());
+	}
+
+	class DebutPartieListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String nomJoueurUn, nomJoueurDeux;
+			int taille;
+
+			taille = (int) jcb_choixTaille.getSelectedItem();
+			nomJoueurDeux = jt_joueurDeux.getText();
+			nomJoueurUn = jt_joueurUn.getText();
+
+			if (nomJoueurDeux.isEmpty())
+				nomJoueurDeux = Options.DEFAULTJOUEURDEUX;
+
+			if (nomJoueurUn.isEmpty())
+				nomJoueurUn = Options.DEFAULTJOUEURUN;
+
+			jpp.setNomJoueurUn(nomJoueurUn);
+			jpp.setNomJoueurDeux(nomJoueurDeux);
+			Options.setTailleGrilleJeu(taille);
+
+			JFrame j = (JFrame) (SwingUtilities
+					.windowForComponent(PanelOption.this));
+			j.dispose(); // fermer la frame
+
+			jpp.initGame();
+		}
 	}
 }
