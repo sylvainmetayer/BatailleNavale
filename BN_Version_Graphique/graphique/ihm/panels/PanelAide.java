@@ -126,7 +126,15 @@ public class PanelAide extends JPanel {
 		sb.append("En cas de placement erroné, ou de coup joué de façon incorrect, vous serez invité à rejouer ou replacer votre bateau.\n");
 		sb.append("Vous pouvez consulter l'historique des actions (placement ou tirs effectués)\nsur le bloc de log présent entre les deux plateaux.\n");
 
-		sb.append("Ci-contre, vous trouverez les différents icones utilisés dans le jeu, ainsi que leur significations.\n");
+		sb.append("Ci-contre, vous trouverez les différents icones utilisés dans le jeu, ainsi que leur significations.\n"
+				+ "Vous verrez également les motifs associés à ces icônes, dans le cas ou les images ne seraient pas disponibles. \n\n");
+
+		sb.append("Il existe une fonction de sauvegarde/chargement vous permettant de sauvegarder votre jeu à un moment donné,\n"
+				+ " et de le recommencer ultérieurement.\n"
+				+ "La fonction de sauvegarde est accessible une fois les bateaux des deux joueurs placés.\n"
+				+ "La fonction de restauration est accessible à tout moment mais ne dispose pas d'avertissement.\n"
+				+ "Elle charge directement la sauvegarde effectuée précédemment et efface donc la partie en cours !\n");
+
 		sb.append("\nQue le meilleur d'entre vous gagne !");
 		return sb.toString();
 	}

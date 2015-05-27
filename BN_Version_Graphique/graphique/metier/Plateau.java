@@ -3,6 +3,7 @@
  */
 package metier;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +17,7 @@ import outils.NavireCaracteristique;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class Plateau {
+public class Plateau implements Serializable {
 
 	@Override
 	public int hashCode() {

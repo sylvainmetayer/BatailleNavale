@@ -23,15 +23,16 @@ public class FrameOption extends JFrame {
 	 * Constructeur qui instancie une nouvelle fenetre et ajoute le panel
 	 * {@link PanelPrincipal}
 	 */
-	public FrameOption() {
+	public FrameOption(PanelPrincipal jpp) {
 		this.setTitle("Options de jeu");
 		this.setSize(LONGUEUR, LARGEUR);
 		this.setLocationRelativeTo(null);
-		this.setContentPane(new PanelOption());
+		this.setContentPane(new PanelOption(jpp));
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
 		this.setResizable(false);
 
 		this.setVisible(true);
 	}
+
 }

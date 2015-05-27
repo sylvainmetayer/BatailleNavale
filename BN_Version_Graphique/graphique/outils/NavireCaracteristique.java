@@ -150,9 +150,14 @@ public enum NavireCaracteristique {
 	 * @return {@link ImageIcon}
 	 */
 	public ImageIcon getIcon() throws NullPointerException {
-		ImageIcon ic = new ImageIcon(this.getClass().getResource(
-				Options.getPrefixeDossierImage() + cheminIcon));
-		return ic;
+		try {
+			ImageIcon ic = new ImageIcon(this.getClass().getResource(
+					Options.getPrefixeDossierImage() + cheminIcon));
+			return ic;
+		} catch (NullPointerException e) {
+			return null;
+		}
+
 	}
 
 	/**

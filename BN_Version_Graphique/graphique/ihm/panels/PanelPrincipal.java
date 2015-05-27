@@ -4,6 +4,7 @@
 package ihm.panels;
 
 import ihm.composants.JTextAreaBN;
+import ihm.frames.FrameBatailleNavale;
 import ihm.panels.listeners.AideListener;
 import ihm.panels.listeners.ChargerPartieListener;
 import ihm.panels.listeners.LancerPartieListener;
@@ -25,12 +26,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import outils.NavireCaracteristique;
-import outils.Options;
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
+import outils.NavireCaracteristique;
+import outils.Options;
 
 /**
  * Cette classe étend un {@link JPanel} et représente le jeu. Il s'agit du panel
@@ -47,8 +48,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	// Paramètres du jeu
 	private Jeu jeu;
-	private String nomJoueurUn;
-	private String nomJoueurDeux;
+	private String nomJoueurUn = "";
+	private String nomJoueurDeux = "";
 
 	// = this pour plus de facilité d'accès vis a vis des classe interne membres
 	private final JPanel panelPrincipal = this;
@@ -61,8 +62,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	private JButton jb_aide;
 
 	private JLabel jl_image;
-	ImageIcon image = new ImageIcon(this.getClass().getResource(
-			Options.getPrefixeDossierImage() + "bataillenavale.jpg"));
+	ImageIcon image;
 
 	// pour pouvoir éditer le contenu à partir de tous les panels
 	public static JTextAreaBN jta_message;
@@ -81,6 +81,16 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 */
 	public PanelPrincipal() {
 
+		jl_image = new JLabel("");
+
+		try {
+			image = new ImageIcon(this.getClass().getResource(
+					Options.getPrefixeDossierImage() + "bataillenavale.jpg"));
+			jl_image.setIcon(image);
+		} catch (NullPointerException e) {
+			jl_image.setText("Image actuellement indisponible..");
+		}
+
 		// instanciations composants
 		jl_menuPrincipal = new JLabel("Bataille Navale - Le jeu !");
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
@@ -91,9 +101,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jb_aide.addActionListener(new AideListener());
 		jb_aide.setForeground(Color.BLUE);
 		jb_chargerPartie = new JButton("Charger une partie");
-
-		jl_image = new JLabel("");
-		jl_image.setIcon(image);
 
 		// instanciations panels
 		panelPrincipal.setLayout(new BorderLayout());
@@ -116,11 +123,11 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		panelPrincipal.add(jp_image, BorderLayout.SOUTH);
 
 		// ajouts des ecouteurs.
-		// jb_quitterPartie.addActionListener(new QuitterListener());
 		jb_commencerPartie.addActionListener(new LancerPartieListener(this));
 		jb_chargerPartie.addActionListener(new ChargerPartieListener(this));
 		jb_sauvegarderPartie.addActionListener(new SauvegarderPartieListener(
 				jta_message, joueur2, joueur1));
+		jb_sauvegarderPartie.setEnabled(false);
 	}
 
 	/**
@@ -131,6 +138,10 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 */
 	public void initGame() {
 		try {
+			this.removeAll();
+			this.revalidate();
+			this.repaint();
+
 			tailleGrille = Options.getTailleGrilleJeu();
 			jeu = new Jeu(tailleGrille, tailleGrille, nomJoueurUn,
 					nomJoueurDeux);
@@ -238,6 +249,8 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jta_message.append("Fin de placement des bateaux...\n "
 				+ "Début de la guerre !");
 
+		FrameBatailleNavale.setSaveOn(true);
+		jb_sauvegarderPartie.setEnabled(true);
 		jouerCoup(getPanelJoueurDeux(), getPanelJoueurUn());
 
 	}
@@ -263,7 +276,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		joueurSousAttaque.setMessage("Prions pour un coup dans l'eau...");
 		joueurSousAttaque.setEtatGrille(true);
 
-		// TODO gestion plateau masqué unmask
 		joueurAttaquant.getPanelPlateau().unmaskPlateau();
 		joueurSousAttaque.getPanelPlateau().masquerPlateau();
 
@@ -454,6 +466,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	}
 
 	public void setNomJoueurUn(String nomJoueurUn) {
+		System.out.println(this.nomJoueurUn);
 		this.nomJoueurUn = nomJoueurUn;
 	}
 

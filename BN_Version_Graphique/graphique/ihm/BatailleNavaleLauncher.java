@@ -1,7 +1,6 @@
 package ihm;
 
 import ihm.frames.FrameBatailleNavale;
-import ihm.frames.FrameOption;
 
 /**
  * Cette classe permet de lancer la bataille navale
@@ -20,7 +19,6 @@ public class BatailleNavaleLauncher {
 	public static void main(String[] args) {
 
 		new FrameBatailleNavale();
-		//new FrameOption();
 	}
 
 }

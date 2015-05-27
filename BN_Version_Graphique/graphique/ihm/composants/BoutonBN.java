@@ -7,6 +7,7 @@ import ihm.panels.PanelPlateau;
 import ihm.panels.PanelPrincipal;
 
 import java.awt.Dimension;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ import metier.Case;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class BoutonBN extends JButton {
+public class BoutonBN extends JButton implements Serializable {
 
 	@Override
 	public String toString() {

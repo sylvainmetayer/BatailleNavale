@@ -7,6 +7,7 @@ import ihm.composants.BoutonBN;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import metier.Plateau;
  * @author Sylvain - Kevin
  *
  */
-public class PanelPlateau extends JPanel {
+public class PanelPlateau extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

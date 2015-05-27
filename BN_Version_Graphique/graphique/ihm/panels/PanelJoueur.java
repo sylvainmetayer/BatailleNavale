@@ -5,6 +5,7 @@ package ihm.panels;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ import metier.Plateau;
  * @author Sylvain - Kevin
  *
  */
-public class PanelJoueur extends JPanel {
+public class PanelJoueur extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -26,7 +26,7 @@ public class FrameBatailleNavale extends JFrame {
 	private JMenuItem newGame = new JMenuItem("Nouvelle partie");
 	private JMenuItem exitGame = new JMenuItem("Quitter");
 	private JMenuItem loadGame = new JMenuItem("Charger partie");
-	private JMenuItem saveGame = new JMenuItem("Sauvegarder partie");
+	private static JMenuItem saveGame = new JMenuItem("Sauvegarder partie");
 	private JMenuItem helpGame = new JMenuItem("Aide");
 
 	private static final int LONGUEUR = 1200;
@@ -42,6 +42,7 @@ public class FrameBatailleNavale extends JFrame {
 	public FrameBatailleNavale() {
 
 		jpp = new PanelPrincipal();
+
 		this.setTitle("Jeu de la bataille navale");
 		this.setSize(LONGUEUR, LARGEUR);
 		this.setLocationRelativeTo(null);
@@ -52,6 +53,7 @@ public class FrameBatailleNavale extends JFrame {
 		this.contenant.add(newGame);
 		this.contenant.add(loadGame);
 		this.contenant.add(saveGame);
+		setSaveOn(false);
 		this.contenant.addSeparator();
 		this.contenant.add(helpGame);
 		this.contenant.addSeparator();
@@ -69,4 +71,9 @@ public class FrameBatailleNavale extends JFrame {
 		this.setResizable(false);
 		this.setVisible(true);
 	}
+
+	public static void setSaveOn(boolean enabled) {
+		saveGame.setEnabled(enabled);
+	}
+
 }
