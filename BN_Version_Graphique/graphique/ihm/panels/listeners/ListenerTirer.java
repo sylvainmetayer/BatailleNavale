@@ -23,7 +23,6 @@ public class ListenerTirer implements ActionListener {
 		this.jpj_joueur = jpj_joueur;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

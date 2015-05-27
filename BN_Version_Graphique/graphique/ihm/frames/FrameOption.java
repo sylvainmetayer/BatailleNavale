@@ -6,7 +6,6 @@ package ihm.frames;
 import javax.swing.JFrame;
 
 import ihm.panels.PanelOption;
-import ihm.panels.PanelAide;
 import ihm.panels.PanelPrincipal;
 
 /**
