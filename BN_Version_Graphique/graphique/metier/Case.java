@@ -21,6 +21,11 @@ import outils.MotifsDivers;
  */
 public class Case implements Comparable<Case>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public int compareTo(Case uneCase) {
 		return (this.getPosx() - uneCase.getPosx());
