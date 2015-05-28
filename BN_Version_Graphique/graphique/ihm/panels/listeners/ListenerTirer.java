@@ -106,6 +106,13 @@ public class ListenerTirer implements ActionListener {
 		jpj_joueur.actualisation();
 		jpp_principal.repaint();
 
+		// Eviter le passage automatique après le tir. Commenté car très
+		// dérangeant durant les tests.
+		// try {
+		// Thread.sleep(800);
+		// } catch (InterruptedException e1) {
+		// }
+
 		// On joue le coup suivant en inversant les roles
 		jpp_principal.jouerCoup(
 				jpp_principal.getMonPanelJoueur(jpj_joueur, false),

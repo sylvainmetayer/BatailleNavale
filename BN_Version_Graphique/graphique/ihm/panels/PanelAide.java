@@ -136,21 +136,21 @@ public class PanelAide extends JPanel {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Bienvenue sur l'aide de la bataille navale.\n\n");
 		sb.append("Lors du démarrage de la partie, vous pouvez choisir certaines options.\n");
-		sb.append("Vous pouvez laisser les noms des joueurs vide, les valeurs par défaut seront dans ce cas utilisée.\n");
+		sb.append("Vous pouvez laisser les noms des joueurs vides, les valeurs par défaut seront dans ce cas utilisées.\n");
 		sb.append("Une fois les noms des joueurs renseignés, et la taille de la grille choisie, le jeu commence.\n"
 				+ "Il vous faut donc placer vos navires.\n");
 		sb.append("Chaque joueur dispose de "
 				+ NavireCaracteristique.values().length + " navires\n");
-		sb.append("Une fois que les deux joueurs auront placé leur navires, la partie commence.\n");
+		sb.append("Une fois que les deux joueurs auront placé leurs navires, la partie commence.\n");
 		sb.append("Tour à tour, chaque joueur clique sur une case du plateau adverse, dans l'espoir de toucher un navire.\n");
 		sb.append("Lorsqu'un navire voit toutes ses cases touchées, il est alors coulé.\n");
 		sb.append("Votre nombre de vie définit le nombre de bateaux qu'ils vous reste\n(Chaque bateaux dispose d'une valeur de score différente).\nAu début de la partie, chaque joueur dispose de "
 				+ NavireCaracteristique.getScoreTotal()
 				+ " vies. Le premier à 0 vies perd la partie.\n\n");
-		sb.append("En cas de placement erroné, ou de coup joué de façon incorrect, vous serez invité à rejouer ou replacer votre bateau.\n");
+		sb.append("En cas de placement erroné, ou de coup joué de façon incorrecte, vous serez invité à rejouer ou replacer votre bateau.\n");
 		sb.append("Vous pouvez consulter l'historique des actions (placement ou tirs effectués)\nsur le bloc de log présent entre les deux plateaux.\n");
 
-		sb.append("Ci-contre, vous trouverez les différents icones utilisés dans le jeu, ainsi que leur significations.\n"
+		sb.append("Ci-contre, vous trouverez les différents icônes utilisées dans le jeu, ainsi que leur significations.\n"
 				+ "Vous verrez également les motifs associés à ces icônes, dans le cas où les images ne seraient pas disponibles. \n\n");
 
 		sb.append("Il existe une fonction de sauvegarde/chargement vous permettant de sauvegarder votre jeu à un moment donné,\n"

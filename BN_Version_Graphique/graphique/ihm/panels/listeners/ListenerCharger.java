@@ -8,12 +8,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 
 import javax.swing.JOptionPane;
 
-import outils.Options;
 import metier.Jeu;
+import outils.Options;
 
 /**
  * Listener permettant de charger la partie <br>
@@ -24,8 +25,6 @@ import metier.Jeu;
  *
  */
 public class ListenerCharger implements ActionListener {
-	private final static String NAME = "backup";
-	private final static String EXTENSION = ".data";
 
 	private String nomFichier;
 
@@ -38,7 +37,8 @@ public class ListenerCharger implements ActionListener {
 	 *            {@link PanelPrincipal}
 	 */
 	public ListenerCharger(PanelPrincipal jpp) {
-		this.nomFichier = NAME + EXTENSION;
+		this.nomFichier = Options.getNamefichier()
+				+ Options.getExtensionfichier();
 
 		this.jpp = jpp;
 	}
@@ -78,6 +78,14 @@ public class ListenerCharger implements ActionListener {
 
 					jpp.chargerPartie(panelJoueur1, panelJoueur2, jeu, texteJTA);
 
+				} catch (InvalidClassException e) {
+					String message = "Vous avez tenté de charger un fichier dont la sauvegarde à été effectuée "
+							+ "sur un autre ordinateur.\nSuite à une méthode de sauvegarde spécifique de notre part"
+							+ ",\nil nous est impossible de restaurer les fichiers "
+							+ "provenant d'une version différente de leur sauvegarde"
+							+ ".\nVeuillez nous excuser pour la gêne occasionée.";
+					JOptionPane.showMessageDialog(null, message,
+							"Nous sommes désolés..", JOptionPane.ERROR_MESSAGE);
 				} finally {
 
 					try {

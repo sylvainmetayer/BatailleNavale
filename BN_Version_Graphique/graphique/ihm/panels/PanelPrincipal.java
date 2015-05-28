@@ -232,7 +232,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	public void debutPartie() {
 		repaint();
 		jta_message.append("Fin de placement des bateaux...\n "
-				+ "Début de la guerre !");
+				+ "Les choses sérieuses commencent !".toUpperCase());
 
 		enableBackup(true);
 		jouerCoup(getPanelJoueurDeux(), getPanelJoueurUn());

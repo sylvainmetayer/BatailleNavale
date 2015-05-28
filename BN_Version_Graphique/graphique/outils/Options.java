@@ -4,21 +4,16 @@
 package outils;
 
 import java.awt.Color;
-import java.io.Serializable;
-
 import javax.swing.JOptionPane;
-import metier.Jeu;
 
 /**
- * Cette classe contient les différentes options et variables utilisées durant
- * le {@link Jeu}.
+ * Cette classe contient les différentes options et variables utilisées dans
+ * l'application.
  * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public abstract class Options implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public abstract class Options {
 
 	private static int largeurFenetrePrincipale = 1200;
 	private static int hauteurFenetrePrincipale = 500;
@@ -45,46 +40,107 @@ public abstract class Options implements Serializable {
 	private static final Color couleurTexte = Color.getHSBColor(couleurHSB[0],
 			couleurHSB[1], couleurHSB[2]);
 
+	/**
+	 * Retourne la couleur à appliquer à un texte
+	 * 
+	 * @return {@link Color}
+	 */
 	public static Color getCouleurTexte() {
 		return couleurTexte;
 	}
 
+	/**
+	 * Retourne le préfixe nécessaire pour accéder au dossier images contenant
+	 * les différentes images utilisées dans l'application
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getPrefixeDossierImage() {
 		return prefixeDossierImage;
 	}
 
+	/**
+	 * Retourne le nom par défaut du joueur deux. <br>
+	 * Celui ci est utilisé lorsqu'aucun nom n'est spécifié pour le joueur deux
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getDefaultjoueurdeux() {
 		return DEFAULTJOUEURDEUX;
 	}
 
+	/**
+	 * Retourne le nom par défaut du joueur un. <br>
+	 * Celui ci est utilisé lorsqu'aucun nom n'est spécifié pour le joueur un<br>
+	 * Il s'agit du nom d'utilisateur.
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getDefaultjoueurun() {
 		return DEFAULTJOUEURUN;
 	}
 
+	/**
+	 * Retourne le nom du fichier de sauvegarde.
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getNamefichier() {
 		return NAMEFICHIER;
 	}
 
+	/**
+	 * Retourne l'extension du nom de fichier de sauvegarde.
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getExtensionfichier() {
 		return EXTENSIONFICHIER;
 	}
 
+	/**
+	 * Permet de définir le nom du joueur un
+	 * 
+	 * @param nomJoueurUn
+	 *            {@link String}
+	 */
 	public static void setNomJoueurUn(String nomJoueurUn) {
 		Options.nomJoueurUn = nomJoueurUn;
 	}
 
+	/**
+	 * Permet de définir le nom du joueur deux.
+	 * 
+	 * @param nomJoueurDeux
+	 *            {@link String}
+	 */
 	public static void setNomJoueurDeux(String nomJoueurDeux) {
 		Options.nomJoueurDeux = nomJoueurDeux;
 	}
 
+	/**
+	 * Retourne le nom du joueur un.
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getNomJoueurUn() {
 		return Options.nomJoueurUn;
 	}
 
+	/**
+	 * Retourne le nom du joueur deux.
+	 * 
+	 * @return {@link String}
+	 */
 	public static String getNomJoueurDeux() {
 		return Options.nomJoueurDeux;
 	}
 
+	/**
+	 * Retourne la taille de la grille.
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getTailleGrilleJeu() {
 		return tailleGrilleJeu;
 	}
@@ -103,36 +159,56 @@ public abstract class Options implements Serializable {
 			Options.tailleGrilleJeu = tailleGrilleJeu;
 	}
 
-	public static String getAllOptions() {
-		return tailleGrilleJeu + "/" + nomJoueurUn + "/" + nomJoueurDeux;
-	}
-
-	public static void setAllOptions(int taille, String nomJ1, String nomJ2) {
-		tailleGrilleJeu = taille;
-		nomJoueurUn = nomJ1;
-		nomJoueurDeux = nomJ2;
-	}
-
+	/**
+	 * Retourne la largeur de la fenetre
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getLargeurFenetrePrincipale() {
 		return largeurFenetrePrincipale;
 	}
 
+	/**
+	 * Retourne la hauteur de la fenetre
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getHauteurFenetrePrincipale() {
 		return hauteurFenetrePrincipale;
 	}
 
+	/**
+	 * Retourne la largeur de la fenetre
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getLargeurFenetreAide() {
 		return largeurFenetreAide;
 	}
 
+	/**
+	 * Retourne la hauteur de la fenetre
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getHauteurFenetreAide() {
 		return hauteurFenetreAide;
 	}
 
+	/**
+	 * Retourne la largeur de la fenetre
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getLargeurFenetreOptions() {
 		return largeurFenetreOptions;
 	}
 
+	/**
+	 * Retourne la hauteur de la fenetre
+	 * 
+	 * @return {@link Integer}
+	 */
 	public static int getHauteurFenetreOptions() {
 		return hauteurFenetreOptions;
 	}
