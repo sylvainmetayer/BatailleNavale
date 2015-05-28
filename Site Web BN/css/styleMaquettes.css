@@ -1,13 +1,76 @@
 #maquettes {
-	color : #593000;
+	color: #593000;
 }
-p, #imagemaquettes {
-	text-align : center;
+figcaption {
+	text-align: center;
 }
-#text_console , #maquette_console{
-	float : left;
+#conteneur_console {
+	width:550px;
+	height:380px;
+	float: left;
 }
-#maquette_console, #maquette_graphique {
-	width : 500px;
-	height : 500px;
+#text_console {
+	width: 45%;
+	height: 100px;
+	margin-right: 5%;
+	float: left;
+}
+#slideshow
+{
+  width: 600px;
+  height: 380px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 50px;
+}
+.container figure, #maquette_menu, #maquette_option, #maquette_plateau, #maquette_aide, #maquette_console
+{
+  position: absolute;
+  width: 550px;
+  height: 350px;
+  margin-top: 30px;
+}
+.container{
+  position: relative;
+  max-width: 550px;
+  height: 380px;
+}
+figcaption{
+  position: relative;
+  color: #fff;
+  background: rgba(0,0,0, .3);
+  padding: 8px 12px;
+  opacity: 1;
+}
+.container figure{
+  opacity: 0;
+}
+.container figure:nth-child(1) {
+  animation: xfade 24s 0s infinite;
+}
+figure:nth-child(2) {
+  animation: xfade 24s 6s infinite;
+}
+figure:nth-child(3) {
+  animation: xfade 24s 12s infinite;
+}
+figure:nth-child(4) {
+  animation: xfade 24s 18s infinite;
+}
+@keyframes xfade{
+  0%{
+    opacity: 1;
+  }
+  22.5% {
+    opacity: 1;
+  }
+  25%{
+    opacity: 0;
+  }
+  98% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

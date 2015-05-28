@@ -26,13 +26,35 @@
 	
 	<!-- Images des maquettes alignés verticalement -->
 	<div id='imagemaquettes' >	
-		<img id='maquette_console' src='ressources/maquette_console.png' alt="Maquette version console" />
-		<img id='maquette_graphique' src='ressources/maquette_graphique.png' alt="Maquette version graphique" />
+		<figure id='conteneur_console'>
+			<img id='maquette_console' src='ressources/maquette_console.png' alt="Maquette version console" />
+			<figcaption>Maquette console</figcaption>
+		</figure>
+		<section id="slideshow">
+			<div class="container">
+				<figure>
+					<img id='maquette_menu' src='ressources/maquette_menu_graphique.png' alt="Maquette menu version graphique" />
+					<figcaption>Maquette du menu</figcaption>
+				</figure>
+				<figure>
+					<img id='maquette_option' src='ressources/maquette_option_de_jeu_graphique.png' alt="Maquette options du jeu version graphique" />
+					<figcaption>Maquette des options</figcaption>
+				</figure>
+				<figure>
+					<img id='maquette_plateau' src='ressources/maquette_plateau_de_jeu_graphique.png' alt="Maquette plateau du jeu version graphique" />
+					<figcaption>Maquette du plateau de jeu</figcaption>
+				</figure>
+				<figure>
+					<img id='maquette_aide' src='ressources/maquette_aide_graphique.png' alt="Maquette aide version graphique" />
+					<figcaption>Maquette de l'aide</figcaption>
+				</figure>
+			</div>
+		</section>
 	</div>
 	<!-- Textes des maquettes à mettre en correspondances en dessous de l'image de sa maquette -->
 	<p>	
-		<span id='text_console'>description console</span>
-		<span id='text_graphique'>description graphique</span>
+		<span id='text_console'>La maquette console est simple et permet d'avoir une vu d'ensemble des plateaux. On peut quitter le jeu avec le caractère Q, afficher l'aide avec A et tirer en entrant des coordonnées séparés par une virgule.</span>
+		<span id='text_graphique'>La maquette graphique comprend quatre fenêtre la première est un menu permettant de commencer ou de charger une partie. La seconde est le menu des options qui s'affiche lorsque l'on commence une nouvelle partie. Le troisième est l'affichage des deux plateaux des joueurs. Et le dernier est une fenetre avec l'aide pour pouvoir comprendre le fonctionnement du jeu.</span>
 	</p>
 </body>
 
