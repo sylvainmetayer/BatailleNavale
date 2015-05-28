@@ -149,6 +149,9 @@ public class PanelOption extends JPanel {
 		}
 	}
 
+	/**
+	 * Permet de fermer la fenetre active.
+	 */
 	private void dispose() {
 		JFrame j = (JFrame) (SwingUtilities
 				.windowForComponent(PanelOption.this));

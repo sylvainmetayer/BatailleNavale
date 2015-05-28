@@ -12,6 +12,7 @@ import ihm.panels.listeners.ListenerPlacementBateaux;
 import ihm.panels.listeners.ListenerTirer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -23,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
@@ -84,7 +86,11 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jl_menuPrincipal = new JLabel("Bataille Navale - Le jeu !");
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
 		jb_commencerPartie = new JButton("Commencer une nouvelle partie");
+		jb_commencerPartie.setForeground(Color.BLUE);
+		jb_commencerPartie.setBackground(Color.CYAN);
 		jb_chargerPartie = new JButton("Charger une partie");
+		jb_chargerPartie.setForeground(Color.MAGENTA);
+		jb_chargerPartie.setBackground(Color.ORANGE);
 
 		// instanciations panels
 		this.setLayout(new BorderLayout());
@@ -225,7 +231,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 	 */
 	public void debutPartie() {
 		repaint();
-		jta_message.clearJTextArea();
 		jta_message.append("Fin de placement des bateaux...\n "
 				+ "Début de la guerre !");
 

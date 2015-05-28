@@ -65,31 +65,31 @@ public class FrameBatailleNavale extends JFrame {
 		tmp = KeyEvent.VK_F1;
 		helpGame.setMnemonic(tmp);
 		helpGame.setAccelerator(KeyStroke.getKeyStroke(tmp,
-				ActionEvent.ALT_MASK));
+				ActionEvent.CTRL_MASK));
 		helpGame.setForeground(Color.RED);
 
 		tmp = KeyEvent.VK_F2;
 		newGame.setMnemonic(tmp);
 		newGame.setAccelerator(KeyStroke
-				.getKeyStroke(tmp, ActionEvent.ALT_MASK));
+				.getKeyStroke(tmp, ActionEvent.CTRL_MASK));
 		newGame.setForeground(Color.BLUE);
 
 		tmp = KeyEvent.VK_F3;
 		saveGame.setMnemonic(tmp);
 		saveGame.setAccelerator(KeyStroke.getKeyStroke(tmp,
-				ActionEvent.ALT_MASK));
+				ActionEvent.CTRL_MASK));
 		saveGame.setForeground(Color.BLUE);
 
 		tmp = KeyEvent.VK_F4;
 		loadGame.setMnemonic(tmp);
 		loadGame.setAccelerator(KeyStroke.getKeyStroke(tmp,
-				ActionEvent.ALT_MASK));
+				ActionEvent.CTRL_MASK));
 		loadGame.setForeground(Color.MAGENTA);
 
 		tmp = KeyEvent.VK_F5;
 		exitGame.setMnemonic(tmp);
 		exitGame.setAccelerator(KeyStroke.getKeyStroke(tmp,
-				ActionEvent.ALT_MASK));
+				ActionEvent.CTRL_MASK));
 		exitGame.setForeground(Color.BLACK);
 
 		this.setJMenuBar(menuBar);
@@ -102,8 +102,14 @@ public class FrameBatailleNavale extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				boolean exitConfirm;
+				exitConfirm = Options
+						.questionOuiNon(
+								"Voulez vous vraiment quitter ?\nAvez vous pensé à sauvegarder une éventuelle partie en cours ?",
+								"Vous allez partir...");
 
+				if (exitConfirm)
+					System.exit(0);
 			}
 		});
 

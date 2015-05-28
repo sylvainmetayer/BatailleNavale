@@ -1,12 +1,17 @@
 package ihm.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import outils.MotifsDivers;
 import outils.NavireCaracteristique;
@@ -27,6 +32,7 @@ public class PanelAide extends JPanel {
 	private JTextArea jta_regle;
 	private int nbLignes;
 	private int nbColonnes;
+	private JButton jb_fermer;
 
 	/**
 	 * Constructeur
@@ -38,6 +44,16 @@ public class PanelAide extends JPanel {
 		jta_regle.setEditable(false);
 		jta_regle.setText(texteAide());
 		jp_grilleIcon = new JPanel();
+		jb_fermer = new JButton("Fermer la fenetre");
+		jb_fermer.setForeground(Color.BLACK);
+		jb_fermer.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+
+			}
+		});
 
 		nbColonnes = 2;
 		nbLignes = NavireCaracteristique.values().length
@@ -47,8 +63,17 @@ public class PanelAide extends JPanel {
 		ajoutIconTexte();
 
 		this.setLayout(new BorderLayout());
+		this.add(jb_fermer, BorderLayout.SOUTH);
 		this.add(jta_regle, BorderLayout.WEST);
 		this.add(jp_grilleIcon, BorderLayout.EAST);
+	}
+
+	/**
+	 * Permet de fermer la fenetre active.
+	 */
+	private void dispose() {
+		JFrame j = (JFrame) (SwingUtilities.windowForComponent(PanelAide.this));
+		j.dispose(); // fermer la frame
 	}
 
 	/**
