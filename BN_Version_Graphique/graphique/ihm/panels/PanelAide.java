@@ -160,8 +160,6 @@ public class PanelAide extends JPanel {
 				+ "Elle charge directement la sauvegarde effectuée précédemment et efface donc la partie en cours !\n");
 
 		sb.append("\nQue le meilleur d'entre vous gagne !");
-		sb.append("\n\nBugs connus : \n");
-		sb.append("- Lors du chargement, le tour du joueur n'est pas forcément le joueur qui aurait du recommencer à jouer.\n");
 		return sb.toString();
 	}
 }

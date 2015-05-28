@@ -458,7 +458,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 				+ getNbCoupJoues(joueur2.getPanelPlateau().getPlateau());
 
 		if (nombreCoupJoues / 2 == 0) {
-			// Tour joueur 1
 			jouerCoup(this.joueur1, this.joueur2);
 		} else {
 			jouerCoup(this.joueur2, this.joueur1);
