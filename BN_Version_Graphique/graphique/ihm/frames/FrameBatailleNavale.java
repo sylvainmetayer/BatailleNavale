@@ -9,6 +9,8 @@ import ihm.panels.listeners.ListenerSauvegarder;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -52,7 +54,17 @@ public class FrameBatailleNavale extends JFrame {
 				Options.getHauteurFenetrePrincipale());
 		this.setLocationRelativeTo(null);
 		this.setContentPane(jpp);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				boolean exitConfirm = Options
+						.questionOuiNon(
+								"Voulez vous vraiment quitter ?\nAvez vous pensé à sauvegarder une éventuelle partie en cours ?",
+								"Vous allez partir...");
+				if (exitConfirm)
+					System.exit(0);
+			}
+		});
 
 		int tmp;
 		setSaveOn(false);
@@ -70,8 +82,8 @@ public class FrameBatailleNavale extends JFrame {
 
 		tmp = KeyEvent.VK_F2;
 		newGame.setMnemonic(tmp);
-		newGame.setAccelerator(KeyStroke
-				.getKeyStroke(tmp, ActionEvent.CTRL_MASK));
+		newGame.setAccelerator(KeyStroke.getKeyStroke(tmp,
+				ActionEvent.CTRL_MASK));
 		newGame.setForeground(Color.BLUE);
 
 		tmp = KeyEvent.VK_F3;
