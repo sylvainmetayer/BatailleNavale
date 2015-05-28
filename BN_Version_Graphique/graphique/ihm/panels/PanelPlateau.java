@@ -7,6 +7,8 @@ import ihm.composants.BoutonBN;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +36,6 @@ public class PanelPlateau extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
-	private Jeu jeu;
 	private Plateau plateau;
 
 	private BoutonBN[][] tableauBoutonsBN;
@@ -50,9 +50,8 @@ public class PanelPlateau extends JPanel implements Serializable {
 	 * @param jeu
 	 *            {@link Jeu}
 	 */
-	public PanelPlateau(Plateau plateau, int size, Jeu jeu) {
+	public PanelPlateau(Plateau plateau, int size) {
 		this.plateau = plateau;
-		this.jeu = jeu;
 		tableauBoutonsBN = new BoutonBN[size][size];
 
 		this.setLayout(new GridLayout(plateau.getLongueur(), plateau
@@ -298,6 +297,16 @@ public class PanelPlateau extends JPanel implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public void save(ObjectOutputStream oos) {
+		try {
+			oos.writeObject(plateau);
+			oos.writeObject(tableauBoutonsBN);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

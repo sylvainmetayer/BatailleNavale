@@ -5,6 +5,7 @@ package metier;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Properties;
 
 /**
@@ -13,8 +14,9 @@ import java.util.Properties;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class FileUtil {
+public class FileUtil implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private static Properties tableProprietes = new Properties();
 	private static FileUtil cp = null;
 	private static String fileName = "scenario.txt";

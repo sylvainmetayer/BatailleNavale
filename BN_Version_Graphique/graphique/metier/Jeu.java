@@ -12,9 +12,6 @@ import java.util.List;
  */
 public class Jeu implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Plateau plateauJoueurUn;
 	private Plateau plateauJoueurDeux;

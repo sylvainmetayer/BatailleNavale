@@ -19,6 +19,8 @@ import outils.NavireCaracteristique;
  */
 public class Plateau implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

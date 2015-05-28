@@ -54,13 +54,9 @@ public class PanelOption extends JPanel {
 		jb_valider.setBackground(Color.GREEN);
 		jt_joueurUn = new JTextField();
 		jt_joueurUn.setText(System.getProperty("user.name"));
-		jl_joueurUn = new JLabel(
-				"Nom du joueur un : (defaut : nom d'utilisateur)",
-				JLabel.CENTER);
+		jl_joueurUn = new JLabel("Nom du joueur un : ", JLabel.CENTER);
 		jt_joueurDeux = new JTextField();
-		jl_joueurDeux = new JLabel(
-				"Nom du joueur deux : (laisser vide pour utiliser la valeur par défaut",
-				JLabel.CENTER);
+		jl_joueurDeux = new JLabel("Nom du joueur deux : ", JLabel.CENTER);
 		jcb_choixTaille = new JComboBox<Integer>();
 
 		for (Integer i : valeurs) {
@@ -71,6 +67,15 @@ public class PanelOption extends JPanel {
 		jl_choixTaille = new JLabel("Choisir la taille du plateau :"
 				+ jcb_choixTaille.getSelectedItem() + "*"
 				+ jcb_choixTaille.getSelectedItem(), JLabel.CENTER);
+		jcb_choixTaille.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jl_choixTaille.setText("Choisir la taille du plateau :"
+						+ jcb_choixTaille.getSelectedItem() + "*"
+						+ jcb_choixTaille.getSelectedItem());
+			}
+		});
 
 		jp_contenu.add(jl_joueurUn, 0);
 		jp_contenu.add(jt_joueurUn, 1);
@@ -104,8 +109,11 @@ public class PanelOption extends JPanel {
 			if (nomJoueurUn.isEmpty())
 				nomJoueurUn = Options.DEFAULTJOUEURUN;
 
-			jpp.setNomJoueurUn(nomJoueurUn);
-			jpp.setNomJoueurDeux(nomJoueurDeux);
+			Options.setNomJoueurDeux(nomJoueurDeux);
+			Options.setNomJoueurUn(nomJoueurUn);
+			
+			//jpp.setNomJoueurUn(nomJoueurUn);
+			//jpp.setNomJoueurDeux(nomJoueurDeux);
 			Options.setTailleGrilleJeu(taille);
 
 			JFrame j = (JFrame) (SwingUtilities

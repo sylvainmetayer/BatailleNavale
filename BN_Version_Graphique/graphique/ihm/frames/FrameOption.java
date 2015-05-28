@@ -14,7 +14,7 @@ import ihm.panels.PanelPrincipal;
  */
 public class FrameOption extends JFrame {
 
-	private static final int LONGUEUR = 1200;
+	private static final int LONGUEUR = 600;
 	private static final int LARGEUR = 600;
 	private static final long serialVersionUID = 1L;
 

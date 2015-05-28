@@ -1,10 +1,10 @@
 package ihm.frames;
 
 import ihm.panels.PanelPrincipal;
-import ihm.panels.listeners.AideListener;
-import ihm.panels.listeners.ChargerPartieListener;
-import ihm.panels.listeners.LancerPartieListener;
-import ihm.panels.listeners.SauvegarderPartieListener;
+import ihm.panels.listeners.ListenerAide;
+import ihm.panels.listeners.ListenerCharger;
+import ihm.panels.listeners.ListenerLancerPartie;
+import ihm.panels.listeners.ListenerSauvegarder;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -19,7 +19,6 @@ import javax.swing.JMenuItem;
  */
 public class FrameBatailleNavale extends JFrame {
 
-	// Menu
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu contenant = new JMenu("Menu");
 
@@ -61,12 +60,10 @@ public class FrameBatailleNavale extends JFrame {
 		this.menuBar.add(contenant);
 		this.setJMenuBar(menuBar);
 
-		newGame.addActionListener(new LancerPartieListener(jpp));
-		saveGame.addActionListener(new SauvegarderPartieListener(
-				PanelPrincipal.jta_message, jpp.getPanelJoueurDeux(), jpp
-						.getPanelJoueurUn()));
-		helpGame.addActionListener(new AideListener());
-		loadGame.addActionListener(new ChargerPartieListener(jpp));
+		newGame.addActionListener(new ListenerLancerPartie(jpp));
+		saveGame.addActionListener(new ListenerSauvegarder(jpp));
+		helpGame.addActionListener(new ListenerAide());
+		loadGame.addActionListener(new ListenerCharger(jpp));
 
 		this.setResizable(false);
 		this.setVisible(true);

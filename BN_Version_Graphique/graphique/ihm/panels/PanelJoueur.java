@@ -5,6 +5,8 @@ package ihm.panels;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.swing.JLabel;
@@ -29,17 +31,11 @@ public class PanelJoueur extends JPanel implements Serializable {
 
 	private PanelPlateau jpp_panelPlateau;
 
-	// nom + score
 	private JLabel jl_detailsJoueur;
 	private JLabel jl_messageDivers;
 
 	private String nomJoueur;
 	private int score;
-
-	@SuppressWarnings("unused")
-	private Jeu jeu;
-	@SuppressWarnings("unused")
-	private Plateau plateau;
 
 	/**
 	 * Constructeur
@@ -51,12 +47,12 @@ public class PanelJoueur extends JPanel implements Serializable {
 	 * @param plateau
 	 *            {@link Plateau}
 	 */
-	public PanelJoueur(String nomJoueur, Jeu jeu, Plateau plateau) {
+	public PanelJoueur(String nomJoueur, Plateau plateau) {
 		this.nomJoueur = nomJoueur;
-		this.jeu = jeu;
-		this.plateau = plateau;
+		// this.jeu = jeu;
+		// this.plateau = plateau;
 
-		jpp_panelPlateau = new PanelPlateau(plateau, plateau.getLongueur(), jeu);
+		jpp_panelPlateau = new PanelPlateau(plateau, plateau.getLongueur());
 
 		this.score = this.getPanelPlateau().getPlateau().getScore();
 		jl_detailsJoueur = new JLabel(this.nomJoueur
@@ -142,11 +138,29 @@ public class PanelJoueur extends JPanel implements Serializable {
 		this.score = getScore();
 	}
 
+	/**
+	 * Permet d'actualiser le panel joueur, ainsi que tous ses composants.
+	 */
 	public void actualisation() {
 		this.getPanelPlateau().actualisation();
 		String message = this.nomJoueur + ", vos vies restantes : "
 				+ getScore() + " /" + NavireCaracteristique.getScoreTotal();
 		jl_detailsJoueur.setText(message);
 		this.repaint();
+	}
+
+	public void save(ObjectOutputStream oos) {
+		try {
+			oos.writeObject(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void setPanelPanelPlateau(PanelPlateau panelPlateau) {
+		this.jpp_panelPlateau = panelPlateau;
+
 	}
 }

@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  *
  * @see FrameAideBatailleNavale
  */
-public class AideListener implements ActionListener {
+public class ListenerAide implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

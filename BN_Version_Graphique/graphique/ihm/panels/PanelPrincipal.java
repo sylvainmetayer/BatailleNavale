@@ -5,12 +5,13 @@ package ihm.panels;
 
 import ihm.composants.JTextAreaBN;
 import ihm.frames.FrameBatailleNavale;
-import ihm.panels.listeners.AideListener;
-import ihm.panels.listeners.ChargerPartieListener;
-import ihm.panels.listeners.LancerPartieListener;
+import ihm.frames.FrameOption;
+import ihm.panels.listeners.ListenerAide;
+import ihm.panels.listeners.ListenerCharger;
+import ihm.panels.listeners.ListenerLancerPartie;
 import ihm.panels.listeners.ListenerPlacementBateaux;
+import ihm.panels.listeners.ListenerSauvegarder;
 import ihm.panels.listeners.ListenerTirer;
-import ihm.panels.listeners.SauvegarderPartieListener;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -48,8 +49,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	// Paramètres du jeu
 	private Jeu jeu;
-	private String nomJoueurUn = "";
-	private String nomJoueurDeux = "";
 
 	// = this pour plus de facilité d'accès vis a vis des classe interne membres
 	private final JPanel panelPrincipal = this;
@@ -98,7 +97,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jb_sauvegarderPartie = new JButton("Sauvegarder ?");
 		jb_sauvegarderPartie.setForeground(Color.RED);
 		jb_aide = new JButton("Aide");
-		jb_aide.addActionListener(new AideListener());
+		jb_aide.addActionListener(new ListenerAide());
 		jb_aide.setForeground(Color.BLUE);
 		jb_chargerPartie = new JButton("Charger une partie");
 
@@ -123,10 +122,9 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		panelPrincipal.add(jp_image, BorderLayout.SOUTH);
 
 		// ajouts des ecouteurs.
-		jb_commencerPartie.addActionListener(new LancerPartieListener(this));
-		jb_chargerPartie.addActionListener(new ChargerPartieListener(this));
-		jb_sauvegarderPartie.addActionListener(new SauvegarderPartieListener(
-				jta_message, joueur2, joueur1));
+		jb_commencerPartie.addActionListener(new ListenerLancerPartie(this));
+		jb_chargerPartie.addActionListener(new ListenerCharger(this));
+		jb_sauvegarderPartie.addActionListener(new ListenerSauvegarder(this));
 		jb_sauvegarderPartie.setEnabled(false);
 	}
 
@@ -143,12 +141,12 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			this.repaint();
 
 			tailleGrille = Options.getTailleGrilleJeu();
-			jeu = new Jeu(tailleGrille, tailleGrille, nomJoueurUn,
-					nomJoueurDeux);
+			jeu = new Jeu(tailleGrille, tailleGrille, Options.getNomJoueurUn(),
+					Options.getNomJoueurDeux());
 			// On crée les deux panels de jeu.
-			joueur1 = new PanelJoueur(nomJoueurUn, jeu,
+			joueur1 = new PanelJoueur(Options.getNomJoueurUn(),
 					jeu.getPlateauJoueurUn());
-			joueur2 = new PanelJoueur(nomJoueurDeux, jeu,
+			joueur2 = new PanelJoueur(Options.getNomJoueurDeux(),
 					jeu.getPlateauJoueurDeux());
 			repaint();
 		} catch (CoupException e) {
@@ -161,8 +159,9 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		PanelPrincipal.jta_message.setWrapStyleWord(true);
 
 		PanelPrincipal.jta_message.append("Historique :");
-		PanelPrincipal.jta_message.append("Début du jeu :\n" + getNomJoueurUn()
-				+ " contre " + getNomJoueurDeux() + " sur une grille de "
+		PanelPrincipal.jta_message.append("Début du jeu :\n"
+				+ Options.getNomJoueurUn() + " contre "
+				+ Options.getNomJoueurDeux() + " sur une grille de "
 				+ Options.getTailleGrilleJeu() + "*"
 				+ Options.getTailleGrilleJeu());
 
@@ -249,9 +248,14 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jta_message.append("Fin de placement des bateaux...\n "
 				+ "Début de la guerre !");
 
-		FrameBatailleNavale.setSaveOn(true);
-		jb_sauvegarderPartie.setEnabled(true);
+		enableBackup(true);
 		jouerCoup(getPanelJoueurDeux(), getPanelJoueurUn());
+
+	}
+
+	private void enableBackup(boolean b) {
+		FrameBatailleNavale.setSaveOn(b);
+		jb_sauvegarderPartie.setEnabled(b);
 
 	}
 
@@ -369,12 +373,11 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		JOptionPane.showMessageDialog(null, message);
 		nouvellePartie = questionOuiNon("Voulez vous rejouer ?",
 				"La partie est finie..");
+		System.out.println(nouvellePartie);
 		if (nouvellePartie)
-			initGame();
+			new FrameOption(this);
 		else
 			System.exit(0);
-
-		// TODO gestion pour rejouer ne marche pas pour rejouer, freeze
 
 	}
 
@@ -444,37 +447,58 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		return joueur2;
 	}
 
-	/**
-	 * Méthode pour charger une partie à partir de ce qu'aura récupéré
-	 * l'écouteur
-	 * 
-	 * @param jta_message
-	 * @param joueur2
-	 * @param joueur1
-	 */
-	public void chargerPartie(JTextAreaBN jta_message, PanelJoueur joueur2,
-			PanelJoueur joueur1) {
-		// TODO
+	public void setPanelJoueur1(PanelJoueur joueur1) {
 		this.joueur1 = joueur1;
+	}
+
+	public void setPanelJoueur2(PanelJoueur joueur2) {
 		this.joueur2 = joueur2;
-		PanelPrincipal.jta_message = jta_message;
+	}
+
+	public void chargerPartie(PanelJoueur paneljoueur1,
+			PanelJoueur panelJoueur2, Jeu jeu, String texteJTA) {
+		this.joueur1 = paneljoueur1;
+		this.joueur2 = panelJoueur2;
+		PanelPrincipal.jta_message = new JTextAreaBN();
+		PanelPrincipal.jta_message.setText(texteJTA);
+		this.jeu = jeu;
+		initGameAfterCharger();
+		jouerCoup(this.joueur2, this.joueur1);
+	}
+
+	private void initGameAfterCharger() {
+		this.removeAll();
+		this.revalidate();
+		this.repaint();
+
+		repaint();
+
+		PanelPrincipal.jta_message.setEditable(false);
+		PanelPrincipal.jta_message.setLineWrap(true);
+		PanelPrincipal.jta_message.setWrapStyleWord(true);
+
+		PanelPrincipal.jta_message.append("Reprise de la partie...");
+
+		// scrollbar pour le jtextarea
+		scroller = new JScrollPane(jta_message);
+
+		panelPrincipal.setLayout(new BorderLayout());
+
+		jp_aide_save.add(jb_sauvegarderPartie);
+		jp_aide_save.add(jb_aide);
+		panelPrincipal.add(jp_aide_save, BorderLayout.NORTH);
+		panelPrincipal.add(joueur1, BorderLayout.WEST);
+		panelPrincipal.add(joueur2, BorderLayout.EAST);
+
+		panelPrincipal.add(scroller, BorderLayout.CENTER);
+
+		enableBackup(true);
+		super.revalidate();
+		super.repaint();
 
 	}
 
-	public String getNomJoueurUn() {
-		return nomJoueurUn;
-	}
-
-	public void setNomJoueurUn(String nomJoueurUn) {
-		System.out.println(this.nomJoueurUn);
-		this.nomJoueurUn = nomJoueurUn;
-	}
-
-	public String getNomJoueurDeux() {
-		return nomJoueurDeux;
-	}
-
-	public void setNomJoueurDeux(String nomJoueurDeux) {
-		this.nomJoueurDeux = nomJoueurDeux;
+	public Jeu getJeu() {
+		return jeu;
 	}
 }

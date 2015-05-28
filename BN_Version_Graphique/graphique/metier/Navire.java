@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class Navire implements Comparable<Navire>, Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public int compareTo(Navire n) {
 		return this.idNavire = n.idNavire;
@@ -185,5 +187,4 @@ public class Navire implements Comparable<Navire>, Serializable {
 		this.valeurScore = valeurScore;
 	}
 
-	
 }

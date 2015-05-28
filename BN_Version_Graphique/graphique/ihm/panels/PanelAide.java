@@ -114,7 +114,10 @@ public class PanelAide extends JPanel {
 	private String texteAide() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Bienvenue sur l'aide de la bataille navale.\n\n");
-		sb.append("Pour jouer, il vous faut commencer par placer vos navires.\n");
+		sb.append("Lors du démarrage de la partie, vous pouvez choisir certaines options.\n");
+		sb.append("Vous pouvez laisser les noms des joueurs vide, les valeurs par défaut seront dans ce cas utilisée.\n");
+		sb.append("Une fois les noms des joueurs renseignés, et la taille de la grille choisie, le jeu commence.\n"
+				+ "Il vous faut donc placer vos navires.\n");
 		sb.append("Chaque joueur dispose de "
 				+ NavireCaracteristique.values().length + " navires\n");
 		sb.append("Une fois que les deux joueurs auront placé leur navires, la partie commence.\n");

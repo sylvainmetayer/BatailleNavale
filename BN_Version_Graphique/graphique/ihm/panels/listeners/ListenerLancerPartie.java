@@ -12,11 +12,11 @@ import java.awt.event.ActionListener;
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-public class LancerPartieListener implements ActionListener {
+public class ListenerLancerPartie implements ActionListener {
 
 	private PanelPrincipal jp;
 
-	public LancerPartieListener(PanelPrincipal jp) {
+	public ListenerLancerPartie(PanelPrincipal jp) {
 		this.jp = jp;
 
 	}

@@ -2,6 +2,7 @@ package ihm.panels.listeners;
 
 import ihm.composants.JTextAreaBN;
 import ihm.panels.PanelJoueur;
+import ihm.panels.PanelPlateau;
 import ihm.panels.PanelPrincipal;
 
 import java.awt.event.ActionEvent;
@@ -11,15 +12,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import metier.Jeu;
+
 /**
  * Listener permettant de charger la partie lors du clic sur le bouton
  * {@link PanelPrincipal#jb_chargerPartie}
  * 
+ * Non fonctionnelle
+ * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
-@SuppressWarnings("unused")
-public class ChargerPartieListener implements ActionListener {
+public class ListenerCharger implements ActionListener {
 	private final static String NAME = "backup";
 	private final static String EXTENSION = ".data";
 
@@ -29,7 +33,7 @@ public class ChargerPartieListener implements ActionListener {
 
 	private PanelPrincipal jpp;
 
-	public ChargerPartieListener(PanelPrincipal jpp) {
+	public ListenerCharger(PanelPrincipal jpp) {
 		this.nomFichier = NAME + EXTENSION;
 
 		this.joueur1 = null;
@@ -54,10 +58,13 @@ public class ChargerPartieListener implements ActionListener {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 
 				try {
-					joueur1 = (PanelJoueur) ois.readObject();
-					jta_message = (JTextAreaBN) ois.readObject();
-					joueur2 = (PanelJoueur) ois.readObject();
-					// TODO appel méthode chargerPartie de PanelPrincipal
+					PanelJoueur panelJoueur1 = (PanelJoueur) ois.readObject();
+					PanelJoueur panelJoueur2 = (PanelJoueur) ois.readObject();
+					String texteJTA = (String) ois.readObject();
+					Jeu jeu = (Jeu) ois.readObject();
+
+					jpp.chargerPartie(panelJoueur1, panelJoueur2, jeu, texteJTA);
+			
 				} finally {
 
 					try {
@@ -72,7 +79,6 @@ public class ChargerPartieListener implements ActionListener {
 			} catch (ClassNotFoundException cnfe) {
 				cnfe.printStackTrace();
 			}
-			// PanelPrincipal.jta_message.append("Chargement réussi avec succès.");
 		} else {
 			System.out
 					.print("Une erreur s'est produite durant le chargement, car le fichier de sauvegarde n'existe pas."

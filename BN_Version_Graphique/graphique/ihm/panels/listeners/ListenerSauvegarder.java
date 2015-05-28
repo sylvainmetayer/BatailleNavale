@@ -6,26 +6,35 @@ import ihm.panels.PanelPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 
 import outils.Options;
 
-public class SauvegarderPartieListener implements ActionListener {
+/**
+ * Cet écouteur permet de sauvegarder le jeu.
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
+ *
+ */
+public class ListenerSauvegarder implements ActionListener {
 
 	private String nomFichier;
 	private PanelJoueur joueur1, joueur2;
 	private JTextAreaBN jta_message;
 
-	public SauvegarderPartieListener(JTextAreaBN jta_message,
-			PanelJoueur joueur2, PanelJoueur joueur1) {
+	private PanelPrincipal jpp;
+
+	public ListenerSauvegarder(PanelPrincipal jpp) {
 		this.nomFichier = Options.getNamefichier()
 				+ Options.getExtensionfichier();
 
-		this.joueur1 = joueur1;
-		this.joueur2 = joueur2;
-		this.jta_message = jta_message;
+		this.jpp = jpp;
+
 	}
 
 	@Override
@@ -48,9 +57,17 @@ public class SauvegarderPartieListener implements ActionListener {
 		} finally {
 			try {
 				if (oos != null) {
-					oos.writeObject(joueur1);
-					oos.writeObject(joueur2);
-					oos.writeObject(jta_message);
+					//eraseFile();
+
+					// 1 backup panel joueur1
+					jpp.getPanelJoueurUn().save(oos);
+					// 2 backup panel joueur2
+					jpp.getPanelJoueurDeux().save(oos);
+					// 3 backup du texte du jta
+					oos.writeObject(PanelPrincipal.jta_message.getText());
+					// 4 backup du jeu
+					oos.writeObject(jpp.getJeu());
+
 					oos.flush();
 					oos.close();
 					try {
@@ -69,5 +86,20 @@ public class SauvegarderPartieListener implements ActionListener {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	private void eraseFile() {
+
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(nomFichier,
+					false)));
+			pw.print("");
+			pw.close();
+		} catch (IOException e) {
+			PanelPrincipal.jta_message.append("Erreur de sauvegarde : "
+					+ e.getMessage());
+		}
+
 	}
 }
