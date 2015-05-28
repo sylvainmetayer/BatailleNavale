@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Bataille navale - Règle du jeu</title>
+	
+	<link rel="stylesheet" href="css/stylePrincipale.css" />
+	<link rel="stylesheet" href="css/styleRegle.css" />
+</head>
+
+<body>
+	<div id='top'>
+	<a href='accueil.html'>
+		<img id='logo' src='ressources/logo.png' alt="Logo du site, avec lien vers l'accueil"/> 
+		<h1 id='titre'> Bataille Navale </h1> 
+	</a> 
+</div>
+<hr/>
+<div id='menu'>
+	<a id='presentation' href='presentation.html' title='Présentation des développeurs du site'>Présentation</a>
+	<a id='maquettes' href='maquettes.html' title='Apercu des maquettes graphiques du jeu'>Maquettes</a>
+	<a id='regle' href='regle.html' title='Règles du jeu'>Règles du jeu</a>
+	<a id='contact' href='contact.html' title='Formulaire de contact'>Contact</a>
+	<a href="ressources/versionGraphique.jar">Bataille navale version graphique </a>
+	<a href="ressources/versionConsole.jar">Bataille navale version graphique </a>
+</div>
+<hr/>
+
+<div>
+Bienvenue sur l'aide de la bataille navale.<br/>
+Lors du démarrage de la partie, vous pouvez choisir certaines options.<br/>
+Vous pouvez laisser les noms des joueurs vide, les valeurs par défaut seront dans ce cas utilisées.<br/>
+Une fois les noms des joueurs renseignés, et la taille de la grille choisie, le jeu commence.<br/>
+Il vous faut donc placer vos navires. Chaque joueur dispose de 4 navires.<br/>
+Une fois que les deux joueurs auront placé leur navires, la partie commence.<br/>
+Tour à tour, chaque joueur clique sur une case du plateau adverse, dans l'espoir de toucher un navire. Lorsqu'un navire voit toutes ses cases touchées, il est alors coulé.<br/>
+Votre nombre de vie définit le nombre de bateaux qu'ils vous reste. Au début de la partie, chaque joueur dispose de 26 vies. Le premier à 0 vies perd la partie.<br/>
+En cas de placement erroné, ou de coup joué de façon incorrecte, vous serez invité à rejouer ou replacer votre bateau.<br/>
+Vous pouvez consulter l'historique des actions (placement ou tirs effectués) sur le bloc de log présent entre les deux plateaux.<br/>
+Il existe une fonction de sauvegarde/chargement vous permettant de sauvegarder votre jeu à un moment donné, et de le recommencer ultérieurement. <br/>
+La fonction de sauvegarde est accessible une fois les bateaux des deux joueurs placés. La fonction de restauration est accessible à tout moment.<br/>
+Que le meilleur d'entre vous gagne !<br/>
+<br/>Bugs connus : <br/>
+Lors du chargement, le tour du joueur n'est pas forcément le joueur qui aurait du recommencer à jouer.
+</div>
+</body>
+</html>
