@@ -6,8 +6,6 @@ package metier;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import outils.MotifsDivers;
 import outils.NavireCaracteristique;
 
@@ -65,6 +63,7 @@ public class Plateau implements Serializable {
 	 * @param largeur
 	 *            {@link Integer}
 	 * @throws CoupException
+	 *             lorsque le plateau n'est pas initialisé correctement.
 	 */
 	public Plateau(int longueur, int largeur) throws CoupException {
 		this(longueur, largeur, "Joueur");
@@ -156,105 +155,6 @@ public class Plateau implements Serializable {
 			this.lstCases[c.getPosx()][c.getPosy()] = c;
 		}
 
-	}
-
-	/**
-	 * Permet de placer des navires de façon aléatoire à partir d'une liste et
-	 * met à jour la liste des cases occupées et le motif de ces cases. <br>
-	 * 
-	 * @param lstn
-	 *            {@link List}
-	 */
-	private void randomiserPlacement(List<Navire> lstn) {
-
-		for (Navire n : lstn) {
-			List<Case> c = placerNavire(n);
-			n.setCases(c);
-
-			for (Case a : c) {
-				if (n.getTaille() == 2) {
-					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.TORPILLEUR
-									.getMotif());
-				}
-				if (n.getTaille() == 3) {
-					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.SOUSMARIN
-									.getMotif());
-				}
-				if (n.getTaille() == 4) {
-					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.CROISEUR.getMotif());
-				}
-				if (n.getTaille() == 5) {
-					getLstCases()[a.getPosx()][a.getPosy()]
-							.setMotif(NavireCaracteristique.PORTEAVION
-									.getMotif());
-				}
-			}
-			casesOccupees.addAll(c);
-		}
-	}
-
-	/**
-	 * Permet de placer un navire sur le {@link Plateau}
-	 * 
-	 * @param n
-	 *            {@link Navire}
-	 * @return {@link List} de cases occupées par le {@link Navire}
-	 */
-	public List<Case> placerNavire(Navire n) {
-		List<Case> lc = null;
-		Case c = null;
-		boolean isH = isPlacementHorizontal();
-		boolean nonContinu = false;
-		while (!nonContinu) {
-			for (int i = 0; i < n.getTaille(); i++) {
-				c = getNextCase(c, isH, i);
-				if (c == null) {
-					nonContinu = true;
-				}
-			}
-		}
-		return lc;
-	}
-
-	private Case getNextCase(Case c, boolean isH, int i) {
-		Case cn = null;
-		if (i == 0) {
-			cn = getRandomCase();
-		}
-
-		return cn;
-	}
-
-	private boolean isPlacementHorizontal() {
-		Random r = new Random();
-		String placement = "" + 0 + r.nextInt(1 - 0);
-		return Boolean.valueOf(placement);
-	}
-
-	private Case getRandomCase() {
-		Case c = null;
-		c = new Case();
-		Random r = new Random();
-
-		int xRandom = 1 + r.nextInt(this.largeur - 1);
-		int yRandom = 1 + r.nextInt(this.largeur - 1);
-		while (!isCollisionPlacement(xRandom, yRandom)) {
-			xRandom = 1 + r.nextInt(this.largeur - 1);
-			yRandom = 1 + r.nextInt(this.largeur - 1);
-		}
-
-		c.setPosx(xRandom);
-		c.setPosy(yRandom);
-		c.setEstTouche(false);
-		try {
-			c.setMotif(FileUtil.getInstance().getPropriete("symboleCaseVide"));
-		} catch (BatailleNavaleException e) {
-			e.printStackTrace();
-		}
-		return c;
 	}
 
 	/**
@@ -366,17 +266,6 @@ public class Plateau implements Serializable {
 	}
 
 	/**
-	 * Setter de la liste des navires du plateau.
-	 * 
-	 * @param listeNav
-	 *            {@link List}
-	 */
-	public void setListeNav(List<Navire> listeNav) {
-		this.listeNav = listeNav;
-		this.randomiserPlacement(listeNav);
-	}
-
-	/**
 	 * Retourne la liste des cases occupées par des navires.
 	 * 
 	 * @return casesOccupees {@link List}
@@ -458,21 +347,21 @@ public class Plateau implements Serializable {
 	}
 
 	/**
-	 * Retourne un tableau de booléens représentant les cases touchées sur ce
+	 * Setter du tableau de bool�ens représentant les cases touchées sur ce
 	 * plateau.
 	 * 
-	 * @return casesTouchees {@link Boolean}
+	 * @param casesTouchees
+	 *            {@link Boolean}
 	 */
 	public void setCasesTouchees(boolean[][] casesTouchees) {
 		this.casesTouchees = casesTouchees;
 	}
 
 	/**
-	 * Setter du tableau de bool�ens représentant les cases touchées sur ce
+	 * Retourne un tableau de booléens représentant les cases touchées sur ce
 	 * plateau.
 	 * 
-	 * @param casesTouchees
-	 *            {@link Boolean}
+	 * @return casesTouchees {@link Boolean}
 	 */
 	public boolean[][] getCasesTouchees() {
 		return casesTouchees;
@@ -500,7 +389,7 @@ public class Plateau implements Serializable {
 	/**
 	 * Retire le score au score actuel
 	 * 
-	 * @param score
+	 * @param scoreToAdd
 	 *            {@link Integer}
 	 */
 	public void setScore(int scoreToAdd) {

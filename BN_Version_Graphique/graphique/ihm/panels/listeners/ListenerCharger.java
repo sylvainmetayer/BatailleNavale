@@ -1,8 +1,6 @@
 package ihm.panels.listeners;
 
-import ihm.composants.JTextAreaBN;
 import ihm.panels.PanelJoueur;
-import ihm.panels.PanelPlateau;
 import ihm.panels.PanelPrincipal;
 
 import java.awt.event.ActionEvent;
@@ -12,11 +10,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import javax.swing.JOptionPane;
+
+import outils.Options;
 import metier.Jeu;
 
 /**
- * Listener permettant de charger la partie lors du clic sur le bouton
- * {@link PanelPrincipal#jb_chargerPartie}
+ * Listener permettant de charger la partie <br>
  * 
  * Non fonctionnelle
  * 
@@ -28,26 +28,39 @@ public class ListenerCharger implements ActionListener {
 	private final static String EXTENSION = ".data";
 
 	private String nomFichier;
-	private PanelJoueur joueur1, joueur2;
-	private JTextAreaBN jta_message;
 
 	private PanelPrincipal jpp;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param jpp
+	 *            {@link PanelPrincipal}
+	 */
 	public ListenerCharger(PanelPrincipal jpp) {
 		this.nomFichier = NAME + EXTENSION;
 
-		this.joueur1 = null;
-		this.joueur2 = null;
-		this.jta_message = null;
 		this.jpp = jpp;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		chargerPartie();
+		boolean chargementConfirmeByUser;
+
+		chargementConfirmeByUser = Options
+				.questionOuiNon(
+						"Voulez vous vraiment charger une partie ?\nCela effacera toute partie en cours !",
+						"Attention !");
+
+		if (chargementConfirmeByUser)
+			chargerPartie();
 
 	}
 
+	/**
+	 * Méthode permettant de charger la partie à partir d'un fichier dont les
+	 * caractéristiques sont spécifiés dans {@link Options}
+	 */
 	private void chargerPartie() {
 
 		File f = new File(nomFichier);
@@ -64,7 +77,7 @@ public class ListenerCharger implements ActionListener {
 					Jeu jeu = (Jeu) ois.readObject();
 
 					jpp.chargerPartie(panelJoueur1, panelJoueur2, jeu, texteJTA);
-			
+
 				} finally {
 
 					try {
@@ -80,9 +93,10 @@ public class ListenerCharger implements ActionListener {
 				cnfe.printStackTrace();
 			}
 		} else {
-			System.out
-					.print("Une erreur s'est produite durant le chargement, car le fichier de sauvegarde n'existe pas."
-							+ " Merci de d'abord créer une sauvegarde.\n\n");
+			String message = "Une erreur s'est produite durant le chargement, car le fichier de sauvegarde n'existe pas."
+					+ " Merci de d'abord créer une sauvegarde.";
+			JOptionPane.showMessageDialog(null, message, "Oups !",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

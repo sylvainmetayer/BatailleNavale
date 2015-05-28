@@ -8,6 +8,8 @@ import ihm.panels.PanelPrincipal;
 
 import javax.swing.JFrame;
 
+import outils.Options;
+
 /**
  * Cette classe représente une fenetre contenant une aide du jeu. <br>
  * Elle contient le panel {@link PanelAide}
@@ -17,8 +19,6 @@ import javax.swing.JFrame;
  */
 public class FrameAideBatailleNavale extends JFrame {
 
-	private static final int LONGUEUR = 1200;
-	private static final int LARGEUR = 600;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -27,7 +27,8 @@ public class FrameAideBatailleNavale extends JFrame {
 	 */
 	public FrameAideBatailleNavale() {
 		this.setTitle("Aide du jeu de bataille navale");
-		this.setSize(LONGUEUR, LARGEUR);
+		this.setSize(Options.getLargeurFenetreAide(),
+				Options.getHauteurFenetreAide());
 		this.setLocationRelativeTo(null);
 		this.setContentPane(new PanelAide());
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);

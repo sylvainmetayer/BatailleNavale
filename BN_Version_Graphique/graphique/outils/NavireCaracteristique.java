@@ -1,6 +1,3 @@
-/**
- * 
- */
 package outils;
 
 import javax.swing.ImageIcon;
@@ -14,6 +11,7 @@ import javax.swing.ImageIcon;
  * <li>numero
  * <li>motif
  * <li>Chemin vers le motif de l'image
+ * </ul>
  * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *

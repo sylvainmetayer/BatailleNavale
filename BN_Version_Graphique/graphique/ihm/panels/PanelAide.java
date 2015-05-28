@@ -1,10 +1,6 @@
-/**
- * 
- */
 package ihm.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
@@ -14,6 +10,7 @@ import javax.swing.JTextArea;
 
 import outils.MotifsDivers;
 import outils.NavireCaracteristique;
+import outils.Options;
 
 /**
  * Ce panel contient une aide du jeu, avec les différents motifs et leur
@@ -31,14 +28,13 @@ public class PanelAide extends JPanel {
 	private int nbLignes;
 	private int nbColonnes;
 
-	private float[] couleurHSB = Color.RGBtoHSB(19, 23, 214, null);
-	private Color couleurTexte = Color.getHSBColor(couleurHSB[0],
-			couleurHSB[1], couleurHSB[2]);
-
+	/**
+	 * Constructeur
+	 */
 	public PanelAide() {
 
 		jta_regle = new JTextArea();
-		jta_regle.setForeground(couleurTexte);
+		jta_regle.setForeground(Options.getCouleurTexte());
 		jta_regle.setEditable(false);
 		jta_regle.setText(texteAide());
 		jp_grilleIcon = new JPanel();
@@ -73,17 +69,17 @@ public class PanelAide extends JPanel {
 			jl_icon = new JLabel();
 			jl_icon.setIcon(ic);
 			jl_icon.setText("Motif : " + motif);
-			jl_icon.setForeground(couleurTexte);
+			jl_icon.setForeground(Options.getCouleurTexte());
 			jl_texte = new JLabel();
 			jl_texte.setText(m.getTextEnrichi());
-			jl_texte.setForeground(couleurTexte);
+			jl_texte.setForeground(Options.getCouleurTexte());
 			jp_grilleIcon.add(jl_icon, i);
 			i++;
 			jp_grilleIcon.add(jl_texte, i);
 			i++;
 		}
 
-		// on ajoute un espace entre les deux
+		// on ajoute un espace entre les deux, pour aérer
 		jp_grilleIcon.add(new JLabel(""), i);
 		i++;
 		jp_grilleIcon.add(new JLabel(""), i);
@@ -95,12 +91,12 @@ public class PanelAide extends JPanel {
 			jl_icon = new JLabel();
 			jl_icon.setIcon(ic);
 			jl_icon.setText("Motif : " + motif);
-			jl_icon.setForeground(couleurTexte);
+			jl_icon.setForeground(Options.getCouleurTexte());
 			jt_texte = new JTextArea();
 			jt_texte.setEditable(false);
 			jt_texte.setText(n.getTextEnrichi());
 			jt_texte.append("\nValeur de score : " + n.getValeurScore());
-			jt_texte.setForeground(couleurTexte);
+			jt_texte.setForeground(Options.getCouleurTexte());
 			jp_grilleIcon.add(jl_icon, i);
 			i++;
 			jp_grilleIcon.add(jt_texte, i);
@@ -130,7 +126,7 @@ public class PanelAide extends JPanel {
 		sb.append("Vous pouvez consulter l'historique des actions (placement ou tirs effectués)\nsur le bloc de log présent entre les deux plateaux.\n");
 
 		sb.append("Ci-contre, vous trouverez les différents icones utilisés dans le jeu, ainsi que leur significations.\n"
-				+ "Vous verrez également les motifs associés à ces icônes, dans le cas ou les images ne seraient pas disponibles. \n\n");
+				+ "Vous verrez également les motifs associés à ces icônes, dans le cas où les images ne seraient pas disponibles. \n\n");
 
 		sb.append("Il existe une fonction de sauvegarde/chargement vous permettant de sauvegarder votre jeu à un moment donné,\n"
 				+ " et de le recommencer ultérieurement.\n"
@@ -139,6 +135,8 @@ public class PanelAide extends JPanel {
 				+ "Elle charge directement la sauvegarde effectuée précédemment et efface donc la partie en cours !\n");
 
 		sb.append("\nQue le meilleur d'entre vous gagne !");
+		sb.append("\n\nBugs connus : \n");
+		sb.append("- Lors du chargement, le tour du joueur n'est pas forcément le joueur qui aurait du recommencer à jouer.\n");
 		return sb.toString();
 	}
 }

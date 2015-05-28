@@ -67,9 +67,9 @@ public class BoutonBN extends JButton implements Serializable {
 	}
 
 	/**
-	 * <b>Cette méthode ne devrait etre utilisee que par
-	 * {@link PanelPlateau#actualisation()}<b> Met à jour le motif de la case et
-	 * le texte du motif. <br>
+	 * <b> Cette méthode ne devrait etre utilisee que par
+	 * {@link PanelPlateau#actualisation()} </b> Met à jour le motif de la case
+	 * et le texte du motif. <br>
 	 * Elle n'est pas recommandé pour d'autres méthodes, car elle n'a aucune
 	 * interaction avec le plateau métier. <br>
 	 * Il vaut mieux utiliser {@link BoutonBN#setMotifCaseUniquement(String)} et
@@ -77,6 +77,7 @@ public class BoutonBN extends JButton implements Serializable {
 	 * avec le plateau. <br>
 	 * 
 	 * @param motif
+	 *            {@link String}
 	 * @see PanelPlateau#actualisation()
 	 * @see BoutonBN#setMotifCaseUniquement(String)
 	 */
@@ -108,6 +109,7 @@ public class BoutonBN extends JButton implements Serializable {
 	 * ultérieurement.
 	 * 
 	 * @param motif
+	 *            {@link String}
 	 */
 	public void setMotifCaseUniquement(String motif) {
 		caseBouton.setMotif(motif);

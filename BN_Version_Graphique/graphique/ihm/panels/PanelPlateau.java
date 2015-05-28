@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import outils.MotifsDivers;
 import outils.NavireCaracteristique;
 import metier.Case;
-import metier.Jeu;
 import metier.Navire;
 import metier.Plateau;
 
@@ -47,8 +46,6 @@ public class PanelPlateau extends JPanel implements Serializable {
 	 *            {@link Plateau}
 	 * @param size
 	 *            {@link Integer}
-	 * @param jeu
-	 *            {@link Jeu}
 	 */
 	public PanelPlateau(Plateau plateau, int size) {
 		this.plateau = plateau;
@@ -174,8 +171,6 @@ public class PanelPlateau extends JPanel implements Serializable {
 		BoutonBN[][] boutons = this.getTableauBoutonsBN();
 		int taillePlateau = boutons.length;
 
-		// Eau sur tous les motifs
-		// Mais autorise coups déjà touchées.
 		for (int i = 0; i < taillePlateau; i++) {
 			for (int j = 0; j < taillePlateau; j++) {
 				if (boutons[i][j].getCase().isEstTouche()
@@ -191,7 +186,7 @@ public class PanelPlateau extends JPanel implements Serializable {
 
 		actualisation();
 		// Après avoir masqué les cases non jouees, on bloque celle jouees
-		bloquerCoupJoues(); // à utiliser quand sera fonctionnelle
+		bloquerCoupJoues();
 
 	}
 
@@ -221,8 +216,6 @@ public class PanelPlateau extends JPanel implements Serializable {
 						|| b.getCase().getMotif() == MotifsDivers.COUPJOUE
 								.getMotif())
 					b.setEnabled(false);
-				// else
-				// b.setEnabled(true);
 			}
 
 		}

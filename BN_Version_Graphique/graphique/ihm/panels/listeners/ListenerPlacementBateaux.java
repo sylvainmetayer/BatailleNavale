@@ -28,8 +28,6 @@ import metier.Navire;
  */
 public class ListenerPlacementBateaux implements ActionListener {
 
-	// on ajoute les navires sur chaque plateau.
-
 	private static int idNavire = 1;
 
 	/**
@@ -113,7 +111,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 		List<BoutonBN> caseBoutons = new ArrayList<BoutonBN>();
 		List<Case> caseOccupeParBateau = new ArrayList<Case>();
 		int tmp = 0, y, x;
-		// boolean collision = false;
 
 		caseDebut = ((BoutonBN) e.getSource()); // sert uniquement à récupérer
 												// les coordonnées de départ
@@ -136,7 +133,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 					else
 						temporaire = jpp_plateau.getTableauBoutonsBN()[tmp][y];
 
-					// Test supplémentaire, au cas ou...
+					// Test supplémentaire, au cas où...
 					if (temporaire.getCase().getMotif() != MotifsDivers.EAU
 							.getMotif()) {
 						navireValide = false;
@@ -144,7 +141,7 @@ public class ListenerPlacementBateaux implements ActionListener {
 
 				} catch (ArrayIndexOutOfBoundsException exception) {
 					navireValide = false;
-					// une erreur est levée, on n'ajoute pas le navire.
+					// une erreur est levée, le navire ne sera pas ajouté
 				}
 
 				caseBoutons.add(temporaire);
@@ -183,7 +180,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 				// pour éviter collision avec navireCaractéristiques
 			}
 
-			// if (ListenerPlacementBateaux.ajoutNavire > AJOUTNAVIRE) {
 			// placement fini pour les deux joueurs
 			if (jpp_principal.getPanelJoueurDeux().getPanelPlateau()
 					.getPlateau().getListeNav().size() == NavireCaracteristique
@@ -192,7 +188,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 							.getPlateau().getListeNav().size() == NavireCaracteristique
 							.values().length) {
 				jpp_principal.debutPartie();
-				// }
 
 			} else {
 
@@ -210,7 +205,6 @@ public class ListenerPlacementBateaux implements ActionListener {
 			jpp_principal.placementBateaux(jpj_joueur, navireDetails, finAjout);
 		}
 
-		// on actualise le plateau.
 		jpp_plateau.actualisation();
 	}
 

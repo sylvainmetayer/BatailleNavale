@@ -1,6 +1,3 @@
-/**
- * 
- */
 package outils;
 
 import javax.swing.ImageIcon;

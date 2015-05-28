@@ -1,18 +1,12 @@
 package ihm.panels.listeners;
 
-import ihm.composants.JTextAreaBN;
-import ihm.panels.PanelJoueur;
 import ihm.panels.PanelPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-
 import outils.Options;
 
 /**
@@ -24,11 +18,15 @@ import outils.Options;
 public class ListenerSauvegarder implements ActionListener {
 
 	private String nomFichier;
-	private PanelJoueur joueur1, joueur2;
-	private JTextAreaBN jta_message;
 
 	private PanelPrincipal jpp;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param jpp
+	 *            {@link PanelPrincipal}
+	 */
 	public ListenerSauvegarder(PanelPrincipal jpp) {
 		this.nomFichier = Options.getNamefichier()
 				+ Options.getExtensionfichier();
@@ -42,12 +40,12 @@ public class ListenerSauvegarder implements ActionListener {
 		sauvegarder();
 	}
 
+	/**
+	 * Méthode permettant de sauvegarder la partie dans un fichier dont le nom
+	 * et l'extension se trouve dans le classe {@link Options}
+	 */
 	private void sauvegarder() {
 		ObjectOutputStream oos = null;
-
-		// Récupérer un tableau d'objet contenant le jeu, le plateaux, le nom du
-		// joueur.
-		// fois deux
 
 		try {
 			final FileOutputStream fichier = new FileOutputStream(nomFichier);
@@ -57,7 +55,6 @@ public class ListenerSauvegarder implements ActionListener {
 		} finally {
 			try {
 				if (oos != null) {
-					//eraseFile();
 
 					// 1 backup panel joueur1
 					jpp.getPanelJoueurUn().save(oos);
@@ -79,27 +76,18 @@ public class ListenerSauvegarder implements ActionListener {
 
 				}
 			} catch (final IOException ex) {
-				PanelPrincipal.jta_message
-						.append("Une erreur est survenue lors de la sauvegarde. "
-								+ "Vous trouverez ci dessous les causes de cette erreur");
-				PanelPrincipal.jta_message.append(ex.getMessage());
-				ex.printStackTrace();
+
+				try {
+					PanelPrincipal.jta_message
+							.append("Une erreur est survenue lors de la sauvegarde. "
+									+ "Vous trouverez ci dessous les causes de cette erreur");
+					PanelPrincipal.jta_message.append(ex.getMessage());
+
+				} catch (NullPointerException exception) {
+					// Ne rien faire.
+				}
 			}
 		}
 	}
 
-	private void eraseFile() {
-
-		PrintWriter pw;
-		try {
-			pw = new PrintWriter(new BufferedWriter(new FileWriter(nomFichier,
-					false)));
-			pw.print("");
-			pw.close();
-		} catch (IOException e) {
-			PanelPrincipal.jta_message.append("Erreur de sauvegarde : "
-					+ e.getMessage());
-		}
-
-	}
 }

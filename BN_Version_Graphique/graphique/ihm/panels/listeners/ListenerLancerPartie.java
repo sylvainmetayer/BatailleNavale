@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Ecouteur pour le bouton {@link PanelPrincipal#jb_commencerPartie} <br>
+ * Ecouteur pour le demarrage d'une partie <br>
  * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
@@ -16,6 +16,12 @@ public class ListenerLancerPartie implements ActionListener {
 
 	private PanelPrincipal jp;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param jp
+	 *            {@link PanelPrincipal}
+	 */
 	public ListenerLancerPartie(PanelPrincipal jp) {
 		this.jp = jp;
 

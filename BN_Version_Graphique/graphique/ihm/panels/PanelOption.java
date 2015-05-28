@@ -21,6 +21,8 @@ import javax.swing.SwingUtilities;
 import outils.Options;
 
 /**
+ * Ce panel représente le menu d'option affiché avant le début de la partie. <br>
+ * 
  * @author Sylvain METAYER - Kevin DESSIMOULIE
  *
  */
@@ -38,9 +40,17 @@ public class PanelOption extends JPanel {
 	private Integer[] valeurs = { 6, 8, 10 };
 	private JLabel jl_haut;
 	private JButton jb_valider;
+	private JButton jb_annuler;
 
 	private PanelPrincipal jpp;
+	private JPanel jp_sud;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param jpp
+	 *            {@link PanelPrincipal}
+	 */
 	public PanelOption(PanelPrincipal jpp) {
 		this.jpp = jpp;
 
@@ -50,28 +60,32 @@ public class PanelOption extends JPanel {
 
 		jl_haut = new JLabel("Saisir vos options", JLabel.CENTER);
 		jb_valider = new JButton("Valider");
+		jb_annuler = new JButton("Annuler");
+		jb_annuler.setPreferredSize(new Dimension(100, 100));
 		jb_valider.setPreferredSize(new Dimension(100, 100));
 		jb_valider.setBackground(Color.GREEN);
+		jb_annuler.setBackground(Color.RED);
 		jt_joueurUn = new JTextField();
 		jt_joueurUn.setText(System.getProperty("user.name"));
 		jl_joueurUn = new JLabel("Nom du joueur un : ", JLabel.CENTER);
 		jt_joueurDeux = new JTextField();
 		jl_joueurDeux = new JLabel("Nom du joueur deux : ", JLabel.CENTER);
 		jcb_choixTaille = new JComboBox<Integer>();
+		jp_sud = new JPanel();
 
 		for (Integer i : valeurs) {
 			jcb_choixTaille.addItem(i);
 		}
 		jcb_choixTaille.setSelectedItem(valeurs[0]);
 
-		jl_choixTaille = new JLabel("Choisir la taille du plateau :"
+		jl_choixTaille = new JLabel("Choisir la taille du plateau : "
 				+ jcb_choixTaille.getSelectedItem() + "*"
 				+ jcb_choixTaille.getSelectedItem(), JLabel.CENTER);
 		jcb_choixTaille.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				jl_choixTaille.setText("Choisir la taille du plateau :"
+				jl_choixTaille.setText("Choisir la taille du plateau : "
 						+ jcb_choixTaille.getSelectedItem() + "*"
 						+ jcb_choixTaille.getSelectedItem());
 			}
@@ -84,14 +98,30 @@ public class PanelOption extends JPanel {
 		jp_contenu.add(jl_choixTaille, 4);
 		jp_contenu.add(jcb_choixTaille, 5);
 
+		jp_sud.add(jb_valider);
+		jp_sud.add(jb_annuler);
+
 		this.add(jl_haut, BorderLayout.NORTH);
 		this.add(jp_contenu, BorderLayout.CENTER);
-		this.add(jb_valider, BorderLayout.SOUTH);
+		this.add(jp_sud, BorderLayout.SOUTH);
 		repaint();
 
 		jb_valider.addActionListener(new DebutPartieListener());
+		jb_annuler.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 	}
 
+	/**
+	 * Listener permettant de lancer la partie
+	 * 
+	 * @author Sylvain METAYER - Kevin DESSIMOULIE
+	 *
+	 */
 	class DebutPartieListener implements ActionListener {
 
 		@Override
@@ -111,16 +141,17 @@ public class PanelOption extends JPanel {
 
 			Options.setNomJoueurDeux(nomJoueurDeux);
 			Options.setNomJoueurUn(nomJoueurUn);
-			
-			//jpp.setNomJoueurUn(nomJoueurUn);
-			//jpp.setNomJoueurDeux(nomJoueurDeux);
+
 			Options.setTailleGrilleJeu(taille);
 
-			JFrame j = (JFrame) (SwingUtilities
-					.windowForComponent(PanelOption.this));
-			j.dispose(); // fermer la frame
-
+			dispose();
 			jpp.initGame();
 		}
+	}
+
+	private void dispose() {
+		JFrame j = (JFrame) (SwingUtilities
+				.windowForComponent(PanelOption.this));
+		j.dispose(); // fermer la frame
 	}
 }

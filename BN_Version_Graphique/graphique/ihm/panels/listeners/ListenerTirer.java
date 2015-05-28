@@ -13,11 +13,25 @@ import outils.NavireCaracteristique;
 import metier.Case;
 import metier.Navire;
 
+/**
+ * Cette classe permet de gérer la phase de tir d'un joueur.
+ * 
+ * @author Sylvain METAYER - Kevin DESSIMOULIE
+ *
+ */
 public class ListenerTirer implements ActionListener {
 
 	private PanelPrincipal jpp_principal;
 	private PanelJoueur jpj_joueur;
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param jpp_principal
+	 *            {@link PanelPrincipal}
+	 * @param jpj_joueur
+	 *            {@link PanelJoueur}
+	 */
 	public ListenerTirer(PanelPrincipal jpp_principal, PanelJoueur jpj_joueur) {
 		this.jpp_principal = jpp_principal;
 		this.jpj_joueur = jpj_joueur;
@@ -30,7 +44,6 @@ public class ListenerTirer implements ActionListener {
 				.getCasesOccupees();
 
 		int y, x;
-		// boolean collision = false;
 		Case caseVisee;
 
 		caseVisee = ((BoutonBN) e.getSource()).getCase();

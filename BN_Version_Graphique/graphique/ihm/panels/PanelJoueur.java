@@ -3,6 +3,8 @@
  */
 package ihm.panels;
 
+import ihm.panels.listeners.ListenerSauvegarder;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -13,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import outils.NavireCaracteristique;
-import metier.Jeu;
 import metier.Plateau;
 
 /**
@@ -42,15 +43,11 @@ public class PanelJoueur extends JPanel implements Serializable {
 	 * 
 	 * @param nomJoueur
 	 *            {@link String}
-	 * @param jeu
-	 *            {@link Jeu}
 	 * @param plateau
 	 *            {@link Plateau}
 	 */
 	public PanelJoueur(String nomJoueur, Plateau plateau) {
 		this.nomJoueur = nomJoueur;
-		// this.jeu = jeu;
-		// this.plateau = plateau;
 
 		jpp_panelPlateau = new PanelPlateau(plateau, plateau.getLongueur());
 
@@ -149,16 +146,27 @@ public class PanelJoueur extends JPanel implements Serializable {
 		this.repaint();
 	}
 
+	/**
+	 * Permet de sauvegarder la partie. <br>
+	 * Est uniquement appelé par {@link ListenerSauvegarder}
+	 * 
+	 * @param oos
+	 *            {@link ObjectOutputStream}
+	 */
 	public void save(ObjectOutputStream oos) {
 		try {
 			oos.writeObject(this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
 
+	/**
+	 * Permet de définir le {@link PanelPlateau}
+	 * 
+	 * @param panelPlateau
+	 *            {@link PanelPlateau}
+	 */
 	public void setPanelPanelPlateau(PanelPlateau panelPlateau) {
 		this.jpp_panelPlateau = panelPlateau;
 

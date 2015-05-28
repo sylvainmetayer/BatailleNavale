@@ -6,15 +6,12 @@ package ihm.panels;
 import ihm.composants.JTextAreaBN;
 import ihm.frames.FrameBatailleNavale;
 import ihm.frames.FrameOption;
-import ihm.panels.listeners.ListenerAide;
 import ihm.panels.listeners.ListenerCharger;
 import ihm.panels.listeners.ListenerLancerPartie;
 import ihm.panels.listeners.ListenerPlacementBateaux;
-import ihm.panels.listeners.ListenerSauvegarder;
 import ihm.panels.listeners.ListenerTirer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -26,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import metier.CoupException;
 import metier.Jeu;
 import metier.Navire;
@@ -47,23 +43,17 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	private int tailleGrille;
 
-	// Paramètres du jeu
 	private Jeu jeu;
-
-	// = this pour plus de facilité d'accès vis a vis des classe interne membres
-	private final JPanel panelPrincipal = this;
 
 	// Déclarations composants
 	private JButton jb_commencerPartie;
 	private JButton jb_chargerPartie;
 	private JLabel jl_menuPrincipal;
-	private JButton jb_sauvegarderPartie;
-	private JButton jb_aide;
 
 	private JLabel jl_image;
 	ImageIcon image;
 
-	// pour pouvoir éditer le contenu à partir de tous les panels
+	// static pour pouvoir éditer le contenu à partir de tous les panels
 	public static JTextAreaBN jta_message;
 	private JScrollPane scroller;
 
@@ -94,15 +84,10 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jl_menuPrincipal = new JLabel("Bataille Navale - Le jeu !");
 		jl_menuPrincipal.setHorizontalAlignment(JLabel.CENTER);
 		jb_commencerPartie = new JButton("Commencer une nouvelle partie");
-		jb_sauvegarderPartie = new JButton("Sauvegarder ?");
-		jb_sauvegarderPartie.setForeground(Color.RED);
-		jb_aide = new JButton("Aide");
-		jb_aide.addActionListener(new ListenerAide());
-		jb_aide.setForeground(Color.BLUE);
 		jb_chargerPartie = new JButton("Charger une partie");
 
 		// instanciations panels
-		panelPrincipal.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 		jp_panelCentre = new JPanel();
 		jp_panelCentre.setLayout(new GridLayout(1, 2));
 		jp_image = new JPanel();
@@ -117,15 +102,13 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		jp_image.add(jl_image);
 
 		// ajouts des composants dans le panel principal
-		panelPrincipal.add(jl_menuPrincipal, BorderLayout.NORTH);
-		panelPrincipal.add(jp_panelCentre, BorderLayout.CENTER);
-		panelPrincipal.add(jp_image, BorderLayout.SOUTH);
+		this.add(jl_menuPrincipal, BorderLayout.NORTH);
+		this.add(jp_panelCentre, BorderLayout.CENTER);
+		this.add(jp_image, BorderLayout.SOUTH);
 
 		// ajouts des ecouteurs.
 		jb_commencerPartie.addActionListener(new ListenerLancerPartie(this));
 		jb_chargerPartie.addActionListener(new ListenerCharger(this));
-		jb_sauvegarderPartie.addActionListener(new ListenerSauvegarder(this));
-		jb_sauvegarderPartie.setEnabled(false);
 	}
 
 	/**
@@ -139,6 +122,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 			this.removeAll();
 			this.revalidate();
 			this.repaint();
+			enableBackup(false);
 
 			tailleGrille = Options.getTailleGrilleJeu();
 			jeu = new Jeu(tailleGrille, tailleGrille, Options.getNomJoueurUn(),
@@ -168,15 +152,12 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		// scrollbar pour le jtextarea
 		scroller = new JScrollPane(jta_message);
 
-		panelPrincipal.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
-		jp_aide_save.add(jb_sauvegarderPartie);
-		jp_aide_save.add(jb_aide);
-		panelPrincipal.add(jp_aide_save, BorderLayout.NORTH);
-		panelPrincipal.add(joueur1, BorderLayout.WEST);
-		panelPrincipal.add(joueur2, BorderLayout.EAST);
+		this.add(joueur1, BorderLayout.WEST);
+		this.add(joueur2, BorderLayout.EAST);
 
-		panelPrincipal.add(scroller, BorderLayout.CENTER);
+		this.add(scroller, BorderLayout.CENTER);
 
 		super.revalidate();
 		super.repaint();
@@ -255,7 +236,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	private void enableBackup(boolean b) {
 		FrameBatailleNavale.setSaveOn(b);
-		jb_sauvegarderPartie.setEnabled(b);
 
 	}
 
@@ -371,7 +351,7 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		PanelPrincipal.jta_message.append("Fin de la partie..".toUpperCase());
 
 		JOptionPane.showMessageDialog(null, message);
-		nouvellePartie = questionOuiNon("Voulez vous rejouer ?",
+		nouvellePartie = Options.questionOuiNon("Voulez vous rejouer ?",
 				"La partie est finie..");
 		System.out.println(nouvellePartie);
 		if (nouvellePartie)
@@ -379,28 +359,6 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		else
 			System.exit(0);
 
-	}
-
-	/**
-	 * Cette méthode permet de poser une question à l'utilisateur au travers
-	 * d'une {@link JOptionPane}<br>
-	 * Les possibilités de réponses sont oui ou non
-	 * 
-	 * @param message
-	 *            {@link String}
-	 * @param titreFenetre
-	 *            {@link String}
-	 * @return <code>true</code> réponse positive || <code>false</code> réponse
-	 *         négative ou pas de réponse
-	 */
-	private boolean questionOuiNon(String message, String titreFenetre) {
-		int resultat = JOptionPane.showConfirmDialog(null, message,
-				titreFenetre, JOptionPane.YES_NO_OPTION);
-
-		if (resultat == JOptionPane.YES_OPTION)
-			return true;
-		else
-			return false;
 	}
 
 	/**
@@ -447,14 +405,38 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		return joueur2;
 	}
 
+	/**
+	 * Permet de définir le {@link JPanel} du joueur 1
+	 * 
+	 * @param joueur1
+	 *            {@link PanelJoueur}
+	 */
 	public void setPanelJoueur1(PanelJoueur joueur1) {
 		this.joueur1 = joueur1;
 	}
 
+	/**
+	 * Permet de définir le {@link JPanel} du joueur 2
+	 * 
+	 * @param joueur2
+	 *            {@link PanelJoueur}
+	 */
 	public void setPanelJoueur2(PanelJoueur joueur2) {
 		this.joueur2 = joueur2;
 	}
 
+	/**
+	 * Permet de charger une partie à partir d'un fichier
+	 * 
+	 * @param paneljoueur1
+	 *            {@link PanelJoueur}
+	 * @param panelJoueur2
+	 *            {@link PanelJoueur}
+	 * @param jeu
+	 *            {@link Jeu}
+	 * @param texteJTA
+	 *            {@link JTextAreaBN}
+	 */
 	public void chargerPartie(PanelJoueur paneljoueur1,
 			PanelJoueur panelJoueur2, Jeu jeu, String texteJTA) {
 		this.joueur1 = paneljoueur1;
@@ -463,9 +445,44 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		PanelPrincipal.jta_message.setText(texteJTA);
 		this.jeu = jeu;
 		initGameAfterCharger();
-		jouerCoup(this.joueur2, this.joueur1);
+
+		int nombreCoupJoues;
+
+		nombreCoupJoues = getNbCoupJoues(joueur1.getPanelPlateau().getPlateau());
+		nombreCoupJoues = nombreCoupJoues
+				+ getNbCoupJoues(joueur2.getPanelPlateau().getPlateau());
+
+		if (nombreCoupJoues / 2 == 0) {
+			// Tour joueur 1
+			jouerCoup(this.joueur1, this.joueur2);
+		} else {
+			jouerCoup(this.joueur2, this.joueur1);
+		}
+
 	}
 
+	/**
+	 * Retourne le nombre de coup joués pour un {@link Plateau} donné.<br>
+	 * Utile pour déterminer le tour du joueur après une sauvegarde
+	 * 
+	 * @param plateau
+	 *            {@link Plateau}
+	 * @return {@link Integer}
+	 */
+	private int getNbCoupJoues(Plateau plateau) {
+		int somme = 0;
+		for (int i = 0; i < plateau.getLargeur(); i++) {
+			for (int j = 0; j < plateau.getLargeur(); j++) {
+				if (plateau.getCoupsJoues()[i][j])
+					somme++;
+			}
+		}
+		return somme;
+	}
+
+	/**
+	 * Permet d'initialiser le jeu après un chargement.
+	 */
 	private void initGameAfterCharger() {
 		this.removeAll();
 		this.revalidate();
@@ -482,15 +499,13 @@ public class PanelPrincipal extends JPanel implements Serializable {
 		// scrollbar pour le jtextarea
 		scroller = new JScrollPane(jta_message);
 
-		panelPrincipal.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
-		jp_aide_save.add(jb_sauvegarderPartie);
-		jp_aide_save.add(jb_aide);
-		panelPrincipal.add(jp_aide_save, BorderLayout.NORTH);
-		panelPrincipal.add(joueur1, BorderLayout.WEST);
-		panelPrincipal.add(joueur2, BorderLayout.EAST);
+		this.add(jp_aide_save, BorderLayout.NORTH);
+		this.add(joueur1, BorderLayout.WEST);
+		this.add(joueur2, BorderLayout.EAST);
 
-		panelPrincipal.add(scroller, BorderLayout.CENTER);
+		this.add(scroller, BorderLayout.CENTER);
 
 		enableBackup(true);
 		super.revalidate();
@@ -498,6 +513,11 @@ public class PanelPrincipal extends JPanel implements Serializable {
 
 	}
 
+	/**
+	 * Retourne le {@link Jeu}
+	 * 
+	 * @return {@link Jeu}
+	 */
 	public Jeu getJeu() {
 		return jeu;
 	}

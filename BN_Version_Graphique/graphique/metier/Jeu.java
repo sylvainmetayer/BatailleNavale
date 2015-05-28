@@ -1,7 +1,6 @@
 package metier;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +50,7 @@ public class Jeu implements Serializable {
 	 * @param nomJoueurDeux
 	 *            {@link String}
 	 * @throws CoupException
+	 *             lorsque le jeu n'est pas correctement initialisé
 	 */
 	public Jeu(int hauteur, int largeur, String nomJoueurUn,
 			String nomJoueurDeux) throws CoupException {
@@ -62,8 +62,8 @@ public class Jeu implements Serializable {
 	}
 
 	/**
-	 * Permet de jouer un coup sur un plateau donne. Le joueur A fait un coup
-	 * x,y....
+	 * Permet de jouer un coup sur un plateau donne. <br>
+	 * Le joueur A fait un coup x,y....
 	 * 
 	 * @param x
 	 *            {@link Integer}
@@ -74,8 +74,7 @@ public class Jeu implements Serializable {
 	 * @return Navire : le navire touche ou coule, ou alors null si rien ne
 	 *         s'est passe
 	 * @throws CoupException
-	 * @see {@link Plateau#jouerCoup(int, int)} pour la gestion des cases
-	 *      ajoutées, touchées, ...
+	 *             lorsque le coup est incorrect
 	 */
 	public Navire jouer(int x, int y, Plateau plateau) throws CoupException {
 
@@ -133,66 +132,6 @@ public class Jeu implements Serializable {
 	 */
 	List<Navire> tousNavires(Plateau plateau) {
 		return this.goodPlateau(plateau).getListeNav();
-	}
-
-	/**
-	 * Permet de générer une partie en récupérant la liste des navires à partir
-	 * d'un fichier.
-	 * 
-	 * @throws BatailleNavaleException
-	 * @throws NumberFormatException
-	 * 
-	 */
-	public void genererJeu() throws NumberFormatException,
-			BatailleNavaleException {
-		int nbreNavires = Integer.parseInt(FileUtil.getInstance().getPropriete(
-				"nbreNavires"));
-		int nbreNavires1CASE = Integer.parseInt(FileUtil.getInstance()
-				.getPropriete("nbreNavireSize1"));
-		int nbreNavires2CASE = Integer.parseInt(FileUtil.getInstance()
-				.getPropriete("nbreNavireSize2"));
-		int nbreNavires3CASE = Integer.parseInt(FileUtil.getInstance()
-				.getPropriete("nbreNavireSize3"));
-		int nbreNavires4CASE = Integer.parseInt(FileUtil.getInstance()
-				.getPropriete("nbreNavireSize4"));
-		int nbreNavires5CASE = Integer.parseInt(FileUtil.getInstance()
-				.getPropriete("nbreNavireSize5"));
-		int cpt;
-		int idNavire = 0;
-		Navire n = null;
-		List<Case> lst = null;
-		List<Navire> listeNav = new ArrayList<Navire>();
-		for (int i = 0; i < nbreNavires; i++) {
-			for (cpt = 0; cpt < nbreNavires1CASE; cpt++) {
-				idNavire++;
-				n = new Navire(idNavire, 1, lst, false, 100);
-				listeNav.add(n);
-			}
-			for (cpt = 0; cpt < nbreNavires2CASE; cpt++) {
-				idNavire++;
-				n = new Navire(idNavire, 2, lst, false, 200);
-				listeNav.add(n);
-			}
-			for (cpt = 0; cpt < nbreNavires3CASE; cpt++) {
-				idNavire++;
-				n = new Navire(idNavire, 3, lst, false, 300);
-				listeNav.add(n);
-			}
-			for (cpt = 0; cpt < nbreNavires4CASE; cpt++) {
-				idNavire++;
-				n = new Navire(idNavire, 4, lst, false, 400);
-				listeNav.add(n);
-			}
-			for (cpt = 0; cpt < nbreNavires5CASE; cpt++) {
-				idNavire++;
-				n = new Navire(idNavire, 5, lst, false, 500);
-				listeNav.add(n);
-			}
-
-		}
-
-		plateauJoueurUn.setListeNav(listeNav);
-		plateauJoueurDeux.setListeNav(listeNav);
 	}
 
 	/**
