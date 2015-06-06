@@ -1,5 +1,5 @@
 # Projet de Bataille Navale
-## Réalisé par Sylvain METAYER (@sylvainmetayer) et Kévin DESSIMOULIE (@PATATESUPREME)
+## Réalisé par Sylvain METAYER et Kévin DESSIMOULIE
 
 Ce projet a été réalisé en Première Année de DUT Informatique, à l'IUT du Limousin, durant l'année universitaire 2014-2015.
 
